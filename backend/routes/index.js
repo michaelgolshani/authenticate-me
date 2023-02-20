@@ -11,7 +11,7 @@ const apiRouter = require('./api');
 //   res.send('Hello World!');
 // });
 
-router.use('/api', apiRouter);
+
 
 
 
@@ -24,7 +24,7 @@ router.get("/api/csrf/restore", (req, res) => {
 });
 
 
-
+router.use('/api', apiRouter);
 
 //export the router at the bottom of the file
 module.exports = router;
