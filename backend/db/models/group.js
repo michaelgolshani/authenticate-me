@@ -1,7 +1,7 @@
 'use strict';
-const { Model } = require('sequelize');
+const {Model} = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class Event extends Model {
+  class Group extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -9,17 +9,15 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Event.belongsTo(models.Venue, { foreignKey: 'venueId' });
-      Event.belongsTo(models.Group, { foreignKey: 'groupId' });
-      Event.hasMany(models.EventImage, { foreignKey: 'eventId' });
+      Group.hasMany(models.Event, { foreignKey: 'groupId' });
+      Group.hasMany(models.Venue, { foreignKey: 'groupId' });
+      Group.hasMany(models.GroupImage, { foreignKey: 'groupId' });
+      Group.hasMany(models.Membership, { foreignKey: 'groupId' });
+      Group.belongsTo(models.User, { foreignKey: 'organizerId' });
     }
   }
-  Event.init({
-    venueId: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
-    groupId: {
+  Group.init({
+    organizerId: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
@@ -27,7 +25,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    description: {
+    about: {
       type: DataTypes.TEXT,
       allowNull: false,
     },
@@ -35,30 +33,26 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    capacity: {
-      type: DataTypes.INTEGER,
+    private: {
+      type: DataTypes.BOOLEAN,
       allowNull: false,
     },
-    price: {
-      type: DataTypes.INTEGER,
+    city: {
+      type: DataTypes.STRING,
       allowNull: false,
     },
-    startDate: {
-      type: DataTypes.DATE,
-      allowNull: false,
-    },
-    endDate: {
-      type: DataTypes.DATE,
+    state: {
+      type: DataTypes.STRING,
       allowNull: false,
     }
   }, {
     sequelize,
-    modelName: 'Event',
+    modelName: 'Group',
     defaultScope: {
       attributes: {
         exclude: ["createdAt", "updatedAt"]
       }
     },
   });
-  return Event;
+  return Group;
 };

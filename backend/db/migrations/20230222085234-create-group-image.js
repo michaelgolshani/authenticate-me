@@ -6,53 +6,28 @@ if (process.env.NODE_ENV === 'production') {
   options.schema = process.env.SCHEMA;  // define your schema in options object
 }
 
+
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    return queryInterface.createTable("Events", {
+    return queryInterface.createTable("GroupImages", {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      venueId: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        references: { model: "Venues" },
-        onDelete: "CASCADE"
-      },
       groupId: {
         type: Sequelize.INTEGER,
-        allowNull: false,
-        references: { model: "Groups" },
+        allowNull:false,
+        references: {model: "Groups"},
         onDelete: "CASCADE"
       },
-      name: {
+      url: {
         type: Sequelize.STRING,
-        allowNull: false
-      },
-      description: {
-        type: Sequelize.TEXT,
-        allowNull: false
-      },
-      type: {
-        type: Sequelize.ENUM("pending", "active", "disabled"),
-        allowNull : false
-      },
-      capacity: {
-        type: Sequelize.INTEGER,
         allowNull:false
       },
-      price: {
-        type: Sequelize.INTEGER,
-        allowNull:false
-      },
-      startDate: {
-        type: Sequelize.DATE,
-        allowNull:false
-      },
-      endDate: {
-        type: Sequelize.DATE,
+      preview: {
+        type: Sequelize.BOOLEAN,
         allowNull:false
       },
       createdAt: {
@@ -68,7 +43,7 @@ module.exports = {
     }, options);
   },
   down: async (queryInterface, Sequelize) => {
-    options.tableName = "Events";
+    options.tableName = "GroupImages";
     return queryInterface.dropTable(options);
   }
 };

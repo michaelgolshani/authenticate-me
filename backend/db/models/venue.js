@@ -1,7 +1,9 @@
 'use strict';
-const { Model } = require('sequelize');
+const {
+  Model
+} = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class Event extends Model {
+  class Venue extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -9,56 +11,43 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Event.belongsTo(models.Venue, { foreignKey: 'venueId' });
-      Event.belongsTo(models.Group, { foreignKey: 'groupId' });
-      Event.hasMany(models.EventImage, { foreignKey: 'eventId' });
+      Venue.belongsTo(models.Group, { foreignKey: 'groupId' });
+      Venue.hasMany(models.Event, { foreignKey: 'venueId' });
     }
   }
-  Event.init({
-    venueId: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
+  Venue.init({
     groupId: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    name: {
+    address: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    description: {
-      type: DataTypes.TEXT,
-      allowNull: false,
-    },
-    type: {
+    city: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    capacity: {
-      type: DataTypes.INTEGER,
+    state: {
+      type: DataTypes.STRING,
       allowNull: false,
     },
-    price: {
-      type: DataTypes.INTEGER,
+    lat: {
+      type: DataTypes.DECIMAL,
       allowNull: false,
     },
-    startDate: {
-      type: DataTypes.DATE,
+    lng: {
+      type: DataTypes.DECIMAL,
       allowNull: false,
     },
-    endDate: {
-      type: DataTypes.DATE,
-      allowNull: false,
-    }
   }, {
     sequelize,
-    modelName: 'Event',
+    modelName: 'Venue',
     defaultScope: {
       attributes: {
         exclude: ["createdAt", "updatedAt"]
       }
     },
   });
-  return Event;
+  return Venue;
 };
