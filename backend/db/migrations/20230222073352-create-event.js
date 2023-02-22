@@ -6,48 +6,67 @@ if (process.env.NODE_ENV === 'production') {
   options.schema = process.env.SCHEMA;  // define your schema in options object
 }
 
-
-
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    return queryInterface.createTable("Attendances", {
+    return queryInterface.createTable("Events", {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      eventId: {
-        type: Sequelize.INTEGER,
-        allowNull:false,
-        references: {model: "Events"},
-        onDelete: "CASCADE"
-      },
-      userId: {
+      venueId: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        references: {model: "Users"},
+        references: { model: "Venues" },
         onDelete: "CASCADE"
       },
-      status: {
+      groupId: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: { model: "Groups" },
+        onDelete: "CASCADE"
+      },
+      name: {
+        type: Sequelize.STRING,
+        allowNull: false
+      },
+      description: {
+        type: Sequelize.TEXT,
+        allowNull: false
+      },
+      type: {
         type: Sequelize.ENUM("pending", "active", "disabled"),
-        allowNull:false,
-        defaultValue: 'pending' // NOT SURE
+        allowNull : false
+      },
+      capacity: {
+        type: Sequelize.INTEGER,
+        allowNull:false
+      },
+      price: {
+        type: Sequelize.INTEGER,
+        allowNull:false
+      },
+      startDate: {
+        type: Sequelize.DATE,
+        allowNull:false
+      },
+      endDate: {
+        type: Sequelize.DATE,
+        allowNull:false
       },
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE,
-        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
+        type: Sequelize.DATE
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE,
-        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
+        type: Sequelize.DATE
       }
     }, options);
   },
   down: async (queryInterface, Sequelize) => {
-    options.tableName = "Attendances";
+    options.tableName = "Events";
     return queryInterface.dropTable(options);
   }
 };

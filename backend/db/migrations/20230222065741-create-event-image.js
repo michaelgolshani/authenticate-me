@@ -7,10 +7,9 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 
-
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    return queryInterface.createTable("Attendances", {
+    return queryInterface.createTable("EventImages", {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -23,16 +22,13 @@ module.exports = {
         references: {model: "Events"},
         onDelete: "CASCADE"
       },
-      userId: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        references: {model: "Users"},
-        onDelete: "CASCADE"
+      url: {
+        type: Sequelize.STRING,
+        allowNull:false
       },
-      status: {
-        type: Sequelize.ENUM("pending", "active", "disabled"),
-        allowNull:false,
-        defaultValue: 'pending' // NOT SURE
+      preview: {
+        type: Sequelize.BOOLEAN,
+        allowNull:false
       },
       createdAt: {
         allowNull: false,
@@ -47,7 +43,7 @@ module.exports = {
     }, options);
   },
   down: async (queryInterface, Sequelize) => {
-    options.tableName = "Attendances";
+    options.tableName = "EventImages";
     return queryInterface.dropTable(options);
   }
 };
