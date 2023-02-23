@@ -30,7 +30,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
     },
     type: {
-      type: DataTypes.STRING,
+      type: DataTypes.ENUM("Online", "In person"),
       allowNull: false,
     },
     private: {
@@ -50,7 +50,7 @@ module.exports = (sequelize, DataTypes) => {
     modelName: 'Group',
     defaultScope: {
       attributes: {
-        exclude: ["createdAt", "updatedAt"]
+        //exclude: ["createdAt", "updatedAt"]
       }
     },
   });

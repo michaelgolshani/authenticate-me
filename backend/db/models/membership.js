@@ -25,7 +25,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false
     },
     status: {
-      type: DataTypes.ENUM("pending", "active", "disabled"),
+      type: DataTypes.ENUM("co-host", "member", "pending"),
       allowNull: false
     }
   }, {

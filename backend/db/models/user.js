@@ -5,8 +5,8 @@ const bcrypt = require("bcryptjs");
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     toSafeObject() {
-      const { id, firstName,lastName, username, email } = this;
-      return { id, firstName,lastName, username, email };
+      const { id, firstName, lastName, username, email } = this;
+      return { id, firstName, lastName, email, username };
     }
     validatePassword(password) {
       return bcrypt.compareSync(password, this.hashedPassword.toString());
@@ -20,7 +20,7 @@ module.exports = (sequelize, DataTypes) => {
         where: {
           [Op.or]: {
             email: credential,
-            password: credential
+            username: credential
           }
         }
       })
@@ -41,9 +41,9 @@ module.exports = (sequelize, DataTypes) => {
     }
     static associate(models) {
       // define association here
-      User.hasMany(models.Attendance, { foreignKey: 'userId', onDelete: 'CASCADE'  });
-      User.hasMany(models.Group, { foreignKey: 'organizerId', onDelete: 'CASCADE'  });
-      User.hasMany(models.Membership, { foreignKey: 'userId', onDelete: 'CASCADE'  });
+      User.hasMany(models.Attendance, { foreignKey: 'userId', onDelete: 'CASCADE' });
+      User.hasMany(models.Group, { foreignKey: 'organizerId', onDelete: 'CASCADE' });
+      User.hasMany(models.Membership, { foreignKey: 'userId', onDelete: 'CASCADE' });
     }
   };
 

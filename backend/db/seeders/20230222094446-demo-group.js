@@ -15,7 +15,7 @@ module.exports = {
           organizerId: 1,
           name: 'Group 1',
           about: 'This is group 1',
-          type: 'pending',
+          type: 'Online',
           private: true,
           city: 'New York',
           state: 'NY'
@@ -24,7 +24,7 @@ module.exports = {
           organizerId: 2,
           name: 'Group 2',
           about: 'This is group 2',
-          type: 'active',
+          type: 'Online',
           private: false,
           city: 'Los Angeles',
           state: 'CA'
@@ -33,7 +33,7 @@ module.exports = {
           organizerId: 3,
           name: 'Group 3',
           about: 'This is group 3',
-          type: 'disabled',
+          type: 'In person',
           private: true,
           city: 'Chicago',
           state: 'IL'

@@ -32,7 +32,7 @@ const validateSignup = [
 
 
 
-// Sign up
+//Sign up
 router.post(
   '/',
   validateSignup,
@@ -43,10 +43,67 @@ router.post(
     await setTokenCookie(res, user);
 
     return res.json({
-      user: user
+      id: user.id,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email,
     });
   }
 );
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// // Sign up
+// router.post('/', validateSignup, async (req, res) => {
+//   try {
+//     const { firstName, lastName, email, password } = req.body;
+//     const existingUser = await User.findOne({ where: { email } });
+
+//     if (existingUser) {
+//       return res.status(403).json({
+//         message: 'User already exists',
+//         statusCode: 403,
+//         errors: {
+//           email: 'User with that email already exists'
+//         }
+//       });
+//     }
+
+//     const user = await User.signup({ firstName, lastName, email, password });
+
+//     const token = await setTokenCookie(res, user);
+
+//     return res.status(200).json({
+//       id: user.id,
+//       firstName: user.firstName,
+//       lastName: user.lastName,
+//       email: user.email,
+//       token
+//     });
+
+//   } catch (err) {
+//     // handle unexpected errors
+//     console.error(err);
+//     return res.status(500).json({
+//       message: 'Internal Server Error',
+//       statusCode: 500,
+//       errors: {}
+//     });
+//   }
+// });
+
 
 
 module.exports = router;

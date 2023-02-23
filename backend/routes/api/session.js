@@ -30,9 +30,9 @@ router.post(
   '/',
   validateLogin,
   async (req, res, next) => {
-    const { credential, hashedPassword } = req.body;
+    const { credential, password } = req.body;
 
-    const user = await User.login({ credential, hashedPassword});
+    const user = await User.login({ credential, password});
 
     if (!user) {
       const err = new Error('Login failed');
@@ -80,7 +80,7 @@ router.get(
 );
 
 
-// Get the Current User
+// Get the Current User - NOT NEEDED
 router.get('/session',restoreUser,(req, res) => {
     const { user } = req;
     if (user) {

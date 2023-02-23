@@ -30,7 +30,7 @@ module.exports = {
         onDelete: "CASCADE"
       },
       status: {
-        type: Sequelize.ENUM("pending", "active", "disabled"),
+        type: Sequelize.ENUM("co-host", "member", "pending"),
         allowNull:false,
         defaultValue: 'pending' // NOT SURE
       },
