@@ -45,8 +45,7 @@ module.exports = {
         updatedAt: new Date(),
       }
     ],
-    {}
-    );
+    {});
   },
 
   down: async (queryInterface, Sequelize) => {
@@ -56,6 +55,6 @@ module.exports = {
       {
         groupId: { [Op.in]: [1, 2, 3] }
       },
-      );
+      {});
   }
 };

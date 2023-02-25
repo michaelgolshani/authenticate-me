@@ -63,7 +63,6 @@ module.exports = {
       {
         name: { [Op.in]: ['Event 1', 'Event 2', 'Event 3'] }
       },
-      {}
-    );
+      {});
   }
 };
