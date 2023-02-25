@@ -1,3 +1,5 @@
+// Attendance
+
 'use strict';
 /** @type {import('sequelize-cli').Migration} */
 
@@ -7,28 +9,32 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 
+
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    return queryInterface.createTable("GroupImages", {
+    return queryInterface.createTable("Attendances", {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      groupId: {
+      eventId: {
         type: Sequelize.INTEGER,
         allowNull:false,
-        references: {model: "Groups"},
+        references: {model: "Events"},
         onDelete: "CASCADE"
       },
-      url: {
-        type: Sequelize.STRING,
-        allowNull:false
+      userId: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {model: "Users"},
+        onDelete: "CASCADE"
       },
-      preview: {
-        type: Sequelize.BOOLEAN,
-        allowNull:false
+      status: {
+        type: Sequelize.ENUM("member", "waitlist", "pending","attending"),
+        allowNull:false,
+        //defaultValue: 'pending' // NOT SURE
       },
       createdAt: {
         allowNull: false,
@@ -43,7 +49,7 @@ module.exports = {
     }, options);
   },
   down: async (queryInterface, Sequelize) => {
-    options.tableName = "GroupImages";
+    options.tableName = "Attendances";
     return queryInterface.dropTable(options);
   }
 };

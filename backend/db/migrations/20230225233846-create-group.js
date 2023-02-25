@@ -1,3 +1,6 @@
+//Group
+
+
 'use strict';
 /** @type {import('sequelize-cli').Migration} */
 
@@ -6,28 +9,43 @@ if (process.env.NODE_ENV === 'production') {
   options.schema = process.env.SCHEMA;  // define your schema in options object
 }
 
-
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    return queryInterface.createTable("EventImages", {
+    return queryInterface.createTable("Groups", {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      eventId: {
+      organizerId: {
         type: Sequelize.INTEGER,
         allowNull:false,
-        references: {model: "Events"},
+        references: {model: "Users"},
         onDelete: "CASCADE"
       },
-      url: {
+      name: {
         type: Sequelize.STRING,
         allowNull:false
       },
-      preview: {
+      about: {
+        type: Sequelize.TEXT,
+        allowNull:false
+      },
+      type: {
+        type: Sequelize.ENUM("Online", "In person"),
+        allowNull:false
+      },
+      private: {
         type: Sequelize.BOOLEAN,
+        allowNull:false
+      },
+      city: {
+        type: Sequelize.STRING,
+        allowNull:false
+      },
+      state: {
+        type: Sequelize.STRING,
         allowNull:false
       },
       createdAt: {
@@ -43,7 +61,7 @@ module.exports = {
     }, options);
   },
   down: async (queryInterface, Sequelize) => {
-    options.tableName = "EventImages";
+    options.tableName = "Groups";
     return queryInterface.dropTable(options);
   }
 };
