@@ -1,7 +1,7 @@
 const express = require('express');
 
 const { setTokenCookie, requireAuth } = require('../../utils/auth');
-const { Group, GroupImage, Venue , User, Membership } = require('../../db/models');
+const { Group, GroupImage, Venue , User, Membership, Event } = require('../../db/models');
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 const { Op } = require('sequelize');
@@ -25,10 +25,6 @@ router.get('/', async (req, res) => {
 
 
 
-
-
-
-
 // 2. GET ALL GROUPS JOINED OR ORGANIZED BY CURRENT USER
 router.get('/current', requireAuth, async (req, res) => {
   const { user } = req;
@@ -45,13 +41,54 @@ router.get('/current', requireAuth, async (req, res) => {
 
 // 3. Get details of a Group from an id
 
-router.get('/:groupId', requireAuth,async (req,res) => {
+router.get('/:groupId',  async (req, res) => {
+  const group = await Group.findByPk(req.params.groupId, {
+    include: [
+      {
+        model: GroupImage,
+        attributes: ['id', 'url', 'preview'],
+      },
+      {
+        model: User,
+        attributes: ['id', 'firstName', 'lastName'],
+      },
+      {
+        model: Venue,
+        attributes: ['id', 'groupId', 'address', 'city', 'state', 'lat', 'lng'],
+      },
+      {
+        model: Membership,
+        attributes: ['status']
+      },
+    ],
+  });
 
+  if (!group) {
+    return res.status(404).json({
+      message: "Group couldn't be found",
+      statusCode: 404,
+    });
+  }
+  const groupData = {
+    id: group.id,
+    organizerId: group.organizerId,
+    name: group.name,
+    about: group.about,
+    type: group.type,
+    private: group.private,
+    city: group.city,
+    state: group.state,
+    createdAt: group.createdAt,
+    updatedAt: group.updatedAt,
+    numMembers: group.Memberships.length,
+    GroupImages: group.GroupImages,
+    Organizer: group.User,
+    Venues: group.Venues,
+  };
 
+  res.status(200).json(groupData);
+});
 
-
-
-})
 
 
 
@@ -142,7 +179,7 @@ router.post('/:groupId/images', requireAuth, async (req, res) => {
 
     if (group.organizerId !== req.user.id) {
       return res.status(401).json({
-        message: "Unauthorized: You must be the organizer of this group to add an image",
+        message: "Group couldn't be found",
         statusCode: 401,
       });
     }
@@ -393,6 +430,272 @@ router.get('/:groupId/venues', requireAuth, async (req, res) => {
 
 
 
+
+
+
+
+
+
+
+
+
+const validateEvent = [
+    check('venueId')
+    .custom(async (value) => {
+      const venue = await Venue.findOne(
+        {
+          where:
+        {
+          groupId: value
+        }
+      });
+      if (!venue) {
+        throw new Error('Venue does not exist');
+      }
+      return true; }),
+  check('venueId')
+    .exists({checkFalsy:true})
+    .withMessage('Venue does not exist'),
+  check('name')
+    .exists({ checkFalsy: true })
+    .withMessage('Name is required')
+    .isLength({ max: 60, min:5 })
+    .withMessage('Name must be at least 5 characters'),
+  check('type')
+    .isIn(['Online', 'In person'])
+    .withMessage("Type must be 'Online' or 'In person'"),
+  check('capacity')
+    .isInt()
+    .withMessage('Capacity must be an integer'),
+  check('price')
+    .exists({ checkFalsy: true })
+    .isFloat()
+    .withMessage('Price is invalid'),
+  check('description')
+    .exists({ checkFalsy: true })
+    .isString()
+    .withMessage('Description is required'),
+  check('startDate')
+      .exists({checkFalsy: true})
+      .withMessage('Start date must be in the future'),
+  check('endDate')
+      .exists({checkFalsy: true})
+      .withMessage('End date is less than start date')
+];
+
+
+
+
+
+// 10. Create an Event for a Group specified by its id
+
+router.post("/:groupId/events",validateEvent, requireAuth, async (req,res,next) =>{
+
+  const validationErrors = validationResult(req);
+
+  if (!validationErrors.isEmpty()) {
+    const errors = {};
+    validationErrors
+      .array()
+      .forEach(error => errors[error.param] = error.msg);
+
+return res.status(400).json({
+  "message": "Validation Error",
+  "statusCode": 400,
+  "errors": errors
+})
+}
+
+
+
+  const {groupId} = req.params
+  const {user} = req
+  const {venueId, name, type, capacity, price, description, startDate, endDate} = req.body
+
+
+
+   const group = await Group.findOne({
+    where: {
+      id:groupId,
+      organizerId: user.id
+    }
+   });
+
+   const member = await Membership.findOne({
+    where: {
+      groupId: groupId,
+      userId: user.id,
+      status: 'co-host'
+    }
+   })
+
+
+  if (!group && !member) {
+    return res.status(404).json({
+      message: "Event couln't be found",
+      statusCode: 404
+    })
+  }
+
+// Create the event
+const event = await Event.create({
+  venueId,
+  groupId,
+  name,
+  type,
+  capacity,
+  price,
+  description,
+  startDate,
+  endDate,
+});
+
+const eventId = event.id
+
+res.status(200).json({
+  id: eventId,
+  groupId: event.groupId,
+  venueId: event.venueId,
+  name: event.name,
+  type: event.type,
+  capacity: event.capacity,
+  price: event.price,
+  description: event.description,
+  startDate: event.startDate,
+  endDate: event.endDate
+});
+})
+
+
+
+//11. Get all Events by group id
+
+router.get('/:groupId/events', requireAuth, async (req,res,next) => {
+
+  const groupId = req.params.groupId;
+
+  const group = await Group.findOne({ where: { id: groupId } });
+
+  if (!group) {
+    return res.status(404).json({
+      message: "Group couldn't be found",
+      statusCode: 404
+    });
+  }
+
+  const events = await Event.findAll({
+    where: { groupId: groupId },
+    include: [
+      {
+        model: Group,
+        attributes: ['id', 'name', 'city', 'state']
+      },
+      {
+        model: Venue,
+        attributes: ['id', 'city', 'state']
+      }
+    ],
+    order: [['startDate', 'ASC']]
+  });
+
+  const eventsWithGroupAndVenue = events.map(event => {
+    return {
+      id: event.id,
+      groupId: event.groupId,
+      venueId: event.venueId,
+      name: event.name,
+      type: event.type,
+      startDate: event.startDate,
+      endDate: event.endDate,
+      numAttending: event.numAttending,
+      previewImage: event.previewImage,
+      Group: event.Group,
+      Venue: event.Venue
+    };
+  });
+
+  return res.status(200).json({ Events: eventsWithGroupAndVenue });
+});
+
+
+
+
+
+// 12. Request a Membership for a Group based on the Group's id
+router.post("/:groupId/membership", requireAuth, async (req, res, next) => {
+
+    const { groupId } = req.params;
+    const { user } = req;
+    const { memberId, status } = req.body;
+
+    // Find the group
+    const group = await Group.findOne({
+      where: {
+        id: groupId,
+      },
+    });
+    if (!group) {
+      return res.status(404).json({
+        message: "Group couldn't be found",
+        statusCode: 404,
+      });
+    }
+
+    // Check if the user already has a pending membership request for the group
+    const existingPendingMembership = await Membership.findOne({
+      where: {
+        groupId: group.id,
+        // userId: user.id,
+        status: "pending",
+      },
+    });
+
+    console.log(group.id)
+    console.log("/////////////")
+    console.log(existingPendingMembership)
+
+    if (existingPendingMembership) {
+      return res.status(400).json({
+        message: "Membership has already been requested",
+        statusCode: 400,
+      });
+    }
+
+    // Check if the user is already a member of the group
+    const existingMembership = await Membership.findOne({
+      where: {
+        groupId: group.id,
+        userId: user.id,
+        status: ["co-host", "pending", "member"]
+      },
+    });
+    if (existingMembership) {
+      return res.status(400).json({
+        message: "User is already a member of the group",
+        statusCode: 400
+      });
+    }
+
+    // Create a new membership request for the group
+    const membership = await Membership.create({
+      groupId: group.id,
+      userId: memberId,
+      status,
+    });
+
+    // Return the created membership request
+    return res.status(200).json({ memberId: membership.userId, status: membership.status });
+
+});
+
+
+
+// 13. Change Membership Status
+
+router.put("/:groupId/membership", async (req, res) => {
+
+
+});
 
 
 
