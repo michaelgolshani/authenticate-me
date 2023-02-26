@@ -208,7 +208,23 @@ router.post('/:groupId/images', requireAuth, async (req, res) => {
 
 // 6. Edit a Group
 
-router.put('/:groupId', requireAuth, async (req, res) => {
+router.put('/:groupId', validateGroup, requireAuth, async (req, res) => {
+
+  const validationErrors = validationResult(req);
+
+  if (!validationErrors.isEmpty()) {
+    const errors = {};
+    validationErrors
+      .array()
+      .forEach(error => errors[error.param] = error.msg);
+
+return res.status(400).json({
+  "message": "Validation Error",
+  "statusCode": 400,
+  "errors": errors
+})
+}
+
   const { user } = req;
   const { groupId } = req.params;
   const {
@@ -233,7 +249,7 @@ router.put('/:groupId', requireAuth, async (req, res) => {
   // Check if the user is the organizer of the group
   if (group.organizerId !== user.id) {
     return res.status(403).json({
-      message: "Unauthorized",
+      message: "Group couldn't be found",
       statusCode: 403
     });
   }
@@ -469,7 +485,7 @@ const validateEvent = [
     .withMessage('Capacity must be an integer'),
   check('price')
     .exists({ checkFalsy: true })
-    .isFloat()
+    .isDecimal()
     .withMessage('Price is invalid'),
   check('description')
     .exists({ checkFalsy: true })
