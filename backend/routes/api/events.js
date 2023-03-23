@@ -38,7 +38,7 @@ check('capacity')
   .withMessage('Capacity must be an integer'),
 check('price')
   .exists({ checkFalsy: true })
-  .isFloat()
+  .isDecimal()
   .withMessage('Price is invalid'),
 check('description')
   .exists({ checkFalsy: true })
@@ -168,26 +168,79 @@ router.get("/:eventId", requireAuth, async (req,res,next) => {
 
 
 
-//Edit an Event
+//4. Edit an Event
 
 router.put('/:eventId', validateEvent, requireAuth, async (req, res) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return res.status(400).json({ message: 'Validation error', statusCode: 400, errors: errors.mapped() });
-  }
+
 
   const { eventId } = req.params;
+  const userId = req.user.id
   const { venueId, name, type, capacity, price, description, startDate, endDate } = req.body;
+
+  console.log(req.user)
+  console.log(userId)
+  console.log(req.body)
+  //Validation errors
+
+  const validationErrors = validationResult(req);
+
+  if (!validationErrors.isEmpty()) {
+    const errors = {};
+    validationErrors
+      .array()
+      .forEach(error => errors[error.param] = error.msg);
+
+return res.status(400).json({
+  "message": "Validation Error",
+  "statusCode": 400,
+  "errors": errors
+})
+}
+
+// // check if event exists
+const event = await Event.findByPk(eventId);
+if (!event) {
+  return res.status(404).json({ message: 'Event could not be found', statusCode: 404 });
+}
+
+
   // check if venue exists
-  const venue = findVenueById(venueId);
-  // if (!venue) {
-  //   return res.status(404).json({ message: 'Venue could not be found', statusCode: 404 });
-  // }
-  // // check if event exists
-  // const event = findEventById(eventId);
-  // if (!event) {
-  //   return res.status(404).json({ message: 'Event could not be found', statusCode: 404 });
-  // }
+  const venue = await Venue.findByPk(venueId);
+  if (!venue) {
+    return res.status(404).json({ message: 'Venue could not be found', statusCode: 404 });
+  }
+
+
+  // check if group exists
+ const group = await Group.findByPk(event.groupId);
+ if (!group) {
+  return res.status(404).json({ message: 'Group could not be found', statusCode: 404 });
+}
+
+
+
+  // // check if current user is authorized to edit the event
+  const member = await Membership.findOne({
+    where: {
+      groupId: event.groupId,
+      userId: userId,
+      status: 'co-host'
+    }
+  })
+
+
+  if (group.organizerId !== userId && !member) {
+    return res.status(404).json({
+      message: "Group couldn't be found",
+      statusCode: 404
+    });
+  }
+
+
+
+
+
+
   // // check if current user is authorized to edit the event
   // if (!isCurrentUserAuthorizedToEditEvent(event)) {
   //   return res.status(401).json({ message: 'Unauthorized', statusCode: 401 });
@@ -206,5 +259,52 @@ router.put('/:eventId', validateEvent, requireAuth, async (req, res) => {
 
 
 
+
+//5. Delete an event
+
+router.delete('/:eventId', requireAuth, async (req,res) => {
+
+  const {user} = req
+  const {eventId} = req.params
+
+  console.log(user)
+  console.log(user.id)
+  console.log(eventId)
+
+
+  const event = await Event.findByPk(eventId);
+
+  if (!event) {
+    return res.status(404).json({ message: 'Event could not be found', statusCode: 404 });
+  }
+
+  const group = await Group.findByPk(event.groupId);
+
+  if (!group) {
+    return res.status(404).json({ message: 'Group could not be found', statusCode: 404 });
+  }
+
+   // // check if current user is authorized to edit the event
+   const member = await Membership.findOne({
+    where: {
+      groupId: event.groupId,
+      userId: user.id,
+      status: 'co-host'
+    }
+  })
+
+
+  if (group.organizerId !== user.id && !member) {
+    return res.status(404).json({
+      message: "Forbidden",
+      statusCode: 404
+    });
+  }
+
+  await Event.destroy({ where: { id: eventId } });
+
+  return res.status(200).json({ message: 'Successfully deleted', statusCode: 200 });
+
+})
 
 module.exports = router
