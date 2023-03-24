@@ -18,13 +18,13 @@ const handleValidationErrors = (req, res, next) => {
     //Not OG
     return res.status(400).json({
       "message": "Validation Error",
-      "statusCode": 400,
+      //"statusCode": 400,
       "errors": errors
     })
 
 
 
-    
+
 
     //OG
     //   const err = new Error();

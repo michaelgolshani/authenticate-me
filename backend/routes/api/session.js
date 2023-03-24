@@ -44,15 +44,22 @@ router.post(
 
     if (!user) {
  return res.status(401).json({
-  "message": "Invalid Credentials",
-  "statusCode": 401
+  "message": "Invalid Credentials"
+  //"statusCode": 401
 })
     }
 
     await setTokenCookie(res, user);
 
     return res.json({
-      user: user
+      user: {
+        id: user.id,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        username: user.username,
+        email: user.email
+      }
+       // OG --> user
     });
   }
 );
