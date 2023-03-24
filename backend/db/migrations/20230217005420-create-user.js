@@ -17,12 +17,18 @@ module.exports = {
       username: {
         type: Sequelize.STRING(30),
         allowNull: false,
-        unique: true
+        unique: {
+          args: true,
+          msg: 'Username already exists'
+        },
       },
       email: {
         type: Sequelize.STRING(256),
         allowNull: false,
-        unique: true
+        unique: {
+          args: true,
+          msg: 'User with that email already exists'
+        },
       },
       hashedPassword: {
         type: Sequelize.STRING.BINARY,
