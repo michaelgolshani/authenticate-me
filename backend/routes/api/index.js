@@ -9,7 +9,8 @@ const groupsRouter = require('./groups.js')
 const venuesRouter = require('./venues.js')
 const eventsRouter = require('./events.js')
 const membershipsRouter = require('./memberships.js')
-const eventImagesRouter = require('./eventImages.js')
+const eventImagesRouter = require('./event-images.js')
+const groupImagesRouter = require('./group-images')
 
 
 const { restoreUser } = require("../../utils/auth.js");
@@ -31,9 +32,9 @@ router.use('/events', eventsRouter)
 
 router.use('/memberships', membershipsRouter)
 
-router.use('/eventImages', eventImagesRouter)
+router.use('/event-images', eventImagesRouter)
 
-
+router.use('/group-images', groupImagesRouter)
 
 
 

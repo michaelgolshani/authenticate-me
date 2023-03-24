@@ -1,16 +1,17 @@
 const express = require('express');
 
 
-const { GroupImage } = require('../../db/models');
+const { GroupImage,Group,Membership, } = require('../../db/models');
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
+const { requireAuth } = require('../../utils/auth');
 
 const router = express.Router();
 
 
 
 // Delete an Image for a Group
-router.delete('/group-images/:imageId', authenticateUser, async (req, res) => {
+router.delete('/:imageId', requireAuth, async (req, res) => {
   const { imageId } = req.params;
   const {user} = req;
 
@@ -40,7 +41,7 @@ router.delete('/group-images/:imageId', authenticateUser, async (req, res) => {
 
     if (group.organizerId !== user.id && !cohostMember) {
       return res.status(401).json({
-        message: "Unauthorized"
+        message: "Forbidden"
       });
     }
 

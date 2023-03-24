@@ -56,8 +56,8 @@ const venue = await Venue.findByPk(venueId);
 
 if (!venue) {
   return res.status(404).json({
-    message: "Venue couldn't be found",
-    statusCode: 404
+    message: "Venue couldn't be found"
+    //statusCode: 404
   });
 }
 
@@ -83,8 +83,8 @@ const member = await Membership.findOne({
 // authenticates if user is organizer or member with co-host
 if (!group && !member) {
   return res.status(404).json({
-    message: "Venue couldn't be found",
-    statusCode: 404
+    message: "Venue couldn't be found"
+    //statusCode: 404
   });
 }
 
