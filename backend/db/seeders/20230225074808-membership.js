@@ -17,6 +17,11 @@ module.exports = {
           status: 'co-host'
         },
         {
+          userId: 1,
+          groupId: 2,
+          status: 'pending'
+        },
+        {
           userId: 2,
           groupId: 1,
           status: 'co-host'
@@ -24,18 +29,23 @@ module.exports = {
         {
           userId: 2,
           groupId: 2,
-          status: 'member'
+          status: 'co-host'
         },
         {
           userId: 3,
           groupId: 3,
-          status: 'pending'
+          status: 'co-host'
         },
         {
           userId: 3,
           groupId: 2,
-          status: 'co-host'
-        }
+          status: 'member'
+        },
+        {
+          userId: 3,
+          groupId: 1,
+          status: 'pending'
+        },
       ],
       {}
     );
@@ -49,10 +59,12 @@ module.exports = {
       {
         [Op.or]: [
           { userId: 1, groupId: 1 },
+          { userId: 1, groupId: 2 },
           { userId: 2, groupId: 1 },
           { userId: 2, groupId: 2 },
           { userId: 3, groupId: 3 },
-          { userId: 3, groupId: 2 }
+          { userId: 3, groupId: 2 },
+          { userId: 3, groupId: 1 }
         ]
       },
       {}
