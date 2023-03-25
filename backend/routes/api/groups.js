@@ -147,7 +147,6 @@ router.post('/', validateGroup, async (req, res) => {
 
     return res.status(400).json({
       "message": "Validation Error",
-      "statusCode": 400,
       "errors": errors
     })
   }

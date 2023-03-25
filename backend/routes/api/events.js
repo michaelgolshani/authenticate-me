@@ -27,8 +27,30 @@ router.get("/", async (req, res, next) => {
     include: []
   };
 
-// Validate query parameters
-handleQueryParameters()
+
+
+  // Validate query parameters
+  const errors = {};
+  if (page < 1 || page > 10) {
+    errors.page = 'Page must be between 1 and 10';
+  }
+  if (size < 1 || size > 20) {
+    errors.size = 'Size must be between 1 and 20';
+  }
+  if (name && typeof name !== 'string') {
+    errors.name = 'Name must be a string';
+  }
+  if (type && !['Online', 'In Person'].includes(type)) {
+    errors.type = "Type must be 'Online' or 'In Person'";
+  }
+  if (startDate && isNaN(Date.parse(startDate))) {
+    errors.startDate = 'Start date must be a valid datetime';
+  }
+
+  // If errors exist, return a 400 response with the errors object
+  if (Object.keys(errors).length) {
+    return res.status(400).json({ message: 'Bad Request', errors });
+  }
 
 
   page === undefined ? 1 : parseInt(page);
@@ -65,7 +87,7 @@ handleQueryParameters()
       },
       ...query.include
     ],
-    order: [['startDate', 'ASC']]
+  // order: [['startDate', 'ASC']]
   });
 
   const eventsWithGroupAndVenue = events.map(event => {

@@ -110,8 +110,9 @@ const validateEvent = [
 
 
 
+//CHECK. ISNT WORKING
 
-const handleQueryParameters= (name,type,startDate,page,size) => {
+const handleQueryParameters = (name,type,startDate,page,size) => {
   // Validate query parameters
 const errors = {};
 if (page < 1 || page > 10) {
