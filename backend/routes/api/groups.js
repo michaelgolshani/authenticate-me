@@ -35,13 +35,25 @@ router.get('/current', requireAuth, async (req, res) => {
       [Op.or]: [{ organizerId: user.id }] // { id: { [Op.in]: user.groupIds } }],
     },
   });
-  return res.json({ Groups: groups });
+
+if(!groups){
+  return res.status(404).json({
+    message: "Group couldn't be found"
+  })
+}
+
+  return res.status(200).json({
+    Groups: groups
+  });
 });
 
 
 // 3. Get details of a Group from an id
 
 router.get('/:groupId', async (req, res) => {
+
+
+
   const group = await Group.findByPk(req.params.groupId, {
     include: [
       {
@@ -63,7 +75,7 @@ router.get('/:groupId', async (req, res) => {
     ],
   });
 
-  console.log(group.Memberships)
+
 
   if (!group) {
     return res.status(404).json({
@@ -99,7 +111,8 @@ router.get('/:groupId', async (req, res) => {
 const validateGroup = [
   check('name')
     .exists({ checkFalsy: true })
-    .withMessage('Name is required')
+    //.withMessage('Name is required')
+    .withMessage('Name must be 60 characters or less')
     .isLength({ max: 60 })
     .withMessage('Name must be 60 characters or less'),
   check('about')
@@ -181,7 +194,7 @@ router.post('/:groupId/images', requireAuth, async (req, res) => {
 
   if (group.organizerId !== req.user.id) {
     return res.status(404).json({
-      message: "Group couldn't be found"
+      message: "Forbidden"
       //statusCode: 404,
     });
   }
@@ -222,7 +235,6 @@ router.put('/:groupId', validateGroup, requireAuth, async (req, res) => {
 
     return res.status(400).json({
       "message": "Validation Error",
-      "statusCode": 400,
       "errors": errors
     })
   }
@@ -286,7 +298,7 @@ router.delete('/:groupId', requireAuth, async (req, res) => {
   if (!group) {
     return res.status(404).json(
       {
-        message: 'Group could not be found'
+        message: "Group couldn't be found"
         //statusCode: 404
       });
   }
@@ -343,7 +355,6 @@ router.post('/:groupId/venues', validateVenueGroup, requireAuth, async (req, res
   const group = await Group.findOne({
     where: {
       id: groupId,
-      organizerId: user.id
     }
   });
 
@@ -356,9 +367,9 @@ router.post('/:groupId/venues', validateVenueGroup, requireAuth, async (req, res
   })
 
 
-  if (!group && !member) {
+  if (group.organizerId !== user.id  && !member) {
     return res.status(404).json({
-      message: "Group couldn't be found"
+      message: "Forbidden"
       //statusCode: 404,
     });
   }
@@ -374,7 +385,6 @@ router.post('/:groupId/venues', validateVenueGroup, requireAuth, async (req, res
 
     return res.status(400).json({
       "message": "Validation Error",
-      "statusCode": 400,
       "errors": errors
     })
   }

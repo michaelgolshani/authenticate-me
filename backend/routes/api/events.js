@@ -3,56 +3,13 @@ const express = require('express');
 const { setTokenCookie, requireAuth } = require('../../utils/auth');
 const { Event, Group, User, Membership, Venue, EventImage, Attendance } = require('../../db/models');
 const { check } = require('express-validator');
-const { handleValidationErrors } = require('../../utils/validation');
+const { handleValidationErrors , handleQueryParameters, validateEvent} = require('../../utils/validation');
 const { validationResult } = require('express-validator');
 const { Op } = require('sequelize');
 const router = express.Router();
 
 
-const validateEvent = [
-  check('venueId')
-    .custom(async (value) => {
-      const venue = await Venue.findOne(
-        {
-          where:
-          {
-            groupId: value
-          }
-        });
-      if (!venue) {
-        throw new Error('Venue does not exist');
-      }
-      return true;
-    }),
-  check('venueId')
-    .exists({ checkFalsy: true })
-    .withMessage('Venue does not exist'),
-  check('name')
-    .exists({ checkFalsy: true })
-    .withMessage('Name is required')
-    .isLength({ max: 60, min: 5 })
-    .withMessage('Name must be at least 5 characters'),
-  check('type')
-    .isIn(['Online', 'In person'])
-    .withMessage("Type must be 'Online' or 'In person'"),
-  check('capacity')
-    .isInt()
-    .withMessage('Capacity must be an integer'),
-  check('price')
-    .exists({ checkFalsy: true })
-    .isDecimal()
-    .withMessage('Price is invalid'),
-  check('description')
-    .exists({ checkFalsy: true })
-    .isString()
-    .withMessage('Description is required'),
-  check('startDate')
-    .exists({ checkFalsy: true })
-    .withMessage('Start date must be in the future'),
-  check('endDate')
-    .exists({ checkFalsy: true })
-    .withMessage('End date is less than start date')
-];
+
 
 
 
@@ -61,11 +18,76 @@ const validateEvent = [
 
 router.get("/", async (req, res, next) => {
 
-  const events = await Event.findAll();
-  return res.json({
-    Events: events
-  })
-})
+  const { name, type, startDate} = req.query
+  let { page, size } = req.query
+
+
+  let query = {
+    where: {},
+    include: []
+  };
+
+// Validate query parameters
+handleQueryParameters()
+
+
+  page === undefined ? 1 : parseInt(page);
+  size === undefined ? 20 : parseInt(size);
+  if (page >= 1 && size >= 1) {
+    query.limit = size;
+    query.offset = size * (page - 1);
+  }
+
+
+  if (name) {
+    query.where.name = { [Op.like]: `%${name}%` };
+  }
+  if (type) {
+    query.where.type = { [Op.eq]: type };
+  }
+  if (startDate) {
+      query.where.startDate = { [Op.gte]: startDate };
+
+  }
+
+
+  // Get events with where and include options applied
+  const events = await Event.findAll({
+    ...query,
+    include: [
+      {
+        model: Group,
+        attributes: ['id', 'name', 'city', 'state']
+      },
+      {
+        model: Venue,
+        attributes: ['id', 'city', 'state']
+      },
+      ...query.include
+    ],
+    order: [['startDate', 'ASC']]
+  });
+
+  const eventsWithGroupAndVenue = events.map(event => {
+    return {
+      id: event.id,
+      groupId: event.groupId,
+      venueId: event.venueId,
+      name: event.name,
+      type: event.type,
+      startDate: event.startDate,
+      endDate: event.endDate,
+      numAttending: event.numAttending,
+      previewImage: event.previewImage,
+      Group: event.Group,
+      Venue: event.Venue
+    };
+  });
+
+  return res.status(200).json({ Events: eventsWithGroupAndVenue });
+});
+
+
 
 
 
@@ -521,9 +543,9 @@ router.get('/:eventId/attendees', async (req, res) => {
 
 // 8. Delete an Attendance
 router.delete('/:eventId/attendance', requireAuth, async (req, res) => {
-  const {eventId} = req.params;
-  const {userId} = req.body;
-  const {user} = req;
+  const { eventId } = req.params;
+  const { userId } = req.body;
+  const { user } = req;
 
   const event = await Event.findByPk(eventId);
 
