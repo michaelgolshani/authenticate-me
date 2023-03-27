@@ -12,28 +12,28 @@ module.exports = {
     return queryInterface.bulkInsert(options, [
       {
         groupId: 1,
-        url: "Image of basketball team",
+        url: "Image-of-basketball-team.png",
         preview: false,
         createdAt: new Date(),
         updatedAt: new Date()
       },
       {
         groupId: 1,
-        url: "Image of dunk",
+        url: "Image-of-dunk.png",
         preview: true,
         createdAt: new Date(),
         updatedAt: new Date()
       },
       {
         groupId: 2,
-        url: "Image of soccer team",
-        preview: false,
+        url: "Image-of-soccer-team.png",
+        preview: true,
         createdAt: new Date(),
         updatedAt: new Date()
       },
       {
         groupId: 3,
-        url: "Image of football team",
+        url: "Image-of-football-team.png",
         preview: true,
         createdAt: new Date(),
         updatedAt: new Date()
@@ -46,7 +46,7 @@ module.exports = {
     return queryInterface.bulkDelete(options,
       {
         url: {
-          [Op.in]: ["Image of basketball team", "Image of dunk", "Image of soccer team", "Image of football team"]
+          [Op.in]: ["Image-of-basketball-team.png", "Image-of-dunk.png", "Image-of-soccer-team.png", "Image-of-football-team.png"]
         }
       },
       {}

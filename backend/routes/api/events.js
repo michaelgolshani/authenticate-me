@@ -73,40 +73,109 @@ router.get("/", async (req, res, next) => {
   }
 
 
-  // Get events with where and include options applied
-  const events = await Event.findAll({
-    ...query,
-    include: [
-      {
-        model: Group,
-        attributes: ['id', 'name', 'city', 'state']
-      },
-      {
-        model: Venue,
-        attributes: ['id', 'city', 'state']
-      },
-      ...query.include
-    ],
-  // order: [['startDate', 'ASC']]
-  });
 
-  const eventsWithGroupAndVenue = events.map(event => {
-    return {
-      id: event.id,
-      groupId: event.groupId,
-      venueId: event.venueId,
-      name: event.name,
-      type: event.type,
-      startDate: event.startDate,
-      endDate: event.endDate,
-      numAttending: event.numAttending,
-      previewImage: event.previewImage,
-      Group: event.Group,
-      Venue: event.Venue
-    };
-  });
+    // Get events with where and include options applied
+    const events = await Event.findAll({
+      ...query,
+      include: [
+        {
+          model: Group,
+          attributes: ['id', 'name', 'city', 'state']
+        },
+        {
+          model: Venue,
+          attributes: ['id', 'city', 'state']
+        },
+        {
+          model: Attendance
+        },
+        {
+          model: EventImage
+        },
+        ...query.include,
+      ],
+        attributes: [
+          'id',
+          'groupId',
+          'venueId',
+          'name',
+          'type',
+          'startDate',
+          'endDate',
+        ],
 
-  return res.status(200).json({ Events: eventsWithGroupAndVenue });
+      // order: [['startDate', 'ASC']]
+    });
+
+    let preview;
+    const eventObjects = [];
+    for (let i = 0; i < events.length; i++) {
+      const event = events[i];
+      eventObjects.push(event.toJSON())
+    }
+
+    for (let i = 0; i < eventObjects.length; i++) {
+      const event = eventObjects[i];
+
+
+      const attendances = await Attendance.findAll({
+        where: {
+          eventId: event.id
+        }
+      })
+      event.numAttending = attendances.length;
+
+      delete event.Attendances
+
+
+     // console.log(event.EventImages)
+
+      if (event.EventImages.length > 0) {
+        for (let i = 0; i < event.EventImages.length; i++) {
+          const image = event.EventImages[i]
+          if (image.preview === true) {
+            event.previewImage = image.url
+            preview = event.previewImage
+          }
+        }
+        if (!event.previewImage) {
+          event.previewImage = "No event image for this group"
+          preview= event.previewImage
+        }
+
+      } else {
+        event.previewImage = "No event image for this group"
+        preview= event.previewImage
+      }
+
+      delete event.EventImages
+      //console.log(event)
+    }
+
+    console.log(events)
+
+    const eventsWithGroupAndVenue = [];
+
+    for (let i = 0; i < events.length; i++) {
+      const event = events[i];
+      console.log(i, event)
+      eventsWithGroupAndVenue.push({
+        id: event.id,
+        groupId: event.groupId,
+        venueId: event.venueId,
+        name: event.name,
+        type: event.type,
+        startDate: event.startDate,
+        endDate: event.endDate,
+        numAttending: event.Attendances.length,
+        previewImage: event.previewImage,
+        Group: event.Group,
+        Venue: event.Venue
+      });
+    }
+
+    return res.status(200).json({ Events: eventObjects });
+
 });
 
 
@@ -581,20 +650,15 @@ router.delete('/:eventId/attendance', requireAuth, async (req, res) => {
     where: {
       eventId: event.id,
       userId: userId
-    },
-    include: [{
-      model: User,
-      attributes: ['id'],
-      where: {
-        id: user.id
-      }
-    }]
+    }
   });
 
   const group = await Group.findByPk(event.groupId);
 
   console.log(group.organizerId)
   console.log(user.id)
+  //console.log(attendance.userId)
+
 
   if (!attendance) {
     return res.status(404).json({
@@ -608,6 +672,7 @@ router.delete('/:eventId/attendance', requireAuth, async (req, res) => {
     });
   }
 
+
   await attendance.destroy();
 
   return res.status(200).json({
@@ -617,7 +682,7 @@ router.delete('/:eventId/attendance', requireAuth, async (req, res) => {
 
 
 
-//9.. Delete an event
+//9. Delete an event
 
 router.delete('/:eventId', requireAuth, async (req, res) => {
 

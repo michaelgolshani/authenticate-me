@@ -41,7 +41,7 @@ module.exports = {
       {
         eventId: 3,
         url: "Image of football field",
-        preview: false,
+        preview: true,
         createdAt: new Date(),
         updatedAt: new Date()
       }
