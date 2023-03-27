@@ -1,7 +1,7 @@
 const express = require('express');
 
 const { setTokenCookie, requireAuth } = require('../../utils/auth');
-const { Group, GroupImage, Venue, User, Membership, Event } = require('../../db/models');
+const { Group, GroupImage, Venue, User, Membership, Event,Attendance, EventImage } = require('../../db/models');
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 const { Op } = require('sequelize');
@@ -809,13 +809,78 @@ router.get('/:groupId/events', requireAuth, async (req, res, next) => {
       {
         model: Venue,
         attributes: ['id', 'city', 'state']
-      }
+      },
+      {
+        model: Attendance
+      },
+      {
+        model: EventImage
+      },
     ],
-    order: [['startDate', 'ASC']]
+    attributes: [
+      'id',
+      'groupId',
+      'venueId',
+      'name',
+      'type',
+      'startDate',
+      'endDate',
+    ],
+
   });
 
-  const eventsWithGroupAndVenue = events.map(event => {
-    return {
+  const eventObjects = [];
+  for (let i = 0; i < events.length; i++) {
+    const event = events[i];
+    eventObjects.push(event.toJSON())
+  }
+
+  for (let i = 0; i < eventObjects.length; i++) {
+    const event = eventObjects[i];
+
+
+    const attendances = await Attendance.findAll({
+      where: {
+        eventId: event.id
+      }
+    })
+    event.numAttending = attendances.length;
+
+    delete event.Attendances
+
+
+   // console.log(event.EventImages)
+
+    if (event.EventImages.length > 0) {
+      for (let i = 0; i < event.EventImages.length; i++) {
+        const image = event.EventImages[i]
+        if (image.preview === true) {
+          event.previewImage = image.url
+          preview = event.previewImage
+        }
+      }
+      if (!event.previewImage) {
+        event.previewImage = "No event image for this group"
+        preview= event.previewImage
+      }
+
+    } else {
+      event.previewImage = "No event image for this group"
+      preview= event.previewImage
+    }
+
+    delete event.EventImages
+    //console.log(event)
+  }
+
+  console.log(events)
+
+  const eventsWithGroupAndVenue = [];
+
+  for (let i = 0; i < events.length; i++) {
+    const event = events[i];
+    console.log(i, event)
+    eventsWithGroupAndVenue.push({
       id: event.id,
       groupId: event.groupId,
       venueId: event.venueId,
@@ -823,14 +888,35 @@ router.get('/:groupId/events', requireAuth, async (req, res, next) => {
       type: event.type,
       startDate: event.startDate,
       endDate: event.endDate,
-      numAttending: event.numAttending,
+      numAttending: event.Attendances.length,
       previewImage: event.previewImage,
       Group: event.Group,
       Venue: event.Venue
-    };
-  });
+    });
+  }
 
-  return res.status(200).json({ Events: eventsWithGroupAndVenue });
+  return res.status(200).json({ Events: eventObjects });
+
+
+
+
+  // const eventsWithGroupAndVenue = events.map(event => {
+  //   return {
+  //     id: event.id,
+  //     groupId: event.groupId,
+  //     venueId: event.venueId,
+  //     name: event.name,
+  //     type: event.type,
+  //     startDate: event.startDate,
+  //     endDate: event.endDate,
+  //     numAttending: event.numAttending,
+  //     previewImage: event.previewImage,
+  //     Group: event.Group,
+  //     Venue: event.Venue
+  //   };
+  // });
+
+  // return res.status(200).json({ Events: eventsWithGroupAndVenue });
 });
 
 
@@ -908,7 +994,7 @@ router.post("/:groupId/membership", requireAuth, async (req, res, next) => {
   const { groupId } = req.params;
   const { user } = req;
 
-  
+
   const status = "pending";
 
   // Find the group

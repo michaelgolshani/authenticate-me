@@ -3,7 +3,7 @@ const express = require('express');
 const { setTokenCookie, requireAuth } = require('../../utils/auth');
 const { Event, Group, User, Membership, Venue, EventImage, Attendance } = require('../../db/models');
 const { check } = require('express-validator');
-const { handleValidationErrors , handleQueryParameters, validateEvent} = require('../../utils/validation');
+const { handleValidationErrors, handleQueryParameters, validateEvent } = require('../../utils/validation');
 const { validationResult } = require('express-validator');
 const { Op } = require('sequelize');
 const router = express.Router();
@@ -18,7 +18,7 @@ const router = express.Router();
 
 router.get("/", async (req, res, next) => {
 
-  const { name, type, startDate} = req.query
+  const { name, type, startDate } = req.query
   let { page, size } = req.query
 
 
@@ -68,113 +68,113 @@ router.get("/", async (req, res, next) => {
     query.where.type = { [Op.eq]: type };
   }
   if (startDate) {
-      query.where.startDate = { [Op.gte]: startDate };
+    query.where.startDate = { [Op.gte]: startDate };
 
   }
 
 
 
-    // Get events with where and include options applied
-    const events = await Event.findAll({
-      ...query,
-      include: [
-        {
-          model: Group,
-          attributes: ['id', 'name', 'city', 'state']
-        },
-        {
-          model: Venue,
-          attributes: ['id', 'city', 'state']
-        },
-        {
-          model: Attendance
-        },
-        {
-          model: EventImage
-        },
-        ...query.include,
-      ],
-        attributes: [
-          'id',
-          'groupId',
-          'venueId',
-          'name',
-          'type',
-          'startDate',
-          'endDate',
-        ],
+  // Get events with where and include options applied
+  const events = await Event.findAll({
+    ...query,
+    include: [
+      {
+        model: Group,
+        attributes: ['id', 'name', 'city', 'state']
+      },
+      {
+        model: Venue,
+        attributes: ['id', 'city', 'state']
+      },
+      {
+        model: Attendance
+      },
+      {
+        model: EventImage
+      },
+      ...query.include,
+    ],
+    attributes: [
+      'id',
+      'groupId',
+      'venueId',
+      'name',
+      'type',
+      'startDate',
+      'endDate',
+    ],
 
-      // order: [['startDate', 'ASC']]
-    });
+    // order: [['startDate', 'ASC']]
+  });
 
-    let preview;
-    const eventObjects = [];
-    for (let i = 0; i < events.length; i++) {
-      const event = events[i];
-      eventObjects.push(event.toJSON())
-    }
+  let preview;
+  const eventObjects = [];
+  for (let i = 0; i < events.length; i++) {
+    const event = events[i];
+    eventObjects.push(event.toJSON())
+  }
 
-    for (let i = 0; i < eventObjects.length; i++) {
-      const event = eventObjects[i];
+  for (let i = 0; i < eventObjects.length; i++) {
+    const event = eventObjects[i];
 
 
-      const attendances = await Attendance.findAll({
-        where: {
-          eventId: event.id
+    const attendances = await Attendance.findAll({
+      where: {
+        eventId: event.id
+      }
+    })
+    event.numAttending = attendances.length;
+
+    delete event.Attendances
+
+
+    // console.log(event.EventImages)
+
+    if (event.EventImages.length > 0) {
+      for (let i = 0; i < event.EventImages.length; i++) {
+        const image = event.EventImages[i]
+        if (image.preview === true) {
+          event.previewImage = image.url
+          preview = event.previewImage
         }
-      })
-      event.numAttending = attendances.length;
-
-      delete event.Attendances
-
-
-     // console.log(event.EventImages)
-
-      if (event.EventImages.length > 0) {
-        for (let i = 0; i < event.EventImages.length; i++) {
-          const image = event.EventImages[i]
-          if (image.preview === true) {
-            event.previewImage = image.url
-            preview = event.previewImage
-          }
-        }
-        if (!event.previewImage) {
-          event.previewImage = "No event image for this group"
-          preview= event.previewImage
-        }
-
-      } else {
+      }
+      if (!event.previewImage) {
         event.previewImage = "No event image for this group"
-        preview= event.previewImage
+        preview = event.previewImage
       }
 
-      delete event.EventImages
-      //console.log(event)
+    } else {
+      event.previewImage = "No event image for this group"
+      preview = event.previewImage
     }
 
-    console.log(events)
+    delete event.EventImages
+    //console.log(event)
+  }
 
-    const eventsWithGroupAndVenue = [];
+  console.log(events)
 
-    for (let i = 0; i < events.length; i++) {
-      const event = events[i];
-      console.log(i, event)
-      eventsWithGroupAndVenue.push({
-        id: event.id,
-        groupId: event.groupId,
-        venueId: event.venueId,
-        name: event.name,
-        type: event.type,
-        startDate: event.startDate,
-        endDate: event.endDate,
-        numAttending: event.Attendances.length,
-        previewImage: event.previewImage,
-        Group: event.Group,
-        Venue: event.Venue
-      });
-    }
+  const eventsWithGroupAndVenue = [];
 
-    return res.status(200).json({ Events: eventObjects });
+  for (let i = 0; i < events.length; i++) {
+    const event = events[i];
+    console.log(i, event)
+    eventsWithGroupAndVenue.push({
+      id: event.id,
+      groupId: event.groupId,
+      venueId: event.venueId,
+      name: event.name,
+      type: event.type,
+      startDate: event.startDate,
+      endDate: event.endDate,
+      numAttending: event.Attendances.length,
+      previewImage: event.previewImage,
+      Group: event.Group,
+      Venue: event.Venue
+    });
+  }
+
+  return res.status(200).json({ Events: eventObjects });
 
 });
 
@@ -252,7 +252,7 @@ router.get("/:eventId", requireAuth, async (req, res, next) => {
 
   const eventId = req.params.eventId;
 
-  Event.findByPk(eventId, {
+  const event = await Event.findByPk(eventId, {
     include: [
       {
         model: Group,
@@ -265,23 +265,30 @@ router.get("/:eventId", requireAuth, async (req, res, next) => {
       {
         model: EventImage,
         attributes: ["id", "url", "preview"]
+      },
+      {
+        model: Attendance
       }
     ]
   })
-    .then(event => {
-      if (event) {
-        res.status(200).json(event);
-      } else {
-        res.status(404).json(
-          {
-            message: "Event couldn't be found"
-            //statusCode: 404
-          });
-      }
-    })
-    .catch(err => {
-      next(err);
+
+  if (!event) {
+    return res.status(404).json({
+      message: "Event couldn't be found"
     });
+  }
+
+  const attendances = await Attendance.findAll({
+    where: {
+      eventId: event.id
+    }
+  });
+
+  const eventObject = event.toJSON();
+  eventObject.numAttending = attendances.length;
+  delete eventObject.Attendances;
+
+  return res.status(200).json(eventObject);
 
 })
 
