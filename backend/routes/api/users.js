@@ -63,11 +63,13 @@ router.post(
     await setTokenCookie(res, user);
 
     return res.json({
+      user:{
       id: user.id,
       firstName: user.firstName,
       lastName: user.lastName,
       username: user.username,
       email: user.email,
+      }
     });
   }
 );

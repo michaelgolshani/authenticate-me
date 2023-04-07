@@ -56,8 +56,8 @@ router.post(
         id: user.id,
         firstName: user.firstName,
         lastName: user.lastName,
-        username: user.username,
-        email: user.email
+        email: user.email,
+        username: user.username
       }
        // OG --> user
     });
@@ -91,8 +91,8 @@ router.get(
       });
     } else return res.json(
       {
-        message: "Authentication required",
-        //user: null
+        //message: "Authentication required",
+        user: null
       });
   }
 );
