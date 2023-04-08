@@ -67,8 +67,8 @@ router.post(
       id: user.id,
       firstName: user.firstName,
       lastName: user.lastName,
-      email: user.email,
       username: user.username,
+      email: user.email,
       }
     });
   }

@@ -46,12 +46,20 @@ router.post(
 
     return res.json({
       user: user
+      user: {
+        id: user.id,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+        username: user.username
+      }
+       // OG --> user
     });
   }
 );
 
 
-// this is a test to see how to change things. 
+
 
 
 // Log out
