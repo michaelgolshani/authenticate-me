@@ -14,20 +14,14 @@ const validateLogin = [
   check('credential')
     .exists({ checkFalsy: true })
     .notEmpty()
-    .withMessage('Email is required'), //OG- Please provide a valid email or username.
+    .withMessage('Please provide a valid email or username.'),
   check('password')
     .exists({ checkFalsy: true })
-    .withMessage('Password is required'),
+    .withMessage('Please provide a password.'),
   handleValidationErrors
 ];
 
 
-//test route to hit endpoints
-// router.use((req,res,next) => {
-
-//   console.log("+ + + + + ")
-//   next();
-// })
 
 
 
@@ -36,22 +30,22 @@ router.post(
   '/',
   validateLogin,
   async (req, res, next) => {
-    const { credential, password } = req.body;
+    const { credential, password, firstName, lastName } = req.body;
 
-    console.log( "----")
-
-    const user = await User.login({ credential, password});
+    const user = await User.login({ credential, password, firstName, lastName });
 
     if (!user) {
- return res.status(401).json({
-  "message": "Invalid Credentials"
-  //"statusCode": 401
-})
+      const err = new Error('Login failed');
+      err.status = 401;
+      err.title = 'Login failed';
+      err.errors = { credential: 'The provided credentials were invalid.' };
+      return next(err);
     }
 
     await setTokenCookie(res, user);
 
     return res.json({
+
       user: {
         id: user.id,
         firstName: user.firstName,
@@ -71,7 +65,7 @@ router.post(
 // Log out
 router.delete(
   '/',
-  (req, res) => {
+  (_req, res) => {
     res.clearCookie('token');
     return res.json({ message: 'success' });
   }
@@ -89,33 +83,11 @@ router.get(
       return res.json({
         user: user.toSafeObject()
       });
-    } else return res.json(
-      {
-        //message: "Authentication required",
-        user: null
-      });
+    } else return res.json({ user: null });
   }
 );
 
 
-// Get the Current User - NOT NEEDED
-router.get('/session',restoreUser,(req, res) => {
-    const { user } = req;
-    if (user) {
-      return res.json({
-        user: {
-          id: user.id,
-          firstName: user.firstName,
-          lastName: user.lastName,
-          email: user.email,
-          username: user.username,
-        },
-      });
-    } else {
-      return res.json({ user: null });
-    }
-  }
-);
 
 
 module.exports = router;
