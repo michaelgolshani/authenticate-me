@@ -1,0 +1,28 @@
+/* Navigation.css */
+/* Navigation.css */
+.navigation-container {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 10px; /* Add padding for spacing */
+  margin: 0;
+  position: absolute; /* Use absolute position to move to top right corner */
+  top: 0; /* Set top position to 0 */
+  right: 0; /* Set right position to 0 */
+}
+
+
+.navigation-container li {
+  margin-right: 20px;
+}
+
+.navigation-container li a {
+  color: #000;
+  text-decoration: none;
+  padding: 5px;
+}
+
+.navigation-container li a:hover {
+  color: #007bff;
+}
