@@ -152,13 +152,13 @@ router.get("/", async (req, res, next) => {
     //console.log(event)
   }
 
-  console.log(events)
+  //console.log(events)
 
   const eventsWithGroupAndVenue = [];
 
   for (let i = 0; i < events.length; i++) {
     const event = events[i];
-    console.log(i, event)
+   // console.log(i, event)
     eventsWithGroupAndVenue.push({
       id: event.id,
       groupId: event.groupId,
@@ -304,9 +304,11 @@ router.put('/:eventId', validateEvent, requireAuth, async (req, res) => {
   const userId = req.user.id
   const { venueId, name, type, capacity, price, description, startDate, endDate } = req.body;
 
-  console.log(req.user)
-  console.log(userId)
-  console.log(req.body)
+  //console.log(req.user)
+  //console.log(userId)
+  //console.log(req.body)
+
+
   //Validation errors
 
   const validationErrors = validationResult(req);
@@ -587,7 +589,7 @@ router.get('/:eventId/attendees', async (req, res) => {
 
       const attendee = attendees[i];
 
-      console.log(attendee.User)
+     // console.log(attendee.User)
 
       attendeesArray.push({
         id: attendee.User.id,
@@ -662,8 +664,8 @@ router.delete('/:eventId/attendance', requireAuth, async (req, res) => {
 
   const group = await Group.findByPk(event.groupId);
 
-  console.log(group.organizerId)
-  console.log(user.id)
+  //console.log(group.organizerId)
+  //console.log(user.id)
   //console.log(attendance.userId)
 
 
@@ -696,9 +698,9 @@ router.delete('/:eventId', requireAuth, async (req, res) => {
   const { user } = req
   const { eventId } = req.params
 
-  console.log(user)
-  console.log(user.id)
-  console.log(eventId)
+ // console.log(user)
+  //console.log(user.id)
+ //console.log(eventId)
 
 
   const event = await Event.findByPk(eventId);

@@ -27,11 +27,11 @@ router.delete("/:imageId", requireAuth, async (req, res) => {
 
 
 
-  console.log(user)
+  //console.log(user)
 
 
 
-  console.log(image.eventId)
+  //console.log(image.eventId)
   const event = await Event.findByPk(image.eventId, {
     include: [
       {
@@ -45,8 +45,8 @@ router.delete("/:imageId", requireAuth, async (req, res) => {
     ]
   })
 
-  console.log(event)
-  console.log("GroupId", event.Group.organizerId)
+  //console.log(event)
+  //console.log("GroupId", event.Group.organizerId)
 
   if (!event) {
     return res.status(404).json({

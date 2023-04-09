@@ -124,7 +124,7 @@ router.get('/current', requireAuth, async (req, res) => {
 
     if (group.GroupImages.length > 0) {
       for (let i = 0; i < group.GroupImages.length; i++) {
-        console.log(group.GroupImages)
+        //console.log(group.GroupImages)
         const image = group.GroupImages[i]
         if (image.preview === true) {
           group.previewImage = image.url
@@ -594,8 +594,8 @@ router.get('/:groupId/venues', requireAuth, async (req, res) => {
   });
 
 
-  console.log(group)
-  console.log("---------")
+  //console.log(group)
+  //console.log("---------")
 
   if (!group) {
     return res.status(404).json({
@@ -614,15 +614,15 @@ router.get('/:groupId/venues', requireAuth, async (req, res) => {
     }
   });
 
-  console.log("-----------------------------")
-  console.log(member)
-  console.log("-----------------------------")
-  console.log("group.organizerId", group.organizerId)
-  console.log("-----------------------------")
-  console.log("user.id", user.id)
-  console.log("-----------------------------")
-  //console.log("member.status", member.status)
-  console.log("-----------------------------")
+  // console.log("-----------------------------")
+  // console.log(member)
+  // console.log("-----------------------------")
+  // console.log("group.organizerId", group.organizerId)
+  // console.log("-----------------------------")
+  // console.log("user.id", user.id)
+  // console.log("-----------------------------")
+  // //console.log("member.status", member.status)
+  // console.log("-----------------------------")
 
 
   if (group.organizerId !== user.id && !member) {
@@ -873,13 +873,13 @@ router.get('/:groupId/events', requireAuth, async (req, res, next) => {
     //console.log(event)
   }
 
-  console.log(events)
+  // console.log(events)
 
   const eventsWithGroupAndVenue = [];
 
   for (let i = 0; i < events.length; i++) {
     const event = events[i];
-    console.log(i, event)
+    // console.log(i, event)
     eventsWithGroupAndVenue.push({
       id: event.id,
       groupId: event.groupId,
@@ -925,8 +925,8 @@ router.get('/:groupId/events', requireAuth, async (req, res, next) => {
 router.get('/:groupId/members', async (req, res) => {
   const { groupId } = req.params;
   const { user } = req
-  console.log(user)
-  console.log(user.id)
+  // console.log(user)
+  // console.log(user.id)
   const group = await Group.findByPk(groupId);
 
   if (!group) {
@@ -1018,9 +1018,9 @@ router.post("/:groupId/membership", requireAuth, async (req, res, next) => {
     },
   });
 
-  console.log(group.id)
-  console.log("/////////////")
-  console.log(existingPendingMembership)
+  // console.log(group.id)
+  // console.log("/////////////")
+  // console.log(existingPendingMembership)
 
   if (existingPendingMembership) {
     return res.status(400).json({
