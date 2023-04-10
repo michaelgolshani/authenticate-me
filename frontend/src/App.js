@@ -14,7 +14,13 @@ function App() {
   return (
     <>
       <Navigation isLoaded={isLoaded} />
-      {isLoaded && <Switch></Switch>}
+      {isLoaded && <Switch>
+
+
+
+
+
+        </Switch>}
     </>
   );
 }
