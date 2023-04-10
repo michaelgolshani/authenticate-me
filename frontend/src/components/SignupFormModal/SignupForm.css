@@ -1,7 +1,9 @@
 /* SignupForm.css */
 .signup-form-container {
   max-width: 400px;
-  margin: 0 auto;
+  margin: 50px 50px;
+  border-radius: 20px;
+
 }
 
 .signup-form-container h1 {
@@ -25,7 +27,7 @@
 .signup-form-container input {
   width: 100%;
   padding: 10px;
-  border: 1px solid #ccc;
+  border: .5px solid #ccc;
   border-radius: 4px;
 }
 
@@ -37,7 +39,7 @@
 }
 
 .signup-form-container button[type="submit"] {
-  background-color: #007bff;
+  background: linear-gradient(to bottom right, #c7225c, #ff0048);
   color: #fff;
   border: none;
   border-radius: 4px;

@@ -5,7 +5,7 @@
   max-width: 400px;
   margin: 0 auto;
   padding: 3rem;
-  border: 1px solid #ccc;
+  /* border: 1px solid #ccc; */
   border-radius: 25px;
 
 }
@@ -26,7 +26,7 @@
   width: 100%;
   padding: 0.5rem;
   /* background-color: #007bff; */
-  background: linear-gradient(to right, #8b5cf6, #2c6dfb);
+  background: linear-gradient(to bottom right, #c7225c, #ff0048);
   color: #fff;
   border: none;
   border-radius: 50px;
