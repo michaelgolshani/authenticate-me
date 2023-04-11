@@ -6,6 +6,7 @@ import Navigation from "./components/Navigation";
 import LandingPage from "./components/LandingPage";
 import { Route } from "react-router-dom";
 import GetAllGroups from "./components/SeeAllGroupsPage";
+import GetAllGroupDetails from "./components/GetAllGroupDetailsPage";
 
 function App() {
   const dispatch = useDispatch();
@@ -18,17 +19,19 @@ function App() {
     <>
       <Navigation isLoaded={isLoaded} />
       {isLoaded && <Switch>
-      <Route exact path="/">
-        <LandingPage/>
-      </Route>
-      <Route exact path="/groups">
-        <GetAllGroups/>
-      </Route>
+        <Route exact path="/">
+          <LandingPage />
+        </Route>
+        <Route exact path="/groups">
+          <GetAllGroups />
+        </Route>
+
+        <Route exact path="/groups/:id">
+          <GetAllGroupDetails />
+        </Route>
 
 
-
-
-        </Switch>}
+      </Switch>}
     </>
   );
 }
