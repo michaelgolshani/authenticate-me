@@ -53,11 +53,8 @@
 
 .h2 {
   background-image: linear-gradient(to right, #ff00cc, #333399);
-  /* Define your gradient colors here */
   -webkit-background-clip: text;
-  /* Apply background-clip to text for Webkit browsers */
   -webkit-text-fill-color: transparent;
-  /* Set text color to transparent for Webkit browsers */
 }
 
 .p2 {
@@ -97,7 +94,7 @@
 .join-button {
   font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", Segoe UI Symbol, "Noto Color Emoji";
   /* background-color: green; */
-  background-image:linear-gradient(to top right, #ff00cc, #4e4eec) ;
+  background-image: linear-gradient(to top right, #ff00cc, #4e4eec);
   color: white;
   border-radius: 20px;
   padding: 10px 20px;
@@ -111,7 +108,7 @@
 
 .join-button:hover {
   /* background-color: #28a745; */
-  background-image:linear-gradient(to top right, #df7bcd, #5959da) ;
+  background-image: linear-gradient(to top right, #df7bcd, #5959da);
 }
 
 .button-div {

@@ -5,6 +5,7 @@ import * as sessionActions from "./store/session";
 import Navigation from "./components/Navigation";
 import LandingPage from "./components/LandingPage";
 import { Route } from "react-router-dom";
+import GetAllGroups from "./components/SeeAllGroupsPage";
 
 function App() {
   const dispatch = useDispatch();
@@ -19,6 +20,9 @@ function App() {
       {isLoaded && <Switch>
       <Route exact path="/">
         <LandingPage/>
+      </Route>
+      <Route exact path="/groups">
+        <GetAllGroups/>
       </Route>
 
 
