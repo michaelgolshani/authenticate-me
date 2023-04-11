@@ -4,7 +4,8 @@
 }
 
 .s1-left-container {
-  flex: 1;
+  width: 35%;
+  padding-left: 150px;
 }
 
 .s1-right-container {
@@ -16,7 +17,8 @@
 
 .s1-example-image {
   max-width: 50%;
-  margin-right: 20px;
+  /* margin-right: 20px; */
+  padding-right: 150px;
 }
 
 
@@ -25,6 +27,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  padding: 100px;
 }
 
 .wrapper {
@@ -38,6 +41,8 @@
 .s3 {
   display: flex;
   flex-direction: row;
+  padding: 100px;
+  justify-content: center;
 }
 
 .s3 > * {
