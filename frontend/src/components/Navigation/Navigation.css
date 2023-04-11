@@ -1,31 +1,40 @@
 /* Navigation.css */
 /* Navigation.css */
+/* Navigation.css */
 .navigation-container {
+  border-bottom: #ddd 1px solid;
+  margin-top: 15px;
+  padding-bottom: 15px;
+  margin-bottom: 50px;
+}
+
+.navigation-list {
   list-style: none;
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  padding: 10px; /* Add padding for spacing */
+  padding: 10px;
   margin: 0;
-  position: absolute; /* Use absolute position to move to top right corner */
-  top: 0; /* Set top position to 0 */
-  right: 0; /* Set right position to 0 */
 }
 
-
-.navigation-container li {
+.navigation-item {
   margin-right: 20px;
 }
 
-.navigation-container li a {
+.navigation-item-right {
+  margin-left: auto;
+}
+
+.navigation-link {
   color: #000;
   text-decoration: none;
   padding: 5px;
 }
 
-.navigation-container li a:hover {
+.navigation-link:hover {
   color: #007bff;
 }
+
 
 
 .hidden {
