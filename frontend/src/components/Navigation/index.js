@@ -6,6 +6,7 @@ import './Navigation.css';
 import LoginFormModal from '../LoginFormModal';
 import SignupFormModal from '../SignupFormModal';
 import OpenModalButton from '../OpenModalButton';
+import logo from '../../content/images/logo.png'
 
 function Navigation({ isLoaded }) {
   const sessionUser = useSelector(state => state.session.user);
@@ -15,7 +16,7 @@ function Navigation({ isLoaded }) {
       <ul className="nav-list">
         <li className="nav-item">
           <NavLink exact to="/" >
-          <img src="joinvibe.jpg" alt="JoinVibe logo" className="s1-joinvibe-logo" />
+          <img src={logo} alt="JoinVibe logo" className="s1-joinvibe-logo" />
           </NavLink>
         </li>
         {isLoaded && (

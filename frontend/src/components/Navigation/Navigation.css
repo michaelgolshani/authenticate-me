@@ -9,6 +9,13 @@
   list-style-type: none;
 } */
 
+.s1-joinvibe-logo {
+  border-radius: 50px;
+  width:10%;
+  height : auto;
+  margin-left: 10px;
+
+}
 
 .nav-container {
   border-bottom: #ddd 1px solid;
@@ -28,7 +35,6 @@
 
 .nav-item {
   display: flex;
-  margin-right: 20px;
 }
 
 .nav-item-right {
@@ -48,6 +54,7 @@
 
 .nav-button {
   padding: 0px 12px;
+  width: 70px
 }
 
 
