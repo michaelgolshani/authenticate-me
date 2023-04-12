@@ -56,10 +56,6 @@
   margin-right: 10px;
 }
 
-.group-info {
-  flex: 1;
-}
-
 .group-name {
   font-weight: bold;
   font-size: 2rem;

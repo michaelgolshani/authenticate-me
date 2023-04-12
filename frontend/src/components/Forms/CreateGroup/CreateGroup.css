@@ -1,14 +1,14 @@
-.container {
+.create-group-container {
   display: block;
   margin: auto;
   max-width: 800px;
 }
 
-.error-msg {
+/* .error-msg {
   color: red;
-}
+} */
+
 .form-row {
   margin: 20px 0;
   display: block;
 }
-

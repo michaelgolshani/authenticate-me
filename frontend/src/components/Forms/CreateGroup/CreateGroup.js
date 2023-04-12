@@ -11,7 +11,12 @@ export default function CreateGroup({ update, sessionUser }) {
   let { groupId } = params;
   groupId = parseInt(groupId);
 
+
+
   const currentGroup = useSelector((state) => state.group.singleGroup);
+
+   console.log("CURRENT GROUP STATE", currentGroup)
+
   const [location, setLocation] = useState("");
   const [name, setName] = useState("");
   const [about, setAbout] = useState("");
@@ -22,8 +27,6 @@ export default function CreateGroup({ update, sessionUser }) {
 
 
 console.log(currentGroup)
-
-
   const validate = () => {
     const errors ={}
 
@@ -61,7 +64,7 @@ console.log(currentGroup)
 
   return (
     <>
- <div className="container">
+ <div className="create-group-container">
       <h2>First, set your group's location </h2>
       <form onSubmit={onSubmit}>
       <div className="form-row">
