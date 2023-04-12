@@ -66,14 +66,26 @@ export const getGroupDetailsThunk = (groupId) => async (dispatch) => {
 }
 
 export const createGroupThunk = (group) => async (dispatch) => {
-  const response = await csrfFetch(`/api/groups/`, {
+  const response = await csrfFetch(`/api/groups`, {
     method: "POST",
     headers: { 'Content-Type': 'Application/json' },
     body: JSON.stringify(group)
   });
   if (response.ok) {
-    const group = await response.json();
-    dispatch(CreateGroup(group))
+    const data = await response.json();
+
+    
+     const singleObject = {
+            ...data,
+            GroupImages: [],
+            Organizer: {
+                organizerId: data.organizerId
+            },
+            Venues: null
+        }
+        dispatch(CreateGroup(singleObject));
+
+        return data
   }
 }
 
@@ -120,6 +132,8 @@ const groupReducer = (state = initialState, action) => {
 
     case CREATE_GROUP:
       newState = { ...state };
+      console.log("ACTION GROUP", action.group)
+
       newState.singleGroup = { ...action.group };
       return newState;
 
