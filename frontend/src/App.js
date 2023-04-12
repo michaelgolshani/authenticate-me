@@ -7,13 +7,18 @@ import LandingPage from "./components/LandingPage";
 import { Route } from "react-router-dom";
 import GetAllGroups from "./components/SeeAllGroupsPage";
 import GetAllGroupDetails from "./components/GetAllGroupDetailsPage";
+import { useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 function App() {
   const dispatch = useDispatch();
+  const sessionUser = useSelector(state => state.session.user)
   const [isLoaded, setIsLoaded] = useState(false);
   useEffect(() => {
     dispatch(sessionActions.restoreUser()).then(() => setIsLoaded(true));
   }, [dispatch]);
+
+  console.log("SESSION USER IS...", sessionUser)
 
   return (
     <>
@@ -26,8 +31,8 @@ function App() {
           <GetAllGroups />
         </Route>
 
-        <Route exact path="/groups/:id">
-          <GetAllGroupDetails />
+        <Route exact path="/groups/:groupId">
+          <GetAllGroupDetails sessionUser={sessionUser}></GetAllGroupDetails>
         </Route>
 
 

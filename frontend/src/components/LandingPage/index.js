@@ -3,15 +3,9 @@ import { NavLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import './LandingPage.css'
  import partyimage from '../../content/images/party.jpg'
-
-
-
 import FindAnEvent from './FindAnEvent';
 import SeeAllGroups from './SeeAllGroups';
 import StartANewGroup from './StartANewGroup';
-// import './LandingPage.css';
-// import flowerImage from '../assets/Images/Example.jpg';
-// import landingPageInfo from '../assets/Images/pngfind.com-hora-de-aventura-png-6738376.png';
 
 
 

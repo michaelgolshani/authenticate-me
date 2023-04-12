@@ -23,10 +23,10 @@ const LoadGroups = (list) => {
 }
 
 
-const GetGroupDetailsAction = (groupId) => {
+const GetGroupDetailsAction = (group) => {
   return {
     type: GET_GROUP_DETAILS,
-    groupId
+    group
   }
 }
 
@@ -46,16 +46,14 @@ export const getAllGroupsThunk = () => async (dispatch) => {
 }
 
 
-export const getGroupDetails = (groupId) => async (dispatch) => {
+export const getGroupDetailsThunk = (groupId) => async (dispatch) => {
   const response = await csrfFetch(`/api/groups/${groupId}`)
 
   if (response.ok) {
     const group = await response.json()
     console.log("GROUP DETAILS THUNK", group)
     dispatch(GetGroupDetailsAction(group))
-
-  } else {
-    console.log("error")
+    return group;
   }
 }
 
@@ -84,9 +82,13 @@ const groupReducer = (state = initialState, action) => {
       return newState
 
     case GET_GROUP_DETAILS:
-      newState = { ...state, allGroups: {}, currentGroup: {} }
-      console.log(state)
-      console.log("currentGroup", action.groupId.currentGroup)
+      newState = { ...state,  currentGroup: {} }
+      console.log("ACTION GROUP", action.group)
+
+      newState.currentGroup = {...action.group}
+
+      return newState
+
 
     default:
       return state
