@@ -8,7 +8,7 @@ import './LandingPage.css';
 function SeeAllGroups (){
   return (
     <div>
-      <img src="example.jpg" alt="example image" className="s3-image" />
+      <img src="example.jpg" alt="example image" className="landing-page-s3-image" />
       <NavLink to='/groups'>
       See all groups
       </NavLink>
