@@ -14,7 +14,7 @@ function LandingPage() {
     <>
       <div className="landing-page-container">
         <div className="landing-page-s1-left-container">
-          <h1>Your one-stop shop to find your <span className="vibe-text">vibe</span>.</h1>
+          <h1>Your one-stop shop to find your <span className="landing-page-vibe-text">vibe</span>.</h1>
           <p>
             Discover events with like-minded individuals who share your
             VIBE and build meaningful connections that will last a lifetime.

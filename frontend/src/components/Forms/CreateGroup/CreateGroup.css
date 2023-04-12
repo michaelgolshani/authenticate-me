@@ -1,14 +1,47 @@
 .create-group-container {
   display: block;
   margin: auto;
-  max-width: 800px;
+  max-width: 80%;
+  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", Segoe UI Symbol, "Noto Color Emoji";
+  transition-delay: .5s;
+  letter-spacing: -.025em;
+  font-size: 1rem;
+  line-height: 1;
 }
 
-/* .error-msg {
-  color: red;
-} */
 
-.form-row {
+
+.create-group-form-row {
   margin: 20px 0;
   display: block;
 }
+
+
+.create-group-label-input {
+
+  width: 30%;
+  padding: 5px 15px;
+  margin: 5px 0 22px 0;
+  display: inline-block;
+  border: 3px black solid;
+  background: #f1f1f1;
+  text-align:left
+
+}
+
+
+.create-group-label-about {
+    width: 30%;
+    padding: 70px 15px;
+    margin: 5px 0 22px 0;
+    display: inline-block;
+    border: 3px black solid;
+    background: #f1f1f1;
+    text-align:left;
+
+  }
+
+
+  .error {
+    color:red
+  }
