@@ -8,6 +8,7 @@ const GET_ALL_GROUPS = '/groups'
 
 const GET_GROUP_DETAILS = '/groups/:groupId'
 
+const CREATE_GROUP = '/groups/new'
 
 
 
@@ -26,6 +27,13 @@ const LoadGroups = (list) => {
 const GetGroupDetailsAction = (group) => {
   return {
     type: GET_GROUP_DETAILS,
+    group
+  }
+}
+
+const CreateGroup = (group) => {
+  return {
+    type: CREATE_GROUP,
     group
   }
 }
@@ -57,10 +65,31 @@ export const getGroupDetailsThunk = (groupId) => async (dispatch) => {
   }
 }
 
+export const createGroupThunk = (group) => async (dispatch) => {
+  const response = await csrfFetch(`/api/groups/`, {
+    method: "POST",
+    headers: { 'Content-Type': 'Application/json' },
+    body: JSON.stringify(group)
+  });
+  if (response.ok) {
+    const group = await response.json();
+    dispatch(CreateGroup(group))
+  }
+}
+
 
 //Group Reducer -------------------------------------------------------
 
-const initialState = { allGroups: {}, currentGroup: {} }
+const initialState = {
+  allGroups: {}, currentGroup: {}, singleGroup: {
+
+    GroupImages: [],
+    Organizer: {
+
+    },
+    Venues: [],
+  },
+}
 
 
 const groupReducer = (state = initialState, action) => {
@@ -82,12 +111,17 @@ const groupReducer = (state = initialState, action) => {
       return newState
 
     case GET_GROUP_DETAILS:
-      newState = { ...state,  currentGroup: {} }
+      newState = { ...state, currentGroup: {} }
       console.log("ACTION GROUP", action.group)
 
-      newState.currentGroup = {...action.group}
+      newState.currentGroup = { ...action.group }
 
       return newState
+
+    case CREATE_GROUP:
+      newState = { ...state };
+      newState.singleGroup = { ...action.group };
+      return newState;
 
 
     default:

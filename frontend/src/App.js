@@ -9,6 +9,7 @@ import GetAllGroups from "./components/SeeAllGroupsPage";
 import GetAllGroupDetails from "./components/GetAllGroupDetailsPage";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
+import CreateGroup from "./components/Forms/CreateGroup/CreateGroup";
 
 function App() {
   const dispatch = useDispatch();
@@ -23,6 +24,11 @@ function App() {
   return (
     <>
       <Navigation isLoaded={isLoaded} />
+      {isLoaded && sessionUser && <Switch>
+        <Route exact path="/groups/new">
+          < CreateGroup sessionUser={sessionUser}></CreateGroup>
+        </Route>
+      </Switch>}
       {isLoaded && <Switch>
         <Route exact path="/">
           <LandingPage />
