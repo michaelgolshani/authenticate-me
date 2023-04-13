@@ -1,18 +1,10 @@
 import { csrfFetch } from './csrf';
 
-
 //Action Types -------------------------------------------
 
-
-const GET_ALL_GROUPS = '/groups'
-
-const GET_GROUP_DETAILS = '/groups/:groupId'
-
-const CREATE_GROUP = '/groups/new'
-
-
-
-
+const GET_ALL_GROUPS = '/groups';
+const GET_GROUP_DETAILS = '/groups/:groupId';
+const CREATE_GROUP = '/groups/new';
 
 // Action Creators ----------------------------------------
 
@@ -22,7 +14,6 @@ const LoadGroups = (list) => {
     list
   }
 }
-
 
 const GetGroupDetailsAction = (group) => {
   return {
@@ -38,71 +29,68 @@ const CreateGroup = (group) => {
   }
 }
 
-
 // Group THUNKS ----------------------------------------------------
 
 export const getAllGroupsThunk = () => async (dispatch) => {
   const response = await csrfFetch("/api/groups");
 
   if (response.ok) {
-    const groups = await response.json()
-    //console.log('GROUP THUNK', groups)
-
-    //console.log("GET ALL GROUPS", LoadGroups(groups))
-    dispatch(LoadGroups(groups))
+    const groups = await response.json();
+    dispatch(LoadGroups(groups));
   }
 }
 
-
 export const getGroupDetailsThunk = (groupId) => async (dispatch) => {
-  const response = await csrfFetch(`/api/groups/${groupId}`)
+  const response = await csrfFetch(`/api/groups/${groupId}`);
 
   if (response.ok) {
-    const group = await response.json()
-    console.log("GROUP DETAILS THUNK", group)
-    dispatch(GetGroupDetailsAction(group))
+    const group = await response.json();
+    dispatch(GetGroupDetailsAction(group));
     return group;
   }
 }
 
 export const createGroupThunk = (group) => async (dispatch) => {
-  const response = await csrfFetch(`/api/groups`, {
-    method: "POST",
-    headers: { 'Content-Type': 'Application/json' },
-    body: JSON.stringify(group)
-  });
-  if (response.ok) {
-    const data = await response.json();
+  try {
+    const response = await csrfFetch(`/api/groups`, {
+      method: "POST",
+      headers: { 'Content-Type': 'Application/json' },
+      body: JSON.stringify(group)
+    });
 
-    
-     const singleObject = {
-            ...data,
-            GroupImages: [],
-            Organizer: {
-                organizerId: data.organizerId
-            },
-            Venues: null
-        }
-        dispatch(CreateGroup(singleObject));
-
-        return data
+    if (response.ok) {
+      const data = await response.json();
+      const singleObject = {
+        ...data,
+        GroupImages: [],
+        Organizer: {
+          organizerId: data.organizerId
+        },
+        Venues: null
+      };
+      dispatch(CreateGroup(singleObject));
+      return data;
+    } else {
+      // Handle error response
+      console.log("Error response:", response);
+    }
+  } catch (error) {
+    // Handle fetch error
+    console.log("Fetch error:", error);
   }
 }
 
-
-//Group Reducer -------------------------------------------------------
+// Group Reducer -------------------------------------------------------
 
 const initialState = {
-  allGroups: {}, currentGroup: {}, singleGroup: {
-
+  allGroups: {},
+  currentGroup: {},
+  singleGroup: {
     GroupImages: [],
-    Organizer: {
-
-    },
+    Organizer: {},
     Venues: [],
   },
 }
-
 
 const groupReducer = (state = initialState, action) => {
   let newState = {}
@@ -110,21 +98,15 @@ const groupReducer = (state = initialState, action) => {
   switch (action.type) {
     case GET_ALL_GROUPS:
       newState = { ...state, allGroups: {}, currentGroup: {} }
-      //console.log("ACTIONS", action.list.Groups)
-      // console.log("STATE", state)
-      // console.log("newState", newState.allGroups)
 
       action.list.Groups.forEach(group => {
-        //console.log(newState)
-        //console.log(group)
         newState.allGroups[group.id] = group
       })
-      //console.log("NEW STATE", newState)
+
       return newState
 
     case GET_GROUP_DETAILS:
       newState = { ...state, currentGroup: {} }
-      console.log("ACTION GROUP", action.group)
 
       newState.currentGroup = { ...action.group }
 
@@ -132,16 +114,14 @@ const groupReducer = (state = initialState, action) => {
 
     case CREATE_GROUP:
       newState = { ...state };
-      console.log("ACTION GROUP", action.group)
 
       newState.singleGroup = { ...action.group };
-      return newState;
 
+      return newState;
 
     default:
       return state
   }
 }
 
-
-export default groupReducer
+export default groupReducer;

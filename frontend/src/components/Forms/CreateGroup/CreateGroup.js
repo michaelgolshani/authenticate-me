@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { createGroupThunk } from "../../../store/groups";
 import './CreateGroup.css';
 
-export default function CreateGroup({ update, sessionUser }) {
+export default function CreateGroup({ sessionUser }) {
   const dispatch = useDispatch();
   const history = useHistory();
   const params = useParams();
@@ -21,12 +21,6 @@ export default function CreateGroup({ update, sessionUser }) {
   const checkState = useSelector((state) => state)
   console.log("CURRENT GROUP STATE", currentGroup)
   console.log("CHECK STATE", checkState)
-
-
-
-
-
-
 
 
   const [location, setLocation] = useState("");
@@ -95,25 +89,25 @@ export default function CreateGroup({ update, sessionUser }) {
     console.log("SEPERATE LOCATION BY COMMA", seperateCommaLoc)
 
     const seperatedCity = seperateCommaLoc[0]
-    const seperatedState= seperateCommaLoc[1]
+    const seperatedState = seperateCommaLoc[1]
     console.log("SEPERATE CITY FROM USER INPUT", seperatedCity)
     console.log("SEPERATE STATE FROM USER INPUT", seperatedState)
 
 
- //We need to handle "Person" and "Online" choice. So we will convert the choice to a boolean of true or false
- const convertToBoolean = (input) => {
-  if (input === "Private") {
-    return true
-  } else {
-    return false
-  }
-}
+    //We need to handle "Person" and "Online" choice. So we will convert the choice to a boolean of true or false
+    const convertToBoolean = (input) => {
+      if (input === "Private") {
+        return true
+      } else {
+        return false
+      }
+    }
 
     //-------------------------------------------------------------------------------------------
 
 
 
-    
+
     const groupInfo = {
       city: seperatedCity,
       state: seperatedState,
@@ -124,15 +118,20 @@ export default function CreateGroup({ update, sessionUser }) {
       url: image
     };
 
-
+    console.log("GROUP INFO", groupInfo);
 
     let createGroup;
 
-    createGroup = dispatch(createGroupThunk(groupInfo));
+    createGroup = await dispatch(createGroupThunk(groupInfo));
 
 
-    console.log("GROUP INFO", groupInfo);
-    console.log(createGroup)
+
+    //history.push(`/groups/${currentGroup.id}`)
+
+
+
+
+    console.log("CREATE GROUP DISPATCH", createGroup)
 
 
 
@@ -153,16 +152,17 @@ export default function CreateGroup({ update, sessionUser }) {
 
   return (
     <>
-      <div className="create-group-container">
-        <p className="create-group-top-organizer">BECOME AN ORGANIZER</p>
-        <h2 className="create-group-top-header create-group-underline">We'll walk you through a few steps to build your local community</h2>
+      <form onSubmit={OnSubmit}>
+        <div className="create-group-container">
+          <p className="create-group-top-organizer">BECOME AN ORGANIZER</p>
+          <h2 className="create-group-top-header create-group-underline">We'll walk you through a few steps to build your local community</h2>
 
 
 
-        <h2 className="create-group-h2">First, set your group's location </h2>
-        <p>Joinup groups meet locally, in person and online. We'll connect you with people
-          in your area, and more can join you online.</p>
-        <form onSubmit={OnSubmit}>
+          <h2 className="create-group-h2">First, set your group's location </h2>
+          <p>Joinup groups meet locally, in person and online. We'll connect you with people
+            in your area, and more can join you online.</p>
+
           <div className="create-group-form-row">
             <label htmlFor="location"></label>
             <input
@@ -270,7 +270,7 @@ export default function CreateGroup({ update, sessionUser }) {
 
           <p>Please add an image for your group below </p>
           <div className="create-group-form-row">
-            <label htmlFor="imageUrl"></label>
+            <label htmlFor="image"></label>
             <input
               className="create-group-label-input"
               placeholder="Image Url"
@@ -285,13 +285,11 @@ export default function CreateGroup({ update, sessionUser }) {
 
           </div>
 
-          <button>
+          <button type='submit'>
             Create Group
           </button>
-
-
-        </form>
-      </div>
+        </div>
+      </form>
     </>
   )
 }

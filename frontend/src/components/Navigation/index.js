@@ -16,30 +16,29 @@ function Navigation({ isLoaded }) {
       <ul className="nav-list">
         <li className="nav-item">
           <NavLink exact to="/" >
-          <img src={logo} alt="JoinVibe logo" className="s1-joinvibe-logo" />
+            <img src={logo} alt="JoinVibe logo" className="s1-joinvibe-logo" />
           </NavLink>
         </li>
         {isLoaded && (
           <li className="nav-item nav-item-right">
-            <li className='nav-button'>
+            <div className='nav-button'>
               <OpenModalButton
                 buttonText="Log In"
-
                 modalComponent={<LoginFormModal />}
               />
-            </li>
-            <li className='nav-button'>
+            </div>
+            <div className='nav-button'>
               <OpenModalButton
                 buttonText="Sign Up"
-
                 modalComponent={<SignupFormModal />}
               />
-            </li>
+            </div>
             <div className="nav-button">
-            <ProfileButton user={sessionUser}  />
+              <ProfileButton user={sessionUser} />
             </div>
           </li>
         )}
+
       </ul>
     </nav>
   );
