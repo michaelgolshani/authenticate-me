@@ -16,6 +16,10 @@
   display: block;
 }
 
+.create-group-underline {
+  border-bottom: 2px solid darkgrey;
+  padding-bottom: 10px;
+}
 
 .create-group-label-input {
 
@@ -25,23 +29,27 @@
   display: inline-block;
   border: 3px black solid;
   background: #f1f1f1;
-  text-align:left
-
+  text-align: left
 }
 
 
 .create-group-label-about {
-    width: 30%;
-    padding: 70px 15px;
-    margin: 5px 0 22px 0;
-    display: inline-block;
-    border: 3px black solid;
-    background: #f1f1f1;
-    text-align:left;
+  width: 30%;
+  padding: 70px 15px;
+  margin: 5px 0 22px 0;
+  display: inline-block;
+  border: 3px black solid;
+  background: #f1f1f1;
+  text-align: left;
 
-  }
+}
 
 
-  .error {
-    color:red
-  }
+.error {
+  color: red
+}
+
+
+.create-group-top-organizer {
+  color: teal
+}

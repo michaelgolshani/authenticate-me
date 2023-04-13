@@ -13,12 +13,22 @@ export default function CreateGroup({ update, sessionUser }) {
 
 
 
+  // useEffect(() => {
+  //   dispatch(createGroupThunk())
+  // }, [dispatch])
+
   const currentGroup = useSelector((state) => state.group.singleGroup);
+  const checkState = useSelector((state) => state)
   console.log("CURRENT GROUP STATE", currentGroup)
+  console.log("CHECK STATE", checkState)
 
 
 
-  
+
+
+
+
+
   const [location, setLocation] = useState("");
   const [name, setName] = useState("");
   const [about, setAbout] = useState("");
@@ -28,7 +38,8 @@ export default function CreateGroup({ update, sessionUser }) {
   const [errors, setErrors] = useState({});
 
 
-  console.log(currentGroup)
+  console.log("CURRENT GROUP", currentGroup)
+
 
   const validate = () => {
     const errors = {}
@@ -66,22 +77,65 @@ export default function CreateGroup({ update, sessionUser }) {
 
 
 
-  const OnSubmit = (e) => {
+  const OnSubmit = async (e) => {
+
     e.preventDefault();
     const errors = validate();
     const errorContent = Object.values(errors);
     if (errorContent.length) return setErrors(errors);
 
+
+
+
+    //CLEANING UP INPUT FROM USER FOR BACKEND
+    //-------------------------------------------------------------------------------------------
+
+    const removeSpacesLoc = location.replaceAll(' ', '')
+    const seperateCommaLoc = removeSpacesLoc.split(',')
+    console.log("SEPERATE LOCATION BY COMMA", seperateCommaLoc)
+
+    const seperatedCity = seperateCommaLoc[0]
+    const seperatedState= seperateCommaLoc[1]
+    console.log("SEPERATE CITY FROM USER INPUT", seperatedCity)
+    console.log("SEPERATE STATE FROM USER INPUT", seperatedState)
+
+
+ //We need to handle "Person" and "Online" choice. So we will convert the choice to a boolean of true or false
+ const convertToBoolean = (input) => {
+  if (input === "Private") {
+    return true
+  } else {
+    return false
+  }
+}
+
+    //-------------------------------------------------------------------------------------------
+
+
+
+    
     const groupInfo = {
-      location,
+      city: seperatedCity,
+      state: seperatedState,
       name,
       about,
       type,
-      isPrivate,
-      image
+      private: convertToBoolean(isPrivate),
+      url: image
     };
 
+
+
+    let createGroup;
+
+    createGroup = dispatch(createGroupThunk(groupInfo));
+
+
     console.log("GROUP INFO", groupInfo);
+    console.log(createGroup)
+
+
+
     setName("");
     setLocation("");
     setAbout("");
@@ -100,7 +154,8 @@ export default function CreateGroup({ update, sessionUser }) {
   return (
     <>
       <div className="create-group-container">
-        <h2 className="create-group-top-header">We'll walk you through a few steps to build your local community</h2>
+        <p className="create-group-top-organizer">BECOME AN ORGANIZER</p>
+        <h2 className="create-group-top-header create-group-underline">We'll walk you through a few steps to build your local community</h2>
 
 
 
@@ -119,6 +174,7 @@ export default function CreateGroup({ update, sessionUser }) {
               value={location}
             />
             {errors.location && <p className="error">{errors.location}</p>}
+            <div className="create-group-underline"></div>
 
           </div>
 
@@ -140,6 +196,8 @@ export default function CreateGroup({ update, sessionUser }) {
 
             {errors.name && <p className="error">{errors.name}</p>}
 
+            <div className="create-group-underline"></div>
+
           </div>
 
           <h2 className="create-group-h2">Now describe what your group will be about</h2>
@@ -160,6 +218,7 @@ export default function CreateGroup({ update, sessionUser }) {
               value={about}
             />
             {errors.about && <p className="error">{errors.about}</p>}
+            <div className="create-group-underline"></div>
 
           </div>
 
@@ -183,6 +242,7 @@ export default function CreateGroup({ update, sessionUser }) {
             </select>
 
             {errors.type && <p className="error">{errors.type}</p>}
+            <div className="create-group-underline"></div>
 
           </div>
 
@@ -203,6 +263,7 @@ export default function CreateGroup({ update, sessionUser }) {
             </select>
 
             {errors.isPrivate && <p className="error">{errors.isPrivate}</p>}
+            <div className="create-group-underline"></div>
 
           </div>
 
@@ -220,6 +281,7 @@ export default function CreateGroup({ update, sessionUser }) {
             />
 
             {errors.image && <p className="error">{errors.image}</p>}
+            <div className="create-group-underline"></div>
 
           </div>
 

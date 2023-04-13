@@ -46,7 +46,7 @@ export default function GetAllGroupDetails({ sessionUser }) {
         Groups
       </NavLink>
       <div className="group-image">
-        <img src={group.GroupImages[0].url} alt="example image" />
+        <img src={group.GroupImages[0]?.url} alt="example image" />
       </div>
 
       <div className="group-details-wrapper">
