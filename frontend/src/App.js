@@ -33,13 +33,16 @@ function App() {
         <Route exact path="/groups">
           <GetAllGroups />
         </Route>
+        <Route exact path="/groups/:groupId/edit">
+          < CreateGroup sessionUser={sessionUser} updateGroup={true}></CreateGroup>
+        </Route>
         <Route exact path="/groups/new">
           < CreateGroup sessionUser={sessionUser}></CreateGroup>
         </Route>
         <Route exact path="/groups/:groupId">
           <GetAllGroupDetails sessionUser={sessionUser}></GetAllGroupDetails>
         </Route>
-        
+
       </Switch>}
     </>
   );

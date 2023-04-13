@@ -66,7 +66,7 @@ export default function GetAllGroupDetails({ sessionUser }) {
             Create event
           </button>
 
-          <button className="action-button" >
+          <button className="action-button"  onClick= {() => history.push(`/groups/${groupId}/edit`)}>
             Update
           </button>
 

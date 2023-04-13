@@ -1,10 +1,10 @@
 import React, { useEffect, useState, useLayoutEffect, useMemo } from "react"
 import { useHistory, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { createGroupThunk } from "../../../store/groups";
+import { createGroupThunk, updateGroupThunk, getGroupDetailsThunk } from "../../../store/groups";
 import './CreateGroup.css';
 
-export default function CreateGroup({ sessionUser }) {
+export default function CreateGroup({ sessionUser, updateGroup }) {
   const dispatch = useDispatch();
   const history = useHistory();
   const params = useParams();
@@ -18,6 +18,10 @@ export default function CreateGroup({ sessionUser }) {
   // }, [dispatch])
 
   const currentGroup = useSelector((state) => state.group.singleGroup);
+  console.log("CURRENT GROUP on CREATE/UPDATE Groups", currentGroup)
+
+
+
   const checkState = useSelector((state) => state)
   console.log("CURRENT GROUP STATE", currentGroup)
   console.log("CHECK STATE", checkState)
@@ -30,6 +34,36 @@ export default function CreateGroup({ sessionUser }) {
   const [isPrivate, setisPrivate] = useState("");
   const [image, setImage] = useState("");
   const [errors, setErrors] = useState({});
+
+
+  useEffect(() => {
+    dispatch(getGroupDetailsThunk(groupId));
+    if (updateGroup) {
+      console.log("CHECK STATE IN UPDATE DISPATCH", checkState)
+      console.log("CURRENT GROUP IN UPDATE DISPATCH", checkState.group.currentGroup)
+
+      const oldGroup = checkState.group.currentGroup
+
+      setLocation(`${oldGroup.city}, ${oldGroup.state}`);
+      setName(oldGroup.name);
+      setAbout(oldGroup.about);
+      setType(oldGroup.type);
+      setisPrivate(oldGroup.private === true ? "Private" : "Public");
+      if (oldGroup.GroupImages.length > 0) {
+        setImage(oldGroup.GroupImages[0].url);
+      }
+    }
+  }, [])
+
+
+  useEffect(() => {
+    validate();
+  }, [location, name, about, type, isPrivate, image]);
+
+
+  const updateStateGroup = useSelector((state) => state)
+
+  console.log("UPDATED STATE GROUP", updateStateGroup)
 
 
   console.log("CURRENT GROUP", currentGroup)
@@ -118,22 +152,36 @@ export default function CreateGroup({ sessionUser }) {
 
     console.log("GROUP INFO", groupInfo);
 
+    const oldGroup = checkState.group.currentGroup
+    console.log("CURRENT GROUP ID", oldGroup.id)
     let createGroup;
 
-    createGroup = await dispatch(createGroupThunk(groupInfo));
 
+    // Need to check if we are on the update page or on a create page. Use the prop.
+
+    if (updateGroup) {
+      const editedGroup = await dispatch(updateGroupThunk(groupInfo, oldGroup.id))
+      console.log("EDITED GROUP HISTORY PUSH", editedGroup)
+      history.push(`/groups/${oldGroup.id}`)
+
+    } else if (!updateGroup) {
+      const createGroup = await dispatch(createGroupThunk(groupInfo));
+      console.log("CREATE GROUP HISTORY PUSH", createGroup)
+      history.push(`/groups/${createGroup.id}`)
+    }
     console.log("CREATE GROUP DISPATCH", createGroup)
-
-    history.push(`/groups/${createGroup.id}`)
-
-    setName("");
-    setLocation("");
-    setAbout("");
-    setType("");
-    setisPrivate("");
-    setImage("");
-    setErrors({});
+    // setName("");
+    // setLocation("");
+    // setAbout("");
+    // setType("");
+    // setisPrivate("");
+    // setImage("");
+    // setErrors({});
   };
+
+
+
+
 
 
 
