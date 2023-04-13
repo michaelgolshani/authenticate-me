@@ -106,8 +106,6 @@ export default function CreateGroup({ sessionUser }) {
     //-------------------------------------------------------------------------------------------
 
 
-
-
     const groupInfo = {
       city: seperatedCity,
       state: seperatedState,
@@ -124,16 +122,9 @@ export default function CreateGroup({ sessionUser }) {
 
     createGroup = await dispatch(createGroupThunk(groupInfo));
 
-
-
-    //history.push(`/groups/${currentGroup.id}`)
-
-
-
-
     console.log("CREATE GROUP DISPATCH", createGroup)
 
-
+    history.push(`/groups/${createGroup.id}`)
 
     setName("");
     setLocation("");
@@ -142,9 +133,6 @@ export default function CreateGroup({ sessionUser }) {
     setisPrivate("");
     setImage("");
     setErrors({});
-
-
-
   };
 
 

@@ -21,6 +21,8 @@ function Navigation({ isLoaded }) {
         </li>
         {isLoaded && (
           <li className="nav-item nav-item-right">
+            <NavLink exact to="/groups/new" className="nav-start-a-group">Start a new group</NavLink>
+
             <div className='nav-button'>
               <OpenModalButton
                 buttonText="Log In"

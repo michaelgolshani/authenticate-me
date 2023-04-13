@@ -5,6 +5,9 @@ import { csrfFetch } from './csrf';
 const GET_ALL_GROUPS = '/groups';
 const GET_GROUP_DETAILS = '/groups/:groupId';
 const CREATE_GROUP = '/groups/new';
+const UPDATE_GROUP = '/groups/edit'
+
+
 
 // Action Creators ----------------------------------------
 
@@ -25,6 +28,14 @@ const GetGroupDetailsAction = (group) => {
 const CreateGroup = (group) => {
   return {
     type: CREATE_GROUP,
+    group
+  }
+}
+
+
+const UpdateGroup = (group) => {
+  return {
+    type: UPDATE_GROUP,
     group
   }
 }
@@ -71,14 +82,35 @@ export const createGroupThunk = (group) => async (dispatch) => {
       dispatch(CreateGroup(singleObject));
       return data;
     } else {
-      // Handle error response
       console.log("Error response:", response);
     }
+
   } catch (error) {
     // Handle fetch error
     console.log("Fetch error:", error);
   }
 }
+
+
+export const updateGroupThunk = (group, groupId) => async (dispatch) => {
+  const response = await csrfFetch(`/api/groups/${groupId}`, {
+    method: "PUT",
+    headers: { 'Content-Type': 'Application/json' },
+    body: JSON.stringify(group)
+  });
+
+  console.log("UPDATE GROUP THUNK RESPONSE", response)
+
+  if (response.ok) {
+    const data = await response.json()
+    console.log("UPDATE GROUP THUNK DATA", data)
+
+    dispatch(UpdateGroup(data))
+    return data
+  }
+}
+
+
 
 // Group Reducer -------------------------------------------------------
 
@@ -116,6 +148,22 @@ const groupReducer = (state = initialState, action) => {
       newState = { ...state };
 
       newState.singleGroup = { ...action.group };
+
+      return newState;
+
+    case UPDATE_GROUP:
+      newState = { ...state };
+      newState.singleGroup = { ...state.singleGroup };
+
+      console.log("UPDATE GROUP REDUCER BEFORE", newState)
+
+      newState.singleGroup.name = action.group.name;
+      newState.singleGroup.location = action.group.location;
+      newState.singleGroup.about = action.group.about;
+      newState.singleGroup.type = action.group.type;
+      newState.singleGroup.private = action.group.private;
+
+      console.log("UPDATED GROUP REDUCER AFTER", newState)
 
       return newState;
 

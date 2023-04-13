@@ -22,6 +22,12 @@
   margin-top: 15px;
   padding-bottom: 15px;
   margin-bottom: 50px;
+  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", Segoe UI Symbol, "Noto Color Emoji";;
+}
+
+.nav-start-a-group {
+  text-decoration: none;
+width: 150px;
 }
 
 .nav-list {
