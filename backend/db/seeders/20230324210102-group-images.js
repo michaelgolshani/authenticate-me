@@ -12,28 +12,28 @@ module.exports = {
     return queryInterface.bulkInsert(options, [
       {
         groupId: 1,
-        url: "Image-of-basketball-team.png",
+        url: "https://basketballword.com/wp-content/uploads/2019/07/Webp.net-resizeimage.jpg",
         preview: false,
         createdAt: new Date(),
         updatedAt: new Date()
       },
       {
         groupId: 1,
-        url: "Image-of-dunk.png",
+        url: "https://t3.ftcdn.net/jpg/02/21/10/40/360_F_221104021_sAMazMUFlHsCLvu1uDlkYdTAHZvQVwEE.jpg",
         preview: true,
         createdAt: new Date(),
         updatedAt: new Date()
       },
       {
         groupId: 2,
-        url: "Image-of-soccer-team.png",
+        url: "https://p0.pxfuel.com/preview/228/64/6/soccer-boys-sports-outdoor.jpg",
         preview: true,
         createdAt: new Date(),
         updatedAt: new Date()
       },
       {
         groupId: 3,
-        url: "Image-of-football-team.png",
+        url: "https://cdn2.hubspot.net/hubfs/408306/Ballroom%20dance%20party.jpg",
         preview: true,
         createdAt: new Date(),
         updatedAt: new Date()
@@ -46,7 +46,7 @@ module.exports = {
     return queryInterface.bulkDelete(options,
       {
         url: {
-          [Op.in]: ["Image-of-basketball-team.png", "Image-of-dunk.png", "Image-of-soccer-team.png", "Image-of-football-team.png"]
+          [Op.in]: ["https://basketballword.com/wp-content/uploads/2019/07/Webp.net-resizeimage.jpg", "https://t3.ftcdn.net/jpg/02/21/10/40/360_F_221104021_sAMazMUFlHsCLvu1uDlkYdTAHZvQVwEE.jpg", "https://p0.pxfuel.com/preview/228/64/6/soccer-boys-sports-outdoor.jpg", "https://cdn2.hubspot.net/hubfs/408306/Ballroom%20dance%20party.jpg"]
         }
       },
       {}

@@ -12,28 +12,28 @@ module.exports = {
     return queryInterface.bulkInsert(options, [
       {
         eventId: 1,
-        url: "Image of basketball court",
+        url: "https://d39l2hkdp2esp1.cloudfront.net/img/photo/124209/124209_00_2x.jpg",
         preview: false,
         createdAt: new Date(),
         updatedAt: new Date()
       },
       {
         eventId: 1,
-        url: "Image of scoreboard",
+        url: "https://basketballword.com/wp-content/uploads/2019/07/Webp.net-resizeimage.jpg",
         preview: true,
         createdAt: new Date(),
         updatedAt: new Date()
       },
       {
         eventId: 2,
-        url: "Image of soccer field",
+        url: "https://frontofficesports.com/wp-content/uploads/2022/06/FOS-Sunday-6.19-MLS-Apple.jpg",
         preview: false,
         createdAt: new Date(),
         updatedAt: new Date()
       },
       {
         eventId: 2,
-        url: "Image of soccer bleachers",
+        url: "https://clips-media-assets2.twitch.tv/0naO0VAcJYzahW9kgKepTg/AT-cm%7C0naO0VAcJYzahW9kgKepTg-preview-480x272.jpg",
         preview: true,
         createdAt: new Date(),
         updatedAt: new Date()

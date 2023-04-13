@@ -14,9 +14,9 @@ module.exports = {
         {
           venueId: 1,
           groupId: 1,
-          name: 'Event 1',
-          description: 'This is event 1',
-          type: 'Online',
+          name: '3 Vs 3 Basketball Tourney',
+          description: 'Ready for a 3 vs 3 battle? Bring out your buddies and lets see who can win this tournament!',
+          type: 'In person',
           capacity: 50,
           price: 20,
           startDate: new Date('2023-03-01T12:00:00Z'),
@@ -27,9 +27,9 @@ module.exports = {
         {
           venueId: 2,
           groupId: 2,
-          name: 'Event 2',
-          description: 'This is event 2',
-          type: 'In Person',
+          name: 'FIFA Live Tournament',
+          description: 'We are going to be talking and having FIFA buy ins on Twitch. We would love to see what you got!',
+          type: 'Online',
           capacity: 100,
           price: 10,
           startDate: new Date('2023-03-02T18:00:00Z'),
@@ -40,8 +40,8 @@ module.exports = {
         {
           venueId: 3,
           groupId: 3,
-          name: 'Event 3',
-          description: 'This is event 3',
+          name: 'Salsa Time!',
+          description: 'Our first event will be starting on Tuesday. Come and learn how to salsa dance. You might get an attractive partner! ;)',
           type: 'In Person',
           capacity: 30,
           price: 15,
@@ -61,7 +61,7 @@ module.exports = {
     return queryInterface.bulkDelete(
       options,
       {
-        name: { [Op.in]: ['Event 1', 'Event 2', 'Event 3'] }
+        name: { [Op.in]: ['3 Vs 3 Basketball Tourney', 'FIFA Live Tournament', 'Salsa Time!'] }
       },
       {});
   }

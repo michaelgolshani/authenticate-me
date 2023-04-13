@@ -13,17 +13,17 @@ module.exports = {
       [
         {
           organizerId: 1,
-          name: 'Group 1',
-          about: 'This is group 1',
-          type: 'Online',
-          private: true,
+          name: 'Basketball Daily Games',
+          about: 'Hey yall! We are lovers of basketball and host games here at the park every day. Come and join us! Keep an eye out for our updates.',
+          type: 'In person',
+          private: false,
           city: 'New York',
           state: 'NY'
         },
         {
           organizerId: 2,
-          name: 'Group 2',
-          about: 'This is group 2',
+          name: 'Soccer Fanatics',
+          about: 'We love to play soccer, talk soccer, and simply talk about soccer. If that is you as well, come and join us!',
           type: 'Online',
           private: false,
           city: 'Los Angeles',
@@ -31,8 +31,8 @@ module.exports = {
         },
         {
           organizerId: 3,
-          name: 'Group 3',
-          about: 'This is group 3',
+          name: 'Salsa Dancing Club',
+          about: 'Do you want to learn how to salsa dance? Come visit for our weekly tuesday events!',
           type: 'In person',
           private: true,
           city: 'Chicago',
@@ -49,7 +49,7 @@ module.exports = {
     return queryInterface.bulkDelete(
       options,
       {
-        name: { [Op.in]: ['Group 1', 'Group 2', 'Group 3'] }
+        name: { [Op.in]: ['Basketball Daily Games', 'Soccer Fanatics', 'Salsa Dancing Club'] }
       },
       {}
     );
