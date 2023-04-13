@@ -25,11 +25,7 @@ function App() {
   return (
     <>
       <Navigation isLoaded={isLoaded} />
-      {isLoaded && sessionUser && <Switch>
-        <Route exact path="/groups/new">
-          < CreateGroup sessionUser={sessionUser}></CreateGroup>
-        </Route>
-      </Switch>}
+
       {isLoaded && <Switch>
         <Route exact path="/">
           <LandingPage />
@@ -37,7 +33,9 @@ function App() {
         <Route exact path="/groups">
           <GetAllGroups />
         </Route>
-
+        <Route exact path="/groups/new">
+          < CreateGroup sessionUser={sessionUser}></CreateGroup>
+        </Route>
         <Route exact path="/groups/:groupId">
           <GetAllGroupDetails sessionUser={sessionUser}></GetAllGroupDetails>
         </Route>

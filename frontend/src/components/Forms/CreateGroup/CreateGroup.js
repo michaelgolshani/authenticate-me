@@ -95,25 +95,25 @@ export default function CreateGroup({ update, sessionUser }) {
     console.log("SEPERATE LOCATION BY COMMA", seperateCommaLoc)
 
     const seperatedCity = seperateCommaLoc[0]
-    const seperatedState= seperateCommaLoc[1]
+    const seperatedState = seperateCommaLoc[1]
     console.log("SEPERATE CITY FROM USER INPUT", seperatedCity)
     console.log("SEPERATE STATE FROM USER INPUT", seperatedState)
 
 
- //We need to handle "Person" and "Online" choice. So we will convert the choice to a boolean of true or false
- const convertToBoolean = (input) => {
-  if (input === "Private") {
-    return true
-  } else {
-    return false
-  }
-}
+    //We need to handle "Person" and "Online" choice. So we will convert the choice to a boolean of true or false
+    const convertToBoolean = (input) => {
+      if (input === "Private") {
+        return true
+      } else {
+        return false
+      }
+    }
 
     //-------------------------------------------------------------------------------------------
 
 
 
-    
+
     const groupInfo = {
       city: seperatedCity,
       state: seperatedState,
@@ -126,13 +126,13 @@ export default function CreateGroup({ update, sessionUser }) {
 
 
 
-    let createGroup;
+    let createdGroup;
 
-    createGroup = dispatch(createGroupThunk(groupInfo));
+    createdGroup = dispatch(createGroupThunk(groupInfo));
 
 
     console.log("GROUP INFO", groupInfo);
-    console.log(createGroup)
+    console.log("CREATED GROUP", createdGroup)
 
 
 
@@ -144,7 +144,7 @@ export default function CreateGroup({ update, sessionUser }) {
     setImage("");
     setErrors({});
 
-
+    //history.push(`/groups/${createdGroup.id}`)
 
   };
 
