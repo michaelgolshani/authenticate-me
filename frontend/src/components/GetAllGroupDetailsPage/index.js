@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react';
 import { NavLink, useHistory, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-
 import { getAllGroupsThunk, getGroupDetailsThunk } from '../../store/groups';
 import './GetAllGroupDetails.css'
+import OpenModalButton from '../OpenModalButton';
+import DeleteGroupModal from '../DeleteGroupModal';
 
 
 
@@ -18,7 +19,7 @@ export default function GetAllGroupDetails({ sessionUser }) {
   useEffect(() => {
     // dispatch(getAllGroupsThunk())
     dispatch(getGroupDetailsThunk(groupId))
-  }, [dispatch, groupId])
+  }, [dispatch])
 
   const group = useSelector((state) => state.group.currentGroup)
 
@@ -62,17 +63,22 @@ export default function GetAllGroupDetails({ sessionUser }) {
             Organized by {group.Organizer.firstName} {group.Organizer.lastName}
           </p>
 
-          <button className="action-button">
+          <button className="group-details-button">
             Create event
           </button>
 
-          <button className="action-button"  onClick= {() => history.push(`/groups/${groupId}/edit`)}>
+          <button className="group-details-button" onClick={() => history.push(`/groups/${groupId}/edit`)}>
             Update
           </button>
 
-          <button className="action-button" >
-            Delete
-          </button>
+
+          <OpenModalButton
+            className="group-details-delete-button group-details-button"
+            buttonText="Delete"
+            modalComponent={<DeleteGroupModal groupId={groupId}></DeleteGroupModal>}
+          />
+
+
         </div>
 
       </div>

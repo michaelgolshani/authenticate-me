@@ -93,8 +93,8 @@ export default function CreateGroup({ sessionUser, updateGroup }) {
 
     if (image) {
       const fileExtension = image.split('.').pop().toLowerCase();
-      const validExtensions = ['jpg', 'png', 'jpeg'];
-      if (!validExtensions.includes(fileExtension)) {
+      const checkLast = ['jpg', 'png', 'jpeg'];
+      if (!checkLast.includes(fileExtension)) {
         errors.image = "Image URL needs to end in .png, .jpg or .jpeg";
       }
     }
