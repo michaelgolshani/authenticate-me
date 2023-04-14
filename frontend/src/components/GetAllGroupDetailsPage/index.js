@@ -55,7 +55,7 @@ export default function GetAllGroupDetails({ sessionUser }) {
 
 
 
-  const upcomingEvents = (eventsArr) => {
+  const newEvents = (eventsArr) => {
     return eventsArr.filter(event => {
       if (Date.parse(event.startDate) >= Date.now()) {
         return true
@@ -63,10 +63,19 @@ export default function GetAllGroupDetails({ sessionUser }) {
     })
   }
 
-  console.log("UPCOMING EVENTS", upcomingEvents(eventsArr))
+  console.log("NEW EVENTS", newEvents(eventsArr))
 
 
+  const upcomingEvents = newEvents(eventsArr)
+  console.log("UPCOMING EVENTS", upcomingEvents)
 
+  upcomingEvents.sort((a, b) => Date.parse(a.startDate) - Date.parse(b.startDate));
+
+
+  const pastEvents = eventsArr.filter(event => !upcomingEvents.includes(event));
+  pastEvents.sort((a, b) => Date.parse(b.startDate) - Date.parse(a.startDate));
+
+  console.log("PAST EVENTS", pastEvents)
 
 
   //if clicked, go to event details
@@ -80,11 +89,11 @@ export default function GetAllGroupDetails({ sessionUser }) {
 
   return (
     <div className='get-all-group-details-container'>
-      <NavLink to='/groups' className="groups-link" >
+      <NavLink to='/groups' className="group-details-groups-link" >
         Groups
       </NavLink>
-      <div className="group-image">
-        <img src={group.GroupImages[0]?.url} alt="group image" className='group-image' />
+      <div className="group-details-group-image">
+        <img src={group.GroupImages[0]?.url} alt="group image" className='group-details-group-image' />
         {/* {group.GroupImages.map((image, index) => {
           if (image.preview === true) {
             return <img src={image.url} alt={`group image ${index}`} key={index} />;
@@ -93,8 +102,8 @@ export default function GetAllGroupDetails({ sessionUser }) {
         })} */}
       </div>
       <div className="group-details-wrapper">
-        <h2 className="group-name">{group.name}</h2>
-        <div className="group-info">
+        <h2 className="group-details-group-name">{group.name}</h2>
+        <div className="group-details-group-info">
           <p>
             {group.city}, {group.state}
           </p>
@@ -125,22 +134,101 @@ export default function GetAllGroupDetails({ sessionUser }) {
 
       </div>
 
-      <div className="organizer-details">
-        <h3 className="organizer">Organizer</h3>
-        <p className="organizer-name">
+      <div className="group-details-organizer-details">
+        <h3 className="group-details-organizer">Organizer</h3>
+        <p className="group-details-organizer-name">
           {group.Organizer.firstName} {group.Organizer.lastName}
         </p>
       </div>
 
-      <div className="about-section">
-        <h3 className="about-header">What we're about</h3>
-        <p className="about-info">{group.about}</p>
+      <div className="group-details-about-section">
+        <h3 className="group-details-about-header">What we're about</h3>
+        <p className="group-details-about-info">{group.about}</p>
       </div>
 
 
-      <h2 className="events-header">
-        Upcoming Events
+
+      {upcomingEvents.length > 0 && (
+        <>
+      <h2 className="group-details-events-header">
+        Upcoming Events {`(${upcomingEvents.length})`}
       </h2>
+      <div onClick={eventDetails}>
+        {upcomingEvents.map(event => (
+          <div key={event.id} className="group-details-event-container">
+            <div className="group-details event-image">
+
+            </div>
+            <div className="group-details-event-details">
+
+              <div className="group-details-event-date-time">
+                <p>{new Date(event.startDate).toISOString().slice(0, 10)} • {event.startDate.slice(11, 16)}</p>
+
+              </div>
+              <div className="group-details-event-name">
+                <h3>{event.name}</h3>
+
+              </div>
+              <div className="group-details-event-location">
+                <p>{event.location}</p>
+
+              </div>
+
+              <div className="group-details-event-about">
+                <p>{event.description}</p>
+
+              </div>
+            </div>
+          </div>
+        ))}
+
+      </div>
+      </>
+      )}
+
+
+      {pastEvents.length > 0 && (
+        <>
+          <h2 className="group-details-events-header">
+            Past Events {`(${pastEvents.length})`}
+          </h2>
+          <div onClick={eventDetails}>
+            {pastEvents.map(event => (
+              <div key={event.id} className="group-details-event-container">
+                <div className="group-details event-image">
+
+                </div>
+                <div className="group-details-event-details">
+
+                  <div className="group-details-event-date-time">
+                    <p>{new Date(event.startDate).toISOString().slice(0, 10)} • {event.startDate.slice(11, 16)}</p>
+
+                  </div>
+                  <div className="group-details-event-name">
+                    <h3>{event.name}</h3>
+
+                  </div>
+                  <div className="group-details-event-location">
+                    <p>{event.location}</p>
+
+                  </div>
+
+                  <div className="group-details-event-about">
+                    <p>{event.description}</p>
+
+                  </div>
+                </div>
+              </div>
+            ))}
+
+          </div>
+        </>
+      )}
+
+
+      <div>
+
+      </div>
 
 
     </div>

@@ -24,7 +24,7 @@
   cursor: pointer;
 } */
 
-.group-image {
+.group-details-group-image {
   width: 500px;
   height: 300px;
   border-radius: 10px;
@@ -33,7 +33,7 @@
 }
 
 
-.groups-link {
+.group-details-groups-link {
   margin-left: 110px;
 
 }

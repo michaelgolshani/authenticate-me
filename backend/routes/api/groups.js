@@ -1,7 +1,7 @@
 const express = require('express');
 
 const { setTokenCookie, requireAuth } = require('../../utils/auth');
-const { Group, GroupImage, Venue, User, Membership, Event,Attendance, EventImage } = require('../../db/models');
+const { Group, GroupImage, Venue, User, Membership, Event, Attendance, EventImage } = require('../../db/models');
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 const { Op } = require('sequelize');
@@ -506,7 +506,7 @@ router.post('/:groupId/venues', validateVenueGroup, requireAuth, async (req, res
     }
   });
 
-  if(!group) {
+  if (!group) {
     return res.status(404).json({
       message: "Group couldn't be found"
     })
@@ -823,6 +823,7 @@ router.get('/:groupId/events', requireAuth, async (req, res, next) => {
       'venueId',
       'name',
       'type',
+      'description', // edited for frontend
       'startDate',
       'endDate',
     ],
@@ -849,7 +850,7 @@ router.get('/:groupId/events', requireAuth, async (req, res, next) => {
     delete event.Attendances
 
 
-   // console.log(event.EventImages)
+    // console.log(event.EventImages)
 
     if (event.EventImages.length > 0) {
       for (let i = 0; i < event.EventImages.length; i++) {
@@ -861,12 +862,12 @@ router.get('/:groupId/events', requireAuth, async (req, res, next) => {
       }
       if (!event.previewImage) {
         event.previewImage = "No event image for this group"
-        preview= event.previewImage
+        preview = event.previewImage
       }
 
     } else {
       event.previewImage = "No event image for this group"
-      preview= event.previewImage
+      preview = event.previewImage
     }
 
     delete event.EventImages
@@ -886,6 +887,7 @@ router.get('/:groupId/events', requireAuth, async (req, res, next) => {
       venueId: event.venueId,
       name: event.name,
       type: event.type,
+      description: event.description, //EDITED for frontend
       startDate: event.startDate,
       endDate: event.endDate,
       numAttending: event.Attendances.length,

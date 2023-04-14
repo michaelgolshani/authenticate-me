@@ -7,6 +7,8 @@ import { csrfFetch } from './csrf';
 
 const GET_GROUP_EVENTS = '/events/getGroupEvents'
 
+const CREATE_EVENT ='/event/new'
+
 
 
 

@@ -42,6 +42,9 @@ function App() {
         <Route exact path="/groups/:groupId">
           <GetAllGroupDetails sessionUser={sessionUser}></GetAllGroupDetails>
         </Route>
+        <Route exact path='/events/:eventId'>
+          <GetAllEventDetails></GetAllEventDetails>
+        </Route>
 
       </Switch>}
     </>
