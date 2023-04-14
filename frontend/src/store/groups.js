@@ -1,4 +1,4 @@
-import { csrfFetch } from './csrf';
+import { csrfFetch } from "./csrf";
 
 //Action Types -------------------------------------------
 
@@ -9,7 +9,7 @@ const UPDATE_GROUP = '/groups/edit'
 const DELETE_GROUP = '/groups/delete'
 const ADD_GROUP_IMAGE = '/groups/image'
 const UPDATE_GROUP_IMAGE = '/groups/image/edit'
-const GET_GROUP_EVENTS = '/groups/getGroupEvents'
+
 
 
 // Action Creators ----------------------------------------
@@ -64,12 +64,7 @@ const UpdateGroupImage = (image) => {
   }
 }
 
-const GetGroupEvents = (events) => {
-  return {
-    type: GET_GROUP_EVENTS,
-    events
-  }
-}
+
 
 // Group THUNKS ----------------------------------------------------
 
@@ -197,14 +192,7 @@ export const updateGroupImageThunk = (imageId, image) => async (dispatch) => {
 }
 
 
-export const getGroupEventsThunk = (groupId) => async (dispatch) => {
-  const response  = await fetch(`/api/groups/${groupId}/events`);
-  if (response.ok) {
-    const data = await response.json()
-    dispatch(GetGroupEvents(data))
-    return data
-  }
-}
+
 
 
 // Group Reducer -------------------------------------------------------
@@ -292,12 +280,7 @@ const groupReducer = (state = initialState, action) => {
       })
       return newState
 
-    case GET_GROUP_EVENTS:
-      newState ={...state, allEvents: {}};
 
-    console.log("GROUP ACTION EVENTS REDUCER", action.events)
-        action.events.Events.forEach((event) => (newState.allEvents[event.id] = event))
-        return newState;
 
     default:
       return state

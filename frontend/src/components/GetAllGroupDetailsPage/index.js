@@ -2,6 +2,8 @@ import React, { useEffect } from 'react';
 import { NavLink, useHistory, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllGroupsThunk, getGroupDetailsThunk } from '../../store/groups';
+import { getGroupEventsThunk } from '../../store/events';
+
 import './GetAllGroupDetails.css'
 import OpenModalButton from '../OpenModalButton';
 import DeleteGroupModal from '../DeleteGroupModal';
@@ -19,11 +21,14 @@ export default function GetAllGroupDetails({ sessionUser }) {
   useEffect(() => {
     // dispatch(getAllGroupsThunk())
     dispatch(getGroupDetailsThunk(groupId))
+    dispatch(getGroupEventsThunk(groupId))
   }, [dispatch])
 
   const group = useSelector((state) => state.group.currentGroup)
-  const events = useSelector((state) => Object.values(state.group.allEvents))
+  const events = useSelector((state) => state.event)
+  const eventsArr = useSelector((state) => Object.values(state.event.allEvents))
   console.log("GET GROUP DETAIL EVENTS STATE", events)
+  console.log("GET GROUP DETAIL ALL EVENTS ARR STATE", eventsArr)
 
   if (!group.id) {
     return null;
@@ -50,15 +55,18 @@ export default function GetAllGroupDetails({ sessionUser }) {
 
 
 
-  const upcomingEvents = (events) => {
-    return events.filter(event => {
+  const upcomingEvents = (eventsArr) => {
+    return eventsArr.filter(event => {
       if (Date.parse(event.startDate) >= Date.now()) {
         return true
       }
     })
   }
 
-  console.log("UPCOMING EVENTS", upcomingEvents(events))
+  console.log("UPCOMING EVENTS", upcomingEvents(eventsArr))
+
+
+
 
 
   //if clicked, go to event details

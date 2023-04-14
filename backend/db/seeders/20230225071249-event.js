@@ -19,8 +19,8 @@ module.exports = {
           type: 'In person',
           capacity: 50,
           price: 20,
-          startDate: new Date('2023-03-01T12:00:00Z'),
-          endDate: new Date('2023-03-01T14:00:00Z'),
+          startDate: new Date('2023-06-01T12:00:00Z'),
+          endDate: new Date('2023-06-01T14:00:00Z'),
           createdAt: new Date(),
           updatedAt: new Date()
         },
@@ -45,11 +45,37 @@ module.exports = {
           type: 'In Person',
           capacity: 30,
           price: 15,
-          startDate: new Date('2023-03-03T15:00:00Z'),
-          endDate: new Date('2023-03-03T17:00:00Z'),
+          startDate: new Date('2023-06-03T15:00:00Z'),
+          endDate: new Date('2023-06-03T17:00:00Z'),
           createdAt: new Date(),
           updatedAt: new Date()
-        }
+        },
+        {
+          venueId: 1,
+          groupId: 1,
+          name: 'Basketball Scrimmage',
+          description: 'Join us for a casual basketball scrimmage at the park. All skill levels are welcome!',
+          type: 'In person',
+          capacity: 20,
+          price: 0,
+          startDate: new Date('2023-06-03T14:00:00Z'),
+          endDate: new Date('2023-06-03T16:00:00Z'),
+          createdAt: new Date(),
+          updatedAt: new Date()
+        },
+        {
+          venueId: 1,
+          groupId: 1,
+          name: '3-Point Shootout',
+          description: 'Test your shooting skills in our 3-point shootout contest. Bring your A-game and compete for the title of the best shooter!',
+          type: 'In person',
+          capacity: 20,
+          price: 5,
+          startDate: new Date('2023-02-15T10:00:00Z'),
+          endDate: new Date('2023-02-15T12:00:00Z'),
+          createdAt: new Date(),
+          updatedAt: new Date()
+        },
       ],
       {}
     );
@@ -61,7 +87,7 @@ module.exports = {
     return queryInterface.bulkDelete(
       options,
       {
-        name: { [Op.in]: ['3 Vs 3 Basketball Tourney', 'FIFA Live Tournament', 'Salsa Time!'] }
+        name: { [Op.in]: ['3 Vs 3 Basketball Tourney', 'Basketball Scrimmage', '3-Point Shootout', 'FIFA Live Tournament', 'Salsa Time!'] }
       },
       {});
   }

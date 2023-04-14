@@ -40,7 +40,9 @@ module.exports = {
           eventId: 2,
           userId: 3,
           status: 'attending'
-        }
+        },
+        
+
       ],
       {}
     );
