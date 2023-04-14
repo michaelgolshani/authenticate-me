@@ -53,7 +53,7 @@ function SignupFormModal() {
           <input
             type="text"
             value={firstName}
-            placeholder="First Name"
+
             onChange={(e) => setFirstName(e.target.value)}
             required
           />
@@ -65,7 +65,7 @@ function SignupFormModal() {
           <input
             type="text"
             value={lastName}
-            placeholder="Last Name"
+
             onChange={(e) => setLastName(e.target.value)}
             required
           />
@@ -77,7 +77,7 @@ function SignupFormModal() {
           <input
             type="text"
             value={email}
-            placeholder="Email"
+
             onChange={(e) => setEmail(e.target.value)}
             required
           />
@@ -88,7 +88,7 @@ function SignupFormModal() {
           <input
             type="text"
             value={username}
-            placeholder="Username"
+
             onChange={(e) => setUsername(e.target.value)}
             required
           />
@@ -100,7 +100,7 @@ function SignupFormModal() {
           Password
           <input
             type="password"
-            placeholder="Password"
+
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
@@ -111,7 +111,7 @@ function SignupFormModal() {
           Confirm Password
           <input
             type="password"
-            placeholder="Confirm Password"
+          
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
             required

@@ -48,10 +48,10 @@
   background-color: #f8f8f8;
 }
 
-.thumbnail {
+.group-list-thumbnail {
   width: 300px;
   height: 200px;
-
+border-radius: 10px;
   background-color: #bbb;
   margin-right: 10px;
 }

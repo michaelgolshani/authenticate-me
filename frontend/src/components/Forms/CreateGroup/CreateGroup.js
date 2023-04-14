@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useLayoutEffect, useMemo } from "react"
 import { useHistory, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { createGroupThunk, updateGroupThunk, getGroupDetailsThunk } from "../../../store/groups";
+import { createGroupThunk, updateGroupThunk, getGroupDetailsThunk, addGroupImageThunk, updateGroupImageThunk } from "../../../store/groups";
 import './CreateGroup.css';
 
 export default function CreateGroup({ sessionUser, updateGroup }) {
@@ -147,8 +147,12 @@ export default function CreateGroup({ sessionUser, updateGroup }) {
       about,
       type,
       private: convertToBoolean(isPrivate),
-      url: image
+
     };
+
+    const addImage = { url: image, preview: true }
+
+
 
     console.log("GROUP INFO", groupInfo);
 
@@ -161,11 +165,18 @@ export default function CreateGroup({ sessionUser, updateGroup }) {
 
     if (updateGroup) {
       const editedGroup = await dispatch(updateGroupThunk(groupInfo, oldGroup.id))
+      console.log("CURRENT GROUP CHECK IMAGE", currentGroup)
+      if (currentGroup.GroupImages) {
+        console.log("EDITED GROUP CHECK", editedGroup)
+        await dispatch(updateGroupImageThunk(currentGroup.GroupImages[0].id, addImage))
+      }
+
       console.log("EDITED GROUP HISTORY PUSH", editedGroup)
       history.push(`/groups/${oldGroup.id}`)
 
     } else if (!updateGroup) {
       const createGroup = await dispatch(createGroupThunk(groupInfo));
+      await dispatch(addGroupImageThunk(createGroup.id, addImage))
       console.log("CREATE GROUP HISTORY PUSH", createGroup)
       history.push(`/groups/${createGroup.id}`)
     }

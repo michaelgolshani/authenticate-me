@@ -4,7 +4,7 @@ import { NavLink, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import './SeeAllGroupsPage.css'
 
-import { getAllGroupsThunk } from '../../store/groups';
+import { getAllGroupsThunk, addGroupImageThunk } from '../../store/groups';
 
 export default function GetAllGroups() {
   const dispatch = useDispatch()
@@ -13,6 +13,8 @@ export default function GetAllGroups() {
 
   useEffect(() => {
     dispatch(getAllGroupsThunk())
+
+    
   }, [dispatch])
 
   const groupSelector = useSelector((state) => state.group.allGroups)
@@ -20,6 +22,7 @@ export default function GetAllGroups() {
   const groups = Object.values(groupSelector)
 
 
+  console.log("GET ALL GROUPS", groups)
 
 
   const handleGroupClick = (groupId) => {
@@ -44,7 +47,9 @@ export default function GetAllGroups() {
       {groups.map((group) => (
         <div key={group.id} className="group-list-item" onClick={() => handleGroupClick(group.id)}>
 
-          <div className="thumbnail"></div>
+          <div className="group-list-thumbnail">
+            <img src={group.previewImage} className='group-list-thumbnail group-list-photo' />
+          </div>
 
           <div className="group-info">
 

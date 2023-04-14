@@ -7,6 +7,9 @@ const GET_GROUP_DETAILS = '/groups/:groupId';
 const CREATE_GROUP = '/groups/new';
 const UPDATE_GROUP = '/groups/edit'
 const DELETE_GROUP = '/groups/delete'
+const ADD_GROUP_IMAGE = '/groups/image'
+const UPDATE_GROUP_IMAGE = '/groups/image/edit'
+
 
 
 // Action Creators ----------------------------------------
@@ -44,6 +47,20 @@ const DeleteGroup = (groupId) => {
   return {
     type: DELETE_GROUP,
     groupId: groupId
+  }
+}
+
+const AddGroupImage = (image) => {
+  return {
+    type: ADD_GROUP_IMAGE,
+    image
+  }
+}
+
+const UpdateGroupImage = (image) => {
+  return{
+    type: UPDATE_GROUP_IMAGE,
+    image
   }
 }
 
@@ -119,28 +136,57 @@ export const updateGroupThunk = (group, groupId) => async (dispatch) => {
 
 export const deleteGroupThunk = (groupId) => async (dispatch) => {
 
-    console.log("DELETE GROUP THUNK GROUPID", groupId)
+  console.log("DELETE GROUP THUNK GROUPID", groupId)
 
 
-    const response = await csrfFetch(`/api/groups/${groupId}`, {
-      method: "DELETE",
-      headers: {'Content-Type': 'Application/json'},
-      body: null
-    });
+  const response = await csrfFetch(`/api/groups/${groupId}`, {
+    method: "DELETE",
+    headers: { 'Content-Type': 'Application/json' },
+    body: null
+  });
 
-    console.log("DELETE GROUP THUNK RESPONSE", response)
+  console.log("DELETE GROUP THUNK RESPONSE", response)
 
-    console.log("DELETE GROUP THUNK GROUPID", groupId)
-
-
-    if (response.ok) {
-      const data = await response.json();
-      console.log("DELETE GROUP THUNK DATA", data)
+  console.log("DELETE GROUP THUNK GROUPID", groupId)
 
 
-      dispatch(DeleteGroup(groupId));
-      return data;
-    }
+  if (response.ok) {
+    const data = await response.json();
+    console.log("DELETE GROUP THUNK DATA", data)
+
+
+    dispatch(DeleteGroup(groupId));
+    return data;
+  }
+}
+
+
+export const addGroupImageThunk = (groupId, image) => async (dispatch) => {
+  const response = await csrfFetch(`/api/groups/${groupId}/images`, {
+    method: "POST",
+    headers: { "Content-Type": "Application/json" },
+    body: JSON.stringify(image)
+  })
+
+  if (response.ok) {
+    const data = await response.json()
+    return data
+  }
+}
+
+
+export const updateGroupImageThunk = (imageId, image) => async (dispatch) => {
+  const response = csrfFetch(`/api/group-images/${imageId}`, {
+    method: "PUT",
+    headers:  {"Content-Type": "Application/json" },
+    body: JSON.stringify(image)
+  })
+
+  if (response.ok) {
+    const data = (await response).json()
+    dispatch(UpdateGroupImage(data))
+    return data
+  }
 }
 
 
@@ -212,6 +258,21 @@ const groupReducer = (state = initialState, action) => {
 
       return newState;
 
+    case ADD_GROUP_IMAGE:
+      newState = { ...state }
+      console.log("GROUP IMAGE REDUCER" , state.singleGroup.GroupImages)
+      newState.singleGroup.GroupImages = [action.image, ...state.singleGroup.GroupImages]
+      return newState;
+
+    case UPDATE_GROUP_IMAGE:
+      newState = {...state}
+      newState.singleGroup.GroupImages = [...state.singleGroup.GroupImages]
+      newState.singleGroup.GroupImages.forEach(image => {
+          if (image.id === action.image.id) {
+            image.url = action.image.url
+          }
+      })
+      return newState
 
     default:
       return state
