@@ -8,13 +8,20 @@ export default function GetAllEventDetails({sessionUser}) {
 
   const dispatch = useDispatch()
   const history = useHistory()
-  let {groupId} = useParams()
 
-  groupdId = parseInt(groupId)
+
+  // groupdId = parseInt(groupId)
   console.log(groupId)
 
+  const event = useSelector((state) => state.events.singleEvent);
+  const eventsGroup = useSelector((state) => state.groups.singleGroup);
+  const groupId = event.groupId;
 
 
+
+  useEffect(() => {
+    dispatch(getEventDetails(eventId));
+}, [dispatch]);
 
 
 

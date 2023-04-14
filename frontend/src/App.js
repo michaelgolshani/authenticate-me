@@ -10,7 +10,7 @@ import GetAllGroupDetails from "./components/GetAllGroupDetailsPage";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import CreateGroup from "./components/Forms/CreateGroup/CreateGroup";
-
+import GetAllEventDetails from "./components/GetAllEventDetailsPage";
 
 function App() {
   const dispatch = useDispatch();
