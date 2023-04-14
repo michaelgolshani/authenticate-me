@@ -165,11 +165,15 @@ export default function CreateGroup({ sessionUser, updateGroup }) {
 
     if (updateGroup) {
       const editedGroup = await dispatch(updateGroupThunk(groupInfo, oldGroup.id))
-      console.log("CURRENT GROUP CHECK IMAGE", currentGroup)
-      if (currentGroup.GroupImages) {
-        console.log("EDITED GROUP CHECK", editedGroup)
-        await dispatch(updateGroupImageThunk(currentGroup.GroupImages[0].id, addImage))
+      // console.log("CURRENT GROUP CHECK IMAGE", currentGroup)
+
+      if (image) {
+        await dispatch(updateGroupImageThunk(editedGroup.id, addImage))
       }
+      // if (currentGroup.GroupImages) {
+      //   console.log("EDITED GROUP CHECK", editedGroup)
+      //   await dispatch(updateGroupImageThunk(currentGroup.GroupImages[0].id, addImage))
+      // }
 
       console.log("EDITED GROUP HISTORY PUSH", editedGroup)
       history.push(`/groups/${oldGroup.id}`)

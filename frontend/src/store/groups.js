@@ -9,7 +9,7 @@ const UPDATE_GROUP = '/groups/edit'
 const DELETE_GROUP = '/groups/delete'
 const ADD_GROUP_IMAGE = '/groups/image'
 const UPDATE_GROUP_IMAGE = '/groups/image/edit'
-
+const GET_GROUP_EVENTS = '/groups/getGroupEvents'
 
 
 // Action Creators ----------------------------------------
@@ -61,6 +61,13 @@ const UpdateGroupImage = (image) => {
   return{
     type: UPDATE_GROUP_IMAGE,
     image
+  }
+}
+
+const GetGroupEvents = (events) => {
+  return {
+    type: GET_GROUP_EVENTS,
+    events
   }
 }
 
@@ -190,6 +197,15 @@ export const updateGroupImageThunk = (imageId, image) => async (dispatch) => {
 }
 
 
+export const getGroupEventsThunk = (groupId) => async (dispatch) => {
+  const response  = await fetch(`/api/groups/${groupId}/events`);
+  if (response.ok) {
+    const data = await response.json()
+    dispatch(GetGroupEvents(data))
+    return data
+  }
+}
+
 
 // Group Reducer -------------------------------------------------------
 
@@ -201,6 +217,7 @@ const initialState = {
     Organizer: {},
     Venues: [],
   },
+  allEvents: {}
 }
 
 const groupReducer = (state = initialState, action) => {
@@ -267,12 +284,20 @@ const groupReducer = (state = initialState, action) => {
     case UPDATE_GROUP_IMAGE:
       newState = {...state}
       newState.singleGroup.GroupImages = [...state.singleGroup.GroupImages]
+      console.log("NEW STATE GROUP IMAGES ARRAY", newState.singleGroup.GroupImages)
       newState.singleGroup.GroupImages.forEach(image => {
           if (image.id === action.image.id) {
             image.url = action.image.url
           }
       })
       return newState
+
+    case GET_GROUP_EVENTS:
+      newState ={...state, allEvents: {}};
+
+    console.log("GROUP ACTION EVENTS REDUCER", action.events)
+        action.events.Events.forEach((event) => (newState.allEvents[event.id] = event))
+        return newState;
 
     default:
       return state

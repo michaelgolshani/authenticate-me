@@ -1,9 +1,10 @@
-/* .container {
-  max-width: 800px;
+.get-all-group-details-container {
+  max-width: 1024px;
+  display: flexbox;
   margin: 0 auto;
   font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", Segoe UI Symbol, "Noto Color Emoji";
 
-} */
+}
 
 
 /* .group-details {
@@ -23,3 +24,16 @@
   cursor: pointer;
 } */
 
+.group-image {
+  width: 500px;
+  height: 300px;
+  border-radius: 10px;
+  margin-left: 20px
+
+}
+
+
+.groups-link {
+  margin-left: 110px;
+
+}

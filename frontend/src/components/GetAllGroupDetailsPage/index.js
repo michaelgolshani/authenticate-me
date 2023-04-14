@@ -22,6 +22,8 @@ export default function GetAllGroupDetails({ sessionUser }) {
   }, [dispatch])
 
   const group = useSelector((state) => state.group.currentGroup)
+  const events = useSelector((state) => Object.values(state.group.allEvents))
+  console.log("GET GROUP DETAIL EVENTS STATE", events)
 
   if (!group.id) {
     return null;
@@ -41,15 +43,47 @@ export default function GetAllGroupDetails({ sessionUser }) {
   //   return dateA - dateB;
   // });
 
+
+  // GET ALL EVENTS
+
+
+
+
+
+  const upcomingEvents = (events) => {
+    return events.filter(event => {
+      if (Date.parse(event.startDate) >= Date.now()) {
+        return true
+      }
+    })
+  }
+
+  console.log("UPCOMING EVENTS", upcomingEvents(events))
+
+
+  //if clicked, go to event details
+  const eventDetails = (event) => {
+    return history.replace(`/events/${event.id}`)
+  }
+
+
+
+
+
   return (
-    <div>
+    <div className='get-all-group-details-container'>
       <NavLink to='/groups' className="groups-link" >
         Groups
       </NavLink>
       <div className="group-image">
-        <img src={group.GroupImages[0]?.url} alt="group image" />
+        <img src={group.GroupImages[0]?.url} alt="group image" className='group-image' />
+        {/* {group.GroupImages.map((image, index) => {
+          if (image.preview === true) {
+            return <img src={image.url} alt={`group image ${index}`} key={index} />;
+          }
+          return null;
+        })} */}
       </div>
-
       <div className="group-details-wrapper">
         <h2 className="group-name">{group.name}</h2>
         <div className="group-info">

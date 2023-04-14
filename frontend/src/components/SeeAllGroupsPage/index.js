@@ -14,7 +14,7 @@ export default function GetAllGroups() {
   useEffect(() => {
     dispatch(getAllGroupsThunk())
 
-    
+
   }, [dispatch])
 
   const groupSelector = useSelector((state) => state.group.allGroups)
@@ -66,7 +66,7 @@ export default function GetAllGroups() {
             </div>
 
             <div className="group-events-private">
-              events · {group.private === 'public' ? 'Public' : 'Private'}
+              events · {group.private === false ? 'Public' : 'Private'}
             </div>
 
           </div>
