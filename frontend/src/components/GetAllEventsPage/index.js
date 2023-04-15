@@ -24,7 +24,27 @@ export default function GetAllEvents() {
   }, [dispatch])
 
 
-  const putEventsinOrder = events.sort((a, b) => Date.parse(b.startDate) - Date.parse(a.startDate));
+
+  const newEvents = (events) => {
+    return events.filter(event => {
+      if (Date.parse(event.startDate) >= Date.now()) {
+        return true
+      }
+    })
+  }
+
+  const upcomingEvents = newEvents(events)
+  console.log("UPCOMING EVENTS", upcomingEvents)
+
+  upcomingEvents.sort((a, b) => Date.parse(a.startDate) - Date.parse(b.startDate));
+
+
+  const pastEvents = events.filter(event => !upcomingEvents.includes(event));
+  pastEvents.sort((a, b) => Date.parse(b.startDate) - Date.parse(a.startDate));
+
+  console.log("PAST EVENTS", pastEvents)
+
+
 
 
 
@@ -43,7 +63,37 @@ export default function GetAllEvents() {
         </NavLink>
       </div>
       <div className="events-list-caption">Events in Meetup</div>
-      {events.map((event) => (
+      {upcomingEvents.map((event) => (
+
+        <div key={event.id} className="events-list-item" onClick={() => handleEventClick(event.id)}>
+
+          <div className="events-list-thumbnail">
+            <img src={event.previewImage} className='events-list-thumbnail events-list-photo' />
+          </div>
+
+          <div className="events-list-info">
+
+            <div className="events-list-date-time">
+              <p className="events-list-date-time">{new Date(event.startDate).toISOString().slice(0, 10)} • {event.startDate.slice(11, 16)}</p>
+
+            </div>
+
+            <div className="events-name">
+              {event.name}
+            </div>
+
+            <div className="events-location">
+              {event.Group.city}, {event.Group.state}
+            </div>
+            <div className="events-description">
+              {event.description}
+            </div>
+          </div>
+        </div>
+      ))}
+
+
+      {pastEvents.map((event) => (
 
         <div key={event.id} className="events-list-item" onClick={() => handleEventClick(event.id)}>
 
