@@ -7,7 +7,9 @@ import { csrfFetch } from './csrf';
 
 const GET_GROUP_EVENTS = '/events/getGroupEvents'
 
-const CREATE_EVENT ='/event/new'
+const CREATE_EVENT ='/events/new'
+const GET_ALL_EVENTS = '/events/getAllEvents'
+
 
 
 
@@ -28,6 +30,12 @@ const GetGroupEvents = (events) => {
 }
 
 
+const GetAllEvents = (events) => {
+  return {
+    type: GET_ALL_EVENTS,
+    events
+  }
+}
 
 
 
@@ -43,6 +51,14 @@ export const getGroupEventsThunk = (groupId) => async (dispatch) => {
   }
 }
 
+export const getAllEventsThunk = () => async (dispatch) => {
+  const response = await fetch(`/api/events/`)
+  if(response.ok) {
+    const data = await response.json()
+    dispatch(GetAllEvents(data))
+    return data
+  }
+}
 
 
 
@@ -87,6 +103,15 @@ const eventReducer = (state = initialState, action) => {
       console.log("GROUP ACTION EVENTS REDUCER", action.events)
       action.events.Events.forEach((event) => (newState.allEvents[event.id] = event))
       return newState;
+
+    case GET_ALL_EVENTS:
+    newState = {...state, allEvents:{}}
+
+    console.log("ACTION EVENTS", action.events.Events)
+
+    action.events.Events.forEach((event) => (newState.allEvents[event.id] = event))
+    
+    return newState;
 
     default:
       return state

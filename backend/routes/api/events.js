@@ -98,6 +98,7 @@ router.get("/", async (req, res, next) => {
       'id',
       'groupId',
       'venueId',
+      'description',
       'name',
       'type',
       'startDate',

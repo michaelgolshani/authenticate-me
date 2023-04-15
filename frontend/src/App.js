@@ -11,6 +11,7 @@ import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import CreateGroup from "./components/Forms/CreateGroup/CreateGroup";
 import GetAllEventDetails from "./components/GetAllEventDetailsPage";
+import GetAllEvents from "./components/GetAllEventsPage";
 
 function App() {
   const dispatch = useDispatch();
@@ -42,8 +43,11 @@ function App() {
         <Route exact path="/groups/:groupId">
           <GetAllGroupDetails sessionUser={sessionUser}></GetAllGroupDetails>
         </Route>
+        <Route exact path='/events'>
+          <GetAllEvents ></GetAllEvents>
+        </Route>
         <Route exact path='/events/:eventId'>
-          <GetAllEventDetails></GetAllEventDetails>
+          <GetAllEventDetails sessionUser={sessionUser}></GetAllEventDetails>
         </Route>
 
       </Switch>}
