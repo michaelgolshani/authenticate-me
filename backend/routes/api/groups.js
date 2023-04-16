@@ -771,8 +771,8 @@ router.post("/:groupId/events", validateEvent, requireAuth, async (req, res, nex
 
   res.status(200).json({
     id: eventId,
-    groupId: event.groupId,
-    venueId: event.venueId,
+    groupId: parseInt(event.groupId),
+    venueId: parseInt(event.venueId),
     name: event.name,
     type: event.type,
     capacity: event.capacity,

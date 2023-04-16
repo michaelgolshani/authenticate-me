@@ -12,6 +12,7 @@ import { useSelector } from "react-redux";
 import CreateGroup from "./components/Forms/CreateGroup/CreateGroup";
 import GetAllEventDetails from "./components/GetAllEventDetailsPage";
 import GetAllEvents from "./components/GetAllEventsPage";
+import CreateEvent from "./components/Forms/CreateGroup/CreateEvent";
 
 function App() {
   const dispatch = useDispatch();
@@ -48,6 +49,9 @@ function App() {
         </Route>
         <Route exact path='/events/:eventId'>
           <GetAllEventDetails sessionUser={sessionUser}></GetAllEventDetails>
+        </Route>
+        <Route exact path ='/events/new'>
+          <CreateEvent sessionUser={sessionUser}></CreateEvent>
         </Route>
 
       </Switch>}

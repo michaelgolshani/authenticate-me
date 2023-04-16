@@ -114,7 +114,7 @@ export default function GetAllGroupDetails({ sessionUser }) {
             Organized by {group.Organizer.firstName} {group.Organizer.lastName}
           </p>
 
-          <button className="group-details-button">
+          <button className="group-details-button" onClick={() => history.push(`/events/new`)}>
             Create event
           </button>
 
@@ -150,40 +150,40 @@ export default function GetAllGroupDetails({ sessionUser }) {
 
       {upcomingEvents.length > 0 && (
         <>
-      <h2 className="group-details-events-header">
-        Upcoming Events {`(${upcomingEvents.length})`}
-      </h2>
-      <div onClick={eventDetails}>
-        {upcomingEvents.map(event => (
-          <div key={event.id} className="group-details-event-container">
-            <div className="group-details event-image">
+          <h2 className="group-details-events-header">
+            Upcoming Events {`(${upcomingEvents.length})`}
+          </h2>
+          <div onClick={eventDetails}>
+            {upcomingEvents.map(event => (
+              <div key={event.id} className="group-details-event-container">
+                <div className="group-details event-image">
 
-            </div>
-            <div className="group-details-event-details">
+                </div>
+                <div className="group-details-event-details">
 
-              <div className="group-details-event-date-time">
-                <p>{new Date(event.startDate).toISOString().slice(0, 10)} • {event.startDate.slice(11, 16)}</p>
+                  <div className="group-details-event-date-time">
+                    <p>{new Date(event.startDate).toISOString().slice(0, 10)} • {event.startDate.slice(11, 16)}</p>
 
+                  </div>
+                  <div className="group-details-event-name">
+                    <h3>{event.name}</h3>
+
+                  </div>
+                  <div className="group-details-event-location">
+                    <p>{event.location}</p>
+
+                  </div>
+
+                  <div className="group-details-event-about">
+                    <p>{event.description}</p>
+
+                  </div>
+                </div>
               </div>
-              <div className="group-details-event-name">
-                <h3>{event.name}</h3>
+            ))}
 
-              </div>
-              <div className="group-details-event-location">
-                <p>{event.location}</p>
-
-              </div>
-
-              <div className="group-details-event-about">
-                <p>{event.description}</p>
-
-              </div>
-            </div>
           </div>
-        ))}
-
-      </div>
-      </>
+        </>
       )}
 
 
