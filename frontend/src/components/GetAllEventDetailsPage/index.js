@@ -6,7 +6,7 @@ import { getAllEventsThunk, getEventDetailsThunk } from '../../store/events';
 import OpenModalButton from '../OpenModalButton';
 import DeleteGroupModal from '../DeleteGroupModal';
 import { getGroupDetailsThunk } from '../../store/groups';
-
+import './GetAllEventDetailsPage.css'
 
 export default function GetAllEventDetails({ sessionUser }) {
   const dispatch = useDispatch();
@@ -24,6 +24,13 @@ export default function GetAllEventDetails({ sessionUser }) {
   groupId = parseInt(groupId)
 
 
+  useEffect(() => {
+    dispatch(getGroupDetailsThunk(groupId));
+    dispatch(getEventDetailsThunk(eventId));
+  }, [dispatch,groupId,eventId]);
+
+
+
   console.log("GROUP ID", groupId)
 
   const eventAssociatedGroup = useSelector((state) => state.group.currentGroup)
@@ -36,10 +43,6 @@ export default function GetAllEventDetails({ sessionUser }) {
 
 
 
-  useEffect(() => {
-    dispatch(getGroupDetailsThunk(groupId));
-    dispatch(getEventDetailsThunk(eventId));
-  }, [dispatch]);
 
 
 
@@ -47,31 +50,31 @@ export default function GetAllEventDetails({ sessionUser }) {
 
 
 
-  // if (!Object.keys(event).length) {
-  //   return null;
-  // }
+  if (!Object.keys(event).length) {
+    return null;
+  }
 
-  // if (!event.id) {
-  //   return null;
-  // }
+  if (!event.id) {
+    return null;
+  }
 
   return (
 
     <>
-    <div className="events-wrapper">
-        <div className="events-navigation">
+    <div className="event-details-wrapper">
+        <div className="events-top-header">
         <NavLink to="/events">Events</NavLink>
         <h1>{event.name}</h1>
         <h3>Hosted by {eventAssociatedGroup.Organizer.firstName} {eventAssociatedGroup.Organizer.lastName}</h3>
         </div>
-        <div className="event-container">
-            <div className="first-event-section">
-        <div className="event-image-container">
+        <div className="event-details-container">
+            <div className="event-details-section">
+        <div className="event-details-image-container">
         <img src={event.EventImages[0].url}></img>
         </div>
-        <div className="group-event-details">
-        <div className="group-details">
-            <div className="group-image-container-event">
+        <div className="event-details-group-details">
+        <div className="event-group-details">
+            <div className="event-details-group-image">
             <img src={eventAssociatedGroup.GroupImages[0].url}></img>
             </div>
             <div className="group-event-detail-public">
@@ -82,25 +85,25 @@ export default function GetAllEventDetails({ sessionUser }) {
         <div className="event-details-container">
             <div className="event-details">
 
-                <div className="section-one-event">
+                <div className="event-details-section-time-labels">
                     <div className="clock">🕒</div>
                     <div className="time">
                         <div>Start</div>
                         <div>End</div>
                     </div>
-                    <div className="start-end">
+                    <div className="event-details-start-end">
                         <div>{new Date(event.startDate).toDateString()} • {event.startDate.slice(11, 19)}</div>
                         <div>{new Date(event.endDate).toDateString()} • {event.endDate.slice(11,19)}</div>
                     </div>
                 </div>
 
-                <div className="section-two-event">
+                <div className="event-details-section-price">
                     <div className="dollar">💲</div>
                     <div className="price">${event.price > 0 ? event.price : " Free"}</div>
                 </div>
 
-                <div className="section-three-event">
-                    <div className="type-wrap">
+                <div className="event-details-section-type">
+                    <div className="event-details-type-wrap">
                     <div className="pin">📍</div>
                     <div className="type">{event.type}</div>
                     </div>
@@ -112,13 +115,17 @@ export default function GetAllEventDetails({ sessionUser }) {
         </div>
         </div>
         </div>
-        <div className="about-wrapper-event">
+        <div className="event-details-about">
         <h1>Details</h1>
         <p>{event.description}</p>
         </div>
         </div>
     </div>
    </>
+
+
+
+
 )
 
 

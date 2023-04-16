@@ -78,10 +78,12 @@ export const getAllGroupsThunk = () => async (dispatch) => {
 }
 
 export const getGroupDetailsThunk = (groupId) => async (dispatch) => {
-  const response = await csrfFetch(`/api/groups/${groupId}`);
+  const response = await fetch(`/api/groups/${groupId}`);
 
   if (response.ok) {
     const group = await response.json();
+
+    console.log("GET GROUP DETAILS THUNK GROUP DATA", group)
     dispatch(GetGroupDetailsAction(group));
     return group;
   }
@@ -199,7 +201,14 @@ export const updateGroupImageThunk = (imageId, image) => async (dispatch) => {
 
 const initialState = {
   allGroups: {},
-  currentGroup: {},
+  currentGroup: {
+
+    GroupImages: [],
+    Organizer: {
+
+    },
+    Venues: [],
+  },
   singleGroup: {
     GroupImages: [],
     Organizer: {},
@@ -222,7 +231,7 @@ const groupReducer = (state = initialState, action) => {
       return newState
 
     case GET_GROUP_DETAILS:
-      newState = { ...state, currentGroup: {} }
+      newState = { ...state }
 
       newState.currentGroup = { ...action.group }
 

@@ -49,7 +49,7 @@ export default function GetAllEvents() {
 
 
   const handleEventClick = (eventId) => {
-    return history.push(`/events/${eventId}`)
+    return history.replace(`/events/${eventId}`)
   };
 
   return (
