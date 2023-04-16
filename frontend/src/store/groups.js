@@ -226,6 +226,8 @@ const groupReducer = (state = initialState, action) => {
 
       newState.currentGroup = { ...action.group }
 
+      console.log("CHECKING GROUP DETAILS FOR EVENT DETAILS", newState.currentGroup)
+
       return newState
 
     case CREATE_GROUP:

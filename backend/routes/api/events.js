@@ -269,7 +269,8 @@ router.get("/:eventId", requireAuth, async (req, res, next) => {
       },
       {
         model: Attendance
-      }
+      },
+      
     ]
   })
 

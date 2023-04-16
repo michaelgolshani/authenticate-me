@@ -77,7 +77,13 @@
 }
 
 
-.events-list-date-time{
+.events-list-date-time {
   margin-bottom: 10px;
-  
+
+}
+
+.events-list-info {
+  /* display: flex;
+  flex-direction:column ;
+  flex-wrap: wrap; */
 }
