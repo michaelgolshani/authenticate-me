@@ -728,7 +728,7 @@ router.post("/:groupId/events", validateEvent, requireAuth, async (req, res, nex
 
   const { groupId } = req.params
   const { user } = req
-  const { venueId, name, type, capacity, price, description, startDate, endDate } = req.body
+  const { venueId, name, type, capacity, price, description, startDate, endDate, private } = req.body
 
 
 
@@ -765,6 +765,7 @@ router.post("/:groupId/events", validateEvent, requireAuth, async (req, res, nex
     description,
     startDate,
     endDate,
+    private,
   });
 
   const eventId = event.id
@@ -777,6 +778,7 @@ router.post("/:groupId/events", validateEvent, requireAuth, async (req, res, nex
     type: event.type,
     capacity: event.capacity,
     price: event.price,
+    private: event.private,
     description: event.description,
     startDate: event.startDate,
     endDate: event.endDate

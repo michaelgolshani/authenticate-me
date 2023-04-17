@@ -2,12 +2,24 @@
 
 .profile-dropdown {
   list-style-type: none;
+  position: relative;
+}
+
+.form-button-nav {
+
+  border: none;
+  background-color: transparent;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
 
 }
 
-/* .nav-drop-down-item{
+.nav-drop-down-item{
   list-style-type: none;
-} */
+  width: 100%;
+  height: 100%;
+}
 
 .s1-joinvibe-logo {
   border-radius: 50px;
@@ -35,7 +47,7 @@ width: 150px;
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  padding: 10px;
+  padding: 0px;
   margin: 0;
 }
 
@@ -60,7 +72,10 @@ width: 150px;
 
 .nav-button {
   padding: 0px 12px;
-  width: 70px
+  width: 70px;
+
+
+
 }
 
 

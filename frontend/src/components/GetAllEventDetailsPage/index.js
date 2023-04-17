@@ -29,7 +29,6 @@ export default function GetAllEventDetails({ sessionUser }) {
 
 
 
-
   let groupId = event ? event.groupId : null;
 
   console.log("GROUP ID", groupId)
@@ -64,11 +63,20 @@ export default function GetAllEventDetails({ sessionUser }) {
 
   }
 
-
+console.log("EVENT IMAGES FROM GROUP DETIALS PAGE", event)
 
   if (!eventAssociatedGroup.Organizer) {
     return null
 
+  }
+
+
+  if (!Object.keys(event).length) {
+    return null;
+  }
+
+  if (!event.id) {
+    return null;
   }
 
 
@@ -136,7 +144,7 @@ export default function GetAllEventDetails({ sessionUser }) {
                     </div>
 
 
-                    
+
                   </div>
                 </div>
               </div>

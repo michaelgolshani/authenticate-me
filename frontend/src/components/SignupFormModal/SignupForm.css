@@ -38,6 +38,12 @@
   font-size: 14px;
 }
 
+.button-sign-up {
+  background-color: black;
+
+}
+
+
 .signup-form-container button[type="submit"] {
   background: linear-gradient(to bottom right, #c7225c, #ff0048);
   color: #fff;

@@ -1,8 +1,7 @@
 import React, { useEffect, useState, useLayoutEffect, useMemo } from "react"
 import { useHistory, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { createGroupThunk, updateGroupThunk, getGroupDetailsThunk, addGroupImageThunk, updateGroupImageThunk } from "../../../store/groups";
-import { createEventThunk, getEventDetailsThunk } from "../../../store/events";
+import { createEventThunk, getEventDetailsThunk, addEventImageThunk } from "../../../store/events";
 import './CreateGroup.css';
 
 export default function CreateEvent({ sessionUser }) {
@@ -13,7 +12,7 @@ export default function CreateEvent({ sessionUser }) {
 
 
   const checkState = useSelector((state) => state)
-  const group = useSelector((state) => state.group.singleGroup)
+  const group = useSelector((state) => state.group.currentGroup)
 
   let groupId = parseInt(group.id)
   // console.log("CURRENT EVENT STATE", currentGroup)
@@ -34,10 +33,13 @@ export default function CreateEvent({ sessionUser }) {
 
 
 
-  // useEffect(() => {
-  //   validate();
-  // }, [name, about, type, isPrivate, image, price, startDate, endDate]);
+  useEffect(() => {
+    validate();
+  }, [name, about, type, isPrivate, image, price, startDate, endDate]);
 
+  useEffect(() => {
+    setErrors({});
+},[]);
 
 
   const validate = () => {
@@ -82,23 +84,18 @@ export default function CreateEvent({ sessionUser }) {
       errors.about = "Descrption must be at least 30 characters long";
     }
 
+    return errors
+
   }
 
 
 
   const OnSubmit = async (e) => {
-
-
     //SAME as CREATE GROUP ESSENTIALLY
-
-
-
     e.preventDefault();
     const errors = validate();
     const errorContent = Object.values(errors);
     if (errorContent.length) return setErrors(errors);
-
-
 
 
     //We need to handle "Person" and "Online" choice. So we will convert the choice to a boolean of true or false
@@ -114,10 +111,10 @@ export default function CreateEvent({ sessionUser }) {
 
 
     const eventInfo = {
-      // venueId: 1,
+      venueId: 5,
       name,
       type,
-      // private: convertToBoolean(isPrivate),
+      private: convertToBoolean(isPrivate),
       price: Number(price),
       startDate,
       endDate,
@@ -131,16 +128,18 @@ export default function CreateEvent({ sessionUser }) {
 
 
     const createdEvent = await dispatch(createEventThunk(eventInfo, groupId));
-    console.log("CREATED EVENT", createdEvent)
+    console.log("CREATED EVENT BEFORE IMAGE", createdEvent)
+    await dispatch(addEventImageThunk(createdEvent.id,addImage))
+    console.log("CREATED EVENT AFTER IMAGE", createdEvent)
 
-    // history.push(`/events/${createdEvent.id}`);
+    history.push(`/events/${createdEvent.id}`);
   }
 
   return (
     <>
-      <div>hello</div>
 
-      {/* <form onSubmit={OnSubmit}>
+
+      <form onSubmit={OnSubmit}>
         <div className="create-event-container">
 
           <h2 className="create-event-top-header create-event-underline">Create an event for {group.name} </h2>
@@ -316,7 +315,7 @@ export default function CreateEvent({ sessionUser }) {
       </form>
 
 
- */}
+
 
 
     </>

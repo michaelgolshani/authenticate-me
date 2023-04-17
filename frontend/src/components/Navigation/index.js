@@ -21,26 +21,36 @@ function Navigation({ isLoaded }) {
         </li>
         {isLoaded && (
           <li className="nav-item nav-item-right">
-            <NavLink exact to="/groups/new" className="nav-start-a-group">Start a new group</NavLink>
 
-            <div className='nav-button'>
-              <OpenModalButton
-                buttonText="Log In"
-                modalComponent={<LoginFormModal />}
-              />
-            </div>
-            <div className='nav-button'>
-              <OpenModalButton
-                buttonText="Sign Up"
-                modalComponent={<SignupFormModal />}
-              />
-            </div>
-            <div className="nav-button">
-              <ProfileButton user={sessionUser} />
-            </div>
+
+            {sessionUser ? (
+              <>
+                <NavLink exact to="/groups/new" className="nav-start-a-group">Start a new group</NavLink>
+                <div className="nav-button">
+                  <ProfileButton user={sessionUser} />
+                </div>
+              </>
+            ) : (
+              <>
+
+                <div className='nav-button'>
+                  <OpenModalButton
+                    buttonText="Log In"
+                    modalComponent={<LoginFormModal />}
+                    className='form-button-nav'
+                  />
+                </div>
+                <div className='nav-button'>
+                  <OpenModalButton
+                    className='form-button-nav'
+                    buttonText="Sign Up"
+                    modalComponent={<SignupFormModal />}
+                  />
+                </div>
+              </>
+            )}
           </li>
         )}
-
       </ul>
     </nav>
   );

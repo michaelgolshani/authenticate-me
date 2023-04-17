@@ -10,7 +10,7 @@ import DeleteGroupModal from '../DeleteGroupModal';
 
 
 
-export default function GetAllGroupDetails({ sessionUser }) {
+const GetAllGroupDetails = React.memo(({ sessionUser }) => {
   const dispatch = useDispatch()
   const history = useHistory()
   let { groupId } = useParams()
@@ -31,6 +31,9 @@ export default function GetAllGroupDetails({ sessionUser }) {
   console.log("GET GROUP DETAIL ALL EVENTS ARR STATE", eventsArr)
 
   if (!group.id) {
+    return null;
+  }
+  if (isNaN(groupId)) {
     return null;
   }
 
@@ -114,7 +117,7 @@ export default function GetAllGroupDetails({ sessionUser }) {
             Organized by {group.Organizer.firstName} {group.Organizer.lastName}
           </p>
 
-          <button className="group-details-button" onClick={() => history.push(`/events/new`)}>
+          <button className="group-details-button" onClick={() => history.push(`/groups/${groupId}/events/new`)}>
             Create event
           </button>
 
@@ -234,4 +237,6 @@ export default function GetAllGroupDetails({ sessionUser }) {
     </div>
   );
 
-}
+})
+
+export default GetAllGroupDetails;

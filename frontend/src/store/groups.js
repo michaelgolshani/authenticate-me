@@ -174,6 +174,7 @@ export const addGroupImageThunk = (groupId, image) => async (dispatch) => {
 
   if (response.ok) {
     const data = await response.json()
+    dispatch(AddGroupImage(image,groupId))
     return data
   }
 }

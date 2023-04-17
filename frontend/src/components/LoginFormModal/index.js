@@ -24,6 +24,21 @@ function LoginFormModal() {
       });
   };
 
+  const disableButton = credential.length < 4 || password.length < 6;
+
+  const handleDemoLogin = () => {
+
+    return dispatch(sessionActions.login({ credential: "demo@user.io", password: "password" }))
+      .then(closeModal)
+      .catch(async (res) => {
+        const data = await res.json();
+        if (data && data.errors) {
+          setErrors(data.errors);
+        }
+      });
+  };
+
+
   return (
     <div className="login-form-container">
       <h1 className="login-form-title">Log In</h1>
@@ -48,9 +63,12 @@ function LoginFormModal() {
             className="login-form-input"
           />
         </label>
-        {errors.credential && <p className ="errors">{errors.credential}</p>}
-        <button type="submit" className="login-form-button">
+        {errors.credential && <p className="errors">{errors.credential}</p>}
+        <button type="submit" className="login-form-button" disabled={disableButton}>
           Log In
+        </button>
+        <button type="demo-button-login" className="demo-login-button" onClick={handleDemoLogin}>
+          Log in as Demo User
         </button>
       </form>
     </div>

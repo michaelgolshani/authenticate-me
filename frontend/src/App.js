@@ -13,6 +13,7 @@ import CreateGroup from "./components/Forms/CreateGroup/CreateGroup";
 import GetAllEventDetails from "./components/GetAllEventDetailsPage";
 import GetAllEvents from "./components/GetAllEventsPage";
 import CreateEvent from "./components/Forms/CreateGroup/CreateEvent";
+import './index.css'
 
 function App() {
   const dispatch = useDispatch();
@@ -50,7 +51,7 @@ function App() {
         <Route exact path='/events/:eventId'>
           <GetAllEventDetails sessionUser={sessionUser}></GetAllEventDetails>
         </Route>
-        <Route exact path ='/events/new'>
+        <Route exact path='/groups/:groupId/events/new'>
           <CreateEvent sessionUser={sessionUser}></CreateEvent>
         </Route>
 

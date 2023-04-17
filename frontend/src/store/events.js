@@ -10,7 +10,7 @@ const CREATE_EVENT = '/events/new'
 const GET_ALL_EVENTS = '/events/getAllEvents'
 const GET_EVENT_DETAILS = '/events/:eventId'
 const DELETE_EVENT = '/events/delete'
-
+const ADD_EVENT_IMAGE = '/events/image'
 
 
 
@@ -52,12 +52,18 @@ const CreateEvent = (event) => {
 
 const DeleteEvent = (eventId) => {
   return {
-    ttpe:DELETE_EVENT,
+    ttpe: DELETE_EVENT,
     eventId: eventId
   }
 }
 
 
+const AddEventImage = (image) => {
+  return {
+    type: ADD_EVENT_IMAGE,
+    image
+  }
+}
 
 // EVENT THUNKS
 
@@ -103,7 +109,7 @@ export const createEventThunk = (event, groupId) => async (dispatch) => {
     body: JSON.stringify(event)
   });
 
-console.log("RESPONSE FOR CREATE EVENT THUNK", response)
+  console.log("RESPONSE FOR CREATE EVENT THUNK", response)
 
   if (response.ok) {
     const data = await response.json();
@@ -117,14 +123,15 @@ console.log("RESPONSE FOR CREATE EVENT THUNK", response)
       },
 
       Venue: {
-        venueId: 1
+
       },
 
       EventImages: [],
       Members: [],
       Attendees: []
     }
-    ``
+    console.log("CREATE EVENT THUNK - SINGLEOBJ")
+
     dispatch(CreateEvent(eventSingleObj));
     return data;
   }
@@ -133,20 +140,37 @@ console.log("RESPONSE FOR CREATE EVENT THUNK", response)
 export const deleteEventThunk = (eventId) => async (dispatch) => {
   const response = await csrfFetch(`/api/events/${eventId}`, {
 
-      method: "DELETE",
-      headers: {'Content-Type': 'Application/json'},
-      body: null
+    method: "DELETE",
+    headers: { 'Content-Type': 'Application/json' },
+    body: null
   });
 
 
   if (response.ok) {
-      const data = await response.json();
-      console.log("WE ARE ON RESPONSE FOR DELETE EVENT")
-      dispatch(DeleteEvent(eventId));
-      return data;
+    const data = await response.json();
+    console.log("WE ARE ON RESPONSE FOR DELETE EVENT")
+    dispatch(DeleteEvent(eventId));
+    return data;
   }
 }
 
+
+export const addEventImageThunk = (eventId, image) => async (dispatch) => {
+  const response = await csrfFetch(`/api/groups/${eventId}/images`, {
+    method: "POST",
+    headers: { "Content-Type": "Application/json" },
+    body: JSON.stringify(image)
+  })
+
+  console.log("TESTING ADD EVENT THUNK before response", response)
+
+  if (response.ok) {
+    console.log("TESTING ADD EVENT THUNK", response)
+    const data = await response.json()
+    dispatch(AddEventImage(image, eventId));
+    return data
+  }
+}
 
 
 
@@ -209,16 +233,24 @@ const eventReducer = (state = initialState, action) => {
     case CREATE_EVENT: {
       newState = { ...state };
       newState.singleEvent = { ...action.event };
+      console.log("TESTING CREATE EVENT REDUCER", newState)
       return newState;
     }
 
     case DELETE_EVENT:
-      newState = {...state, singleEvent:{} , allEvents:{...state.allEvents}};
+      newState = { ...state, singleEvent: {}, allEvents: { ...state.allEvents } };
 
       delete newState.allEvents[action.eventId];
-      
+
       return newState;
 
+    case ADD_EVENT_IMAGE: {
+      newState = { ...state };
+
+      newState.singleEvent.EventImages = [action.image, ...state.singleEvent.EventImages];
+      console.log("TESTING ADD EVENT IMAGE REDUCER", newState)
+      return newState;
+    }
 
 
     default:
