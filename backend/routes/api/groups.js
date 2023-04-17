@@ -680,7 +680,7 @@ const validateEvent = [
     .isLength({ max: 60, min: 5 })
     .withMessage('Name must be at least 5 characters'),
   check('type')
-    .isIn(['Online', 'In person'])
+    .isIn(['Online', 'In Person'])
     .withMessage("Type must be 'Online' or 'In person'"),
   check('capacity')
     .isInt()
