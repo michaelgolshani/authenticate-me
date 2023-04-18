@@ -5,6 +5,10 @@
   position: relative;
 }
 
+body {
+  margin: 0;
+  padding: 0;
+}
 .form-button-nav {
 
   border: none;
@@ -30,16 +34,21 @@
 }
 
 .nav-container {
-  border-bottom: #ddd 1px solid;
+  border-bottom: #000000 5px solid;
   margin-top: 15px;
   padding-bottom: 15px;
+  margin-left: 0;
+  margin-right: 0;
   margin-bottom: 50px;
   font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", Segoe UI Symbol, "Noto Color Emoji";;
 }
 
 .nav-start-a-group {
   text-decoration: none;
-width: 150px;
+  letter-spacing: -.025em;
+  font-size: 1.2rem;
+  font-weight: bold;
+width: 200px;
 }
 
 .nav-list {

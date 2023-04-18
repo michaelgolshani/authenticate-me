@@ -7,9 +7,9 @@ import './LandingPage.css';
 
 function FindAnEvent (){
   return (
-    <div>
-      <img src="example.jpg" alt="example image" className="landing-page-s3-image" />
-      <NavLink to='/events'>
+    <div className='s3-column'>
+      <img src="https://edm.com/.image/t_share/MTY1NzI5MTM2NjY3NTM1Mjgz/parookaville-sunset-stage-view.jpg" alt="example image" className="landing-page-s3-image" />
+      <NavLink to='/events' className="s3-nav-link">
       Find an event
       </NavLink>
 
