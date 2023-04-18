@@ -14,22 +14,22 @@ function Navigation({ isLoaded }) {
   return (
     <nav className="nav-container">
       <ul className="nav-list">
-        <li className="nav-item">
+        {/* <li className="nav-item"> */}
           <NavLink exact to="/" >
             <img src={logo} alt="JoinVibe logo" className="s1-joinvibe-logo" />
           </NavLink>
-        </li>
+        {/* </li> */}
         {isLoaded && (
-          <li className="nav-item nav-item-right">
+          <>
 
 
             {sessionUser ? (
-              <>
+              <div>
                 <NavLink exact to="/groups/new" className="nav-start-a-group">Start a new group</NavLink>
                 <div className="nav-button">
                   <ProfileButton user={sessionUser} />
                 </div>
-              </>
+              </ div>
             ) : (
               <>
 
@@ -49,7 +49,7 @@ function Navigation({ isLoaded }) {
                 </div>
               </>
             )}
-          </li>
+          </>
         )}
       </ul>
     </nav>
