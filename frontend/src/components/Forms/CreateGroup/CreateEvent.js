@@ -5,6 +5,9 @@ import { createEventThunk, getEventDetailsThunk, addEventImageThunk } from "../.
 import './CreateGroup.css';
 
 export default function CreateEvent({ sessionUser }) {
+
+  console.log(sessionUser)
+
   const dispatch = useDispatch();
   const history = useHistory();
   const params = useParams();
@@ -39,14 +42,18 @@ export default function CreateEvent({ sessionUser }) {
 
   useEffect(() => {
     setErrors({});
-},[]);
+  }, []);
 
 
   const validate = () => {
     const errors = {}
 
-    if (!name) {
-      errors.name = "Name is required";
+    // if (!name) {
+    //   errors.name = "Name is required";
+    // }
+
+    if (name.length < 5) {
+      errors.name = "Name must be at least 5 characters";
     }
 
     if (!type) {
@@ -70,6 +77,7 @@ export default function CreateEvent({ sessionUser }) {
     }
 
     if (image) {
+      //split the image with the url. then check to see if the image has the checks needed.
       const fileExtension = image.split('.').pop().toLowerCase();
       const checkLast = ['jpg', 'png', 'jpeg'];
       if (!checkLast.includes(fileExtension)) {
@@ -111,7 +119,8 @@ export default function CreateEvent({ sessionUser }) {
 
 
     const eventInfo = {
-      venueId: 5,
+      // venueId: 5,
+      venueId: 1,
       name,
       type,
       private: convertToBoolean(isPrivate),
@@ -129,7 +138,7 @@ export default function CreateEvent({ sessionUser }) {
 
     const createdEvent = await dispatch(createEventThunk(eventInfo, groupId));
     console.log("CREATED EVENT BEFORE IMAGE", createdEvent)
-    await dispatch(addEventImageThunk(createdEvent.id,addImage))
+    // await dispatch(addEventImageThunk(createdEvent.id,addImage))
     console.log("CREATED EVENT AFTER IMAGE", createdEvent)
 
     history.push(`/events/${createdEvent.id}`);
@@ -178,7 +187,7 @@ export default function CreateEvent({ sessionUser }) {
               <option value="" disabled>
                 (select one)
               </option>
-              {["In person", "Online"].map((type) => (
+              {["In Person", "Online"].map((type) => (
                 <option key={type}>{type}</option>
               ))}
             </select>

@@ -230,12 +230,12 @@ const eventReducer = (state = initialState, action) => {
       newState.singleEvent = { ...action.event };
       return newState;
 
-    case CREATE_EVENT: {
+    case CREATE_EVENT:
       newState = { ...state };
       newState.singleEvent = { ...action.event };
       console.log("TESTING CREATE EVENT REDUCER", newState)
       return newState;
-    }
+    
 
     case DELETE_EVENT:
       newState = { ...state, singleEvent: {}, allEvents: { ...state.allEvents } };

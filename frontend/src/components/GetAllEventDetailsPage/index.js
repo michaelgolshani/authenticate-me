@@ -25,7 +25,7 @@ export default function GetAllEventDetails({ sessionUser }) {
 
   const eventsStateTest = useSelector((state) => state)
   const event = useSelector((state) => state.event.singleEvent)
-  const eventAssociatedGroup = useSelector((state) => state.group.currentGroup)
+  const eventAssociatedGroup = useSelector((state) => state.group.singleGroup)
 
 
 
@@ -63,7 +63,7 @@ export default function GetAllEventDetails({ sessionUser }) {
 
   }
 
-console.log("EVENT IMAGES FROM GROUP DETIALS PAGE", event)
+console.log("EVENT FROM GROUP DETIALS PAGE", event)
 
   if (!eventAssociatedGroup.Organizer) {
     return null
@@ -79,6 +79,10 @@ console.log("EVENT IMAGES FROM GROUP DETIALS PAGE", event)
     return null;
   }
 
+  if (!getEventDetailsThunk)
+  // if(event.EventImages[0].url) return null
+
+  if (!sessionUser) return null
 
   return (
 
@@ -92,12 +96,12 @@ console.log("EVENT IMAGES FROM GROUP DETIALS PAGE", event)
         <div className="event-details-container">
           <div className="event-details-section">
             <div className="event-details-image-container">
-              <img src={event.EventImages[0].url}></img>
+              <img src={event?.EventImages[0]?.url}></img>
             </div>
             <div className="event-details-group-details">
               <div className="event-group-details">
                 <div className="event-details-group-image">
-                  <img src={eventAssociatedGroup.GroupImages[0].url}></img>
+                  <img src={eventAssociatedGroup?.GroupImages[0]?.url}></img>
                 </div>
                 <div className="group-event-detail-public">
                   <h1>{event.Group.name}</h1>
