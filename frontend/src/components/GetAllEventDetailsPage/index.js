@@ -25,7 +25,7 @@ export default function GetAllEventDetails({ sessionUser }) {
 
   const eventsStateTest = useSelector((state) => state)
   const event = useSelector((state) => state.event.singleEvent)
-  const eventAssociatedGroup = useSelector((state) => state.group.singleGroup)
+  const eventAssociatedGroup = useSelector((state) => state.group.currentGroup)
 
 
 
@@ -83,6 +83,9 @@ console.log("EVENT FROM GROUP DETIALS PAGE", event)
   // if(event.EventImages[0].url) return null
 
   if (!sessionUser) return null
+
+
+  console.log("EVENT- GROUP IMAGES", eventAssociatedGroup.GroupImages)
 
   return (
 

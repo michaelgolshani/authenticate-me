@@ -15,9 +15,7 @@ function OpenModalButton({
     setModalContent(modalComponent);
   };
 
-  return <button onClick={onClick}>{buttonText}</button>;
+  return <button className ="group-details-button" onClick={onClick}>{buttonText}</button>;
 }
 
 export default OpenModalButton;
-
-

@@ -137,17 +137,19 @@
   color: white;
   border-radius: 20px;
   padding: 10px 20px;
-  font-size: 16px;
+  font-size: 30px;
   font-weight: bold;
   text-transform: uppercase;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  transition: transform 300ms;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .landing-page-join-button:hover {
   /* background-color: #28a745; */
   background-image:linear-gradient(to top right, #df7bcd, #5959da) ;
+  transform: scale(1.10);
 }
 
 .landing-page-button-div {
