@@ -31,10 +31,10 @@ function App() {
 
       {isLoaded && <Switch>
         <Route exact path="/">
-          <LandingPage />
+          <LandingPage sessionUser={sessionUser} />
         </Route>
         <Route exact path="/groups">
-          <GetAllGroups />
+          <GetAllGroups sessionUser={sessionUser} />
         </Route>
         <Route exact path="/groups/:groupId/edit">
           < CreateGroup sessionUser={sessionUser} updateGroup={true}></CreateGroup>
@@ -46,7 +46,7 @@ function App() {
           <GetAllGroupDetails sessionUser={sessionUser}></GetAllGroupDetails>
         </Route>
         <Route exact path='/events'>
-          <GetAllEvents ></GetAllEvents>
+          <GetAllEvents sessionUser={sessionUser} ></GetAllEvents>
         </Route>
         <Route exact path='/events/:eventId'>
           <GetAllEventDetails sessionUser={sessionUser}></GetAllEventDetails>

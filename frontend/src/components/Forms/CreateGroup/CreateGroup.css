@@ -53,3 +53,25 @@
 .create-group-top-organizer {
   color: teal
 }
+
+
+.create-event-button {
+  padding: .5em 1em;
+  background: rgb(105, 101, 101);
+  color: white;
+  border: 2;
+  border-radius: 0.25rem;
+  margin-right: 15px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: transform 300ms;
+  box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.8);
+}
+
+.create-event-button:hover,
+.create-event-button:focus-visible {
+  /* transform: translateY(-.3rem); */
+  transition: transform 300ms;
+  transform: scale(1.10);
+  background-image: linear-gradient(to top right, #df7bcd, #5959da);
+}

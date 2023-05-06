@@ -106,8 +106,6 @@
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); */
 }
 
-
-
 .group-details-button:hover,
 .group-details-button:focus-visible {
   /* transform: translateY(-.3rem); */
@@ -115,6 +113,21 @@
   transform: scale(1.10);
   background-image: linear-gradient(to top right, #df7bcd, #5959da);
 }
+
+.group-details-button-join{
+  margin-top: 60px;
+  padding: 1em 1.5em;
+  background-image: linear-gradient(to top right, #d21cb0, #4747d1);
+  color: white;
+  border: 2;
+  border-radius: 0.5rem;
+  margin-right: 15px;
+  cursor: pointer;
+  font-size: 1.1rem;
+  transition: transform 300ms;
+  box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.8);
+}
+
 
 
 .inside-event-details {

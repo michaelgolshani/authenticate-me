@@ -9,8 +9,8 @@ import StartANewGroup from './StartANewGroup';
 
 
 
-function LandingPage() {
- const history = useHistory()
+function LandingPage({ sessionUser }) {
+  const history = useHistory()
 
   return (
     <>
@@ -41,14 +41,18 @@ function LandingPage() {
 
 
         <div className='landing-page-s3'>
-          <FindAnEvent />
           <SeeAllGroups />
-          <StartANewGroup />
+          <FindAnEvent />
+          <StartANewGroup sessionUser={sessionUser} />
         </div>
 
 
         <div className='landing-page-button-div'>
-          <button className="landing-page-join-button" onClick={() => history.push('/groups/:groupId/edit')}>
+
+
+          <button className="landing-page-join-button"
+
+            onClick={() => history.push('/groups/:groupId/edit')}>
             Join Meetup
           </button>
         </div>

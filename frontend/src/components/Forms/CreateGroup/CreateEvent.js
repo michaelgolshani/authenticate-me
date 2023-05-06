@@ -149,16 +149,16 @@ export default function CreateEvent({ sessionUser }) {
 
 
       <form onSubmit={OnSubmit}>
-        <div className="create-event-container">
+        <div className="create-group-container">
 
-          <h2 className="create-event-top-header create-event-underline">Create an event for {group.name} </h2>
+          <h2 className="create-group-top-header ">Create an event for {group.name} </h2>
 
           <p>What is the name of your event?</p>
 
-          <div className="create-event-form-row">
+          <div className="create-group-form-row">
             <label htmlFor="name"></label>
             <input
-              className="create-event-label-input"
+              className="create-group-label-input"
               placeholder="Event Name"
               id="name"
               type="text"
@@ -166,7 +166,7 @@ export default function CreateEvent({ sessionUser }) {
               value={name}
             />
             {errors.name && <p className="error">{errors.name}</p>}
-            <div className="create-event-underline"></div>
+            <div className="create-group-underline"></div>
 
           </div>
 
@@ -176,7 +176,7 @@ export default function CreateEvent({ sessionUser }) {
 
 
 
-          <div className="create-event-form-row">
+          <div className="create-group-form-row">
 
             <p>Is this an in person or online event?</p>
             <select
@@ -226,7 +226,7 @@ export default function CreateEvent({ sessionUser }) {
                 onChange={(e) => setPrice(e.target.value)}></input>
             </label>
             {errors.price && <p className="error">{errors.price}</p>}
-            <div className="create-event-underline"></div>
+            <div className="create-group-underline"></div>
 
           </div>
 
@@ -235,7 +235,7 @@ export default function CreateEvent({ sessionUser }) {
 
 
 
-          <div className="create-event-form-row">
+          <div className="create-group-form-row">
             <p> When does your event start? </p>
             <label>
               <input
@@ -265,7 +265,7 @@ export default function CreateEvent({ sessionUser }) {
 
             {errors.endDate && <p className="error">{errors.endDate}</p>}
 
-            <div className="create-event-underline"></div>
+            <div className="create-group-underline"></div>
 
           </div>
 
@@ -275,10 +275,10 @@ export default function CreateEvent({ sessionUser }) {
 
 
           <p>Please add an image for your group below </p>
-          <div className="create-event-form-row">
+          <div className="create-group-form-row">
             <label htmlFor="image"></label>
             <input
-              className="create-event-label-input"
+              className="create-group-label-input"
               placeholder="Image Url"
               id="image"
               type="text"
@@ -287,7 +287,7 @@ export default function CreateEvent({ sessionUser }) {
             />
 
             {errors.image && <p className="error">{errors.image}</p>}
-            <div className="create-event-underline"></div>
+            <div className="create-group-underline"></div>
 
           </div>
 
@@ -300,7 +300,7 @@ export default function CreateEvent({ sessionUser }) {
             <p className="create-event-describe">Please describe your event</p>
             <label htmlFor="about"></label>
             <input
-              className="create-event-label-about"
+              className="create-group-label-about"
               placeholder="Please write at least 30 characters"
               id="about"
               type="text"
@@ -317,7 +317,7 @@ export default function CreateEvent({ sessionUser }) {
 
 
 
-          <button type='submit'>
+          <button className="create-event-button" type='submit'>
             Create Event
           </button>
         </div>

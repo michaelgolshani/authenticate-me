@@ -18,6 +18,8 @@ const GetAllGroupDetails = React.memo(({ sessionUser }) => {
   console.log(groupId)
 
 
+
+
   useEffect(() => {
     // dispatch(getAllGroupsThunk())
     dispatch(getGroupDetailsThunk(groupId))
@@ -33,9 +35,14 @@ const GetAllGroupDetails = React.memo(({ sessionUser }) => {
   if (!group.id) {
     return null;
   }
-  if (isNaN(groupId)) {
+  if (isNaN(groupId) || !groupId) {
     return null;
   }
+
+
+  const groupClassName = sessionUser ? "group-details-button" : "group-details-button-dissapear"
+
+
 
   console.log("CURRENT GROUP SELECTOR", group)
 
@@ -54,7 +61,8 @@ const GetAllGroupDetails = React.memo(({ sessionUser }) => {
 
   // GET ALL EVENTS
 
-
+  console.log("SESSION USER ID", sessionUser?.id)
+  console.log("GROUP ORGANIZER ID", group.Organizer?.id)
 
 
 
@@ -136,21 +144,30 @@ const GetAllGroupDetails = React.memo(({ sessionUser }) => {
                   Organized by {group.Organizer.firstName} {group.Organizer.lastName}
                 </p>
 
+                {sessionUser?.id === group.Organizer?.id ?
+                  <>
+                    <button className={groupClassName} onClick={() => history.push(`/groups/${groupId}/events/new`)}>
+                      Create event
+                    </button>
 
-                <button className="group-details-button" onClick={() => history.push(`/groups/${groupId}/events/new`)}>
-                  Create event
-                </button>
-
-                <button className="group-details-button" onClick={() => history.push(`/groups/${groupId}/edit`)}>
-                  Update
-                </button>
+                    <button className="group-details-button" onClick={() => history.push(`/groups/${groupId}/edit`)}>
+                      Update
+                    </button>
 
 
-                <OpenModalButton
-                  className="group-details-button"
-                  buttonText="Delete"
-                  modalComponent={<DeleteGroupModal groupId={groupId}></DeleteGroupModal>}
-                />
+                    <OpenModalButton
+                      className="group-details-button"
+                      buttonText="Delete"
+                      modalComponent={<DeleteGroupModal groupId={groupId}></DeleteGroupModal>}
+                    />
+                  </> :
+                  <>
+                  <button className="group-details-button-join">
+                      Join This Group
+                    </button>
+                  </>
+                }
+
 
 
               </div>
@@ -283,9 +300,9 @@ const GetAllGroupDetails = React.memo(({ sessionUser }) => {
 
 
 
-                  </div>
+                </div>
 
-                ))}
+              ))}
 
 
             </>
