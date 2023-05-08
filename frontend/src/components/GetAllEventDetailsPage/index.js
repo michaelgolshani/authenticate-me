@@ -31,6 +31,8 @@ export default function GetAllEventDetails({ sessionUser }) {
 
   let groupId = event ? event.groupId : null;
 
+  // console.log("SESSION USER for EVENT DETAILS", sessionUser.id)
+  // console.log("GROUP ORGANIZER ID FOR EVENT DETAILS", eventAssociatedGroup.Organizer.id)
   console.log("GROUP ID", groupId)
   console.log("EVENT ID", eventId)
   console.log("STATE FOR EVENT DETAILS PAGE", eventsStateTest)
@@ -63,7 +65,7 @@ export default function GetAllEventDetails({ sessionUser }) {
 
   }
 
-console.log("EVENT FROM GROUP DETIALS PAGE", event)
+  console.log("EVENT FROM GROUP DETIALS PAGE", event)
 
   if (!eventAssociatedGroup.Organizer) {
     return null
@@ -80,9 +82,9 @@ console.log("EVENT FROM GROUP DETIALS PAGE", event)
   }
 
   if (!getEventDetailsThunk)
-  // if(event.EventImages[0].url) return null
+    // if(event.EventImages[0].url) return null
 
-  if (!sessionUser) return null
+    if (!sessionUser) return null
 
 
   console.log("EVENT- GROUP IMAGES", eventAssociatedGroup.GroupImages)
@@ -138,7 +140,7 @@ console.log("EVENT FROM GROUP DETIALS PAGE", event)
                     </div>
 
 
-
+                    {sessionUser?.id === eventAssociatedGroup.Organizer?.id &&
 
                     <div className="delete-button">
                       <OpenModalButton
@@ -150,7 +152,7 @@ console.log("EVENT FROM GROUP DETIALS PAGE", event)
                       {/* {renderDeleteButton()} */}
                     </div>
 
-
+                    }
 
                   </div>
                 </div>

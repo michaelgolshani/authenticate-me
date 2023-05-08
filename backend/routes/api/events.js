@@ -159,7 +159,7 @@ router.get("/", async (req, res, next) => {
 
   for (let i = 0; i < events.length; i++) {
     const event = events[i];
-   // console.log(i, event)
+    // console.log(i, event)
     eventsWithGroupAndVenue.push({
       id: event.id,
       groupId: event.groupId,
@@ -249,7 +249,7 @@ router.post("/:eventId/images", requireAuth, async (req, res, next) => {
 
 // 3. Get Details of event by Id
 
-router.get("/:eventId", requireAuth, async (req, res, next) => {
+router.get("/:eventId", async (req, res, next) => {
 
   const eventId = req.params.eventId;
 
@@ -270,7 +270,7 @@ router.get("/:eventId", requireAuth, async (req, res, next) => {
       {
         model: Attendance
       },
-      
+
     ]
   })
 
@@ -591,7 +591,7 @@ router.get('/:eventId/attendees', async (req, res) => {
 
       const attendee = attendees[i];
 
-     // console.log(attendee.User)
+      // console.log(attendee.User)
 
       attendeesArray.push({
         id: attendee.User.id,
@@ -700,9 +700,9 @@ router.delete('/:eventId', requireAuth, async (req, res) => {
   const { user } = req
   const { eventId } = req.params
 
- // console.log(user)
+  // console.log(user)
   //console.log(user.id)
- //console.log(eventId)
+  //console.log(eventId)
 
 
   const event = await Event.findByPk(eventId);
