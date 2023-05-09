@@ -129,8 +129,6 @@ export default function CreateEvent({ sessionUser }) {
       endDate,
       description: about,
       capacity: 20
-
-
     };
 
     const addImage = { url: image, preview: true }
@@ -138,7 +136,7 @@ export default function CreateEvent({ sessionUser }) {
 
     const createdEvent = await dispatch(createEventThunk(eventInfo, groupId));
     console.log("CREATED EVENT BEFORE IMAGE", createdEvent)
-    // await dispatch(addEventImageThunk(createdEvent.id,addImage))
+    await dispatch(addEventImageThunk(createdEvent.id, addImage))
     console.log("CREATED EVENT AFTER IMAGE", createdEvent)
 
     history.push(`/events/${createdEvent.id}`);

@@ -156,18 +156,20 @@ export const deleteEventThunk = (eventId) => async (dispatch) => {
 
 
 export const addEventImageThunk = (eventId, image) => async (dispatch) => {
-  const response = await csrfFetch(`/api/groups/${eventId}/images`, {
+  console.log("TESTING ADD EVENT IMAGE THUNK before response")
+  const response = await csrfFetch(`/api/events/${eventId}/images`, {
     method: "POST",
     headers: { "Content-Type": "Application/json" },
     body: JSON.stringify(image)
   })
 
-  console.log("TESTING ADD EVENT THUNK before response", response)
+  console.log("TESTING ADD EVENT IMAGE THUNK before response OK", response)
 
   if (response.ok) {
-    console.log("TESTING ADD EVENT THUNK", response)
+    console.log("TESTING ADD EVENT IMAGGE THUNK RESPONSE OK", response)
     const data = await response.json()
     dispatch(AddEventImage(image, eventId));
+    // dispatch(AddEventImage(data));
     return data
   }
 }
@@ -235,7 +237,7 @@ const eventReducer = (state = initialState, action) => {
       newState.singleEvent = { ...action.event };
       console.log("TESTING CREATE EVENT REDUCER", newState)
       return newState;
-    
+
 
     case DELETE_EVENT:
       newState = { ...state, singleEvent: {}, allEvents: { ...state.allEvents } };
@@ -244,13 +246,13 @@ const eventReducer = (state = initialState, action) => {
 
       return newState;
 
-    case ADD_EVENT_IMAGE: {
+    case ADD_EVENT_IMAGE:
       newState = { ...state };
 
       newState.singleEvent.EventImages = [action.image, ...state.singleEvent.EventImages];
       console.log("TESTING ADD EVENT IMAGE REDUCER", newState)
       return newState;
-    }
+
 
 
     default:
