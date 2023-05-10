@@ -94,12 +94,13 @@ export default function GetAllEvents() {
             placeholder="Search..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
+            className='details-page-search-input'
           />
           <button type="submit">Search</button>
         </form>
 
 
-        
+
       </div>
       <div className="events-list-caption">Events in Meetup</div>
       {searchQuery ? (

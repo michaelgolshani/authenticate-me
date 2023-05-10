@@ -1,6 +1,3 @@
-
-
-
 .group-list-container {
   max-width: 800px;
   margin: 0 auto;
@@ -51,7 +48,7 @@
 .group-list-thumbnail {
   width: 300px;
   height: 200px;
-border-radius: 10px;
+  border-radius: 10px;
   background-color: #bbb;
   margin-right: 10px;
 }
@@ -79,4 +76,37 @@ border-radius: 10px;
 .group-privacy {
   margin-top: 5px;
   color: #aaa;
+}
+
+
+.details-page-search-input {
+  padding: 5px 50px;
+  border-radius: 15px;
+  margin-left: 15px;
+  margin-top: 15px;
+  border: 3px solid black;
+}
+
+
+.get-events-groups-search-button {
+  /* margin-top: 75px; */
+  padding: .2em .5em;
+  background: rgb(105, 101, 101);
+  color: white;
+  border: 2;
+  border-radius: 0.25rem;
+  margin-left: 15px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: transform 300ms;
+  box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.8);
+}
+
+
+.get-events-groups-search-button:hover,
+.get-events-groups-search-button:focus-visible {
+  /* transform: translateY(-.3rem); */
+  transition: transform 300ms;
+  transform: scale(1.10);
+  background-image: linear-gradient(to top right, #df7bcd, #5959da);
 }
