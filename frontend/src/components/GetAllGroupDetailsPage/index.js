@@ -1,8 +1,9 @@
-import React, { useEffect } from 'react';
+import React, { useEffect , useState} from 'react';
 import { NavLink, useHistory, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllGroupsThunk, getGroupDetailsThunk } from '../../store/groups';
 import { getGroupEventsThunk } from '../../store/events';
+import { SearchInput } from '../SearchInput';
 
 import './GetAllGroupDetails.css'
 import OpenModalButton from '../OpenModalButton';
@@ -17,7 +18,7 @@ const GetAllGroupDetails = React.memo(({ sessionUser }) => {
   groupId = parseInt(groupId)
   console.log(groupId)
 
-
+ 
 
 
   useEffect(() => {

@@ -93,11 +93,16 @@ export default function GetAllEventDetails({ sessionUser }) {
 
     <>
       <div className="event-details-wrapper">
+
+
+
         <div className="events-top-header">
           <NavLink to="/events">Events</NavLink>
           <h1>{event.name}</h1>
           <h3>Hosted by {eventAssociatedGroup.Organizer.firstName} {eventAssociatedGroup.Organizer.lastName}</h3>
         </div>
+
+        
         <div className="event-details-container">
           <div className="event-details-section">
             <div className="event-details-image-container">
@@ -164,6 +169,9 @@ export default function GetAllEventDetails({ sessionUser }) {
             <p>{event.description}</p>
           </div>
         </div>
+
+
+
       </div>
     </>
 

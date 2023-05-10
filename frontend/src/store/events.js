@@ -182,27 +182,18 @@ export const addEventImageThunk = (eventId, image) => async (dispatch) => {
 
 
 const initialState = {
-
-
   allEvents: {
-
   },
 
   singleEvent: {
-
     Group: {
-
     },
-
     Venue: {
-
     },
     EventImages: [],
     Members: [],
     Attendees: [],
   },
-
-
 }
 
 
