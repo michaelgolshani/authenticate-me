@@ -45,46 +45,58 @@ function SignupFormModal() {
 
   // const SubmitDisabled = Object.keys(errors).length > 0;
 
-  // useEffect(() => {
+  useEffect(() => {
 
-  // }, [email, username, firstName, lastName, password, errors])
+    validateBody()
+    handleDisable()
+
+  }, [email, username, firstName, lastName, password, confirmPassword, errors])
 
 
   const handleDisable = () => {
     if (firstName === "") return true;
-    if ( lastName === "") return true;
-    if (username.length < 4) return true;
-    if (password.length < 6) return true;
-    if (password !== confirmPassword) return true;
+    if (lastName === "") return true;
+    if (username === "") return true;
+    if (password === "") return true;
+    if (password === "") return true;
+    if (confirmPassword === "") return true;
+
+    // if (Object.keys(errors).length > 0) return true
+
+    else return false
   }
 
-  // const validateBody = () => {
-  //   const tempObj = {};
-  //   if (email === "") {
-  //     tempObj.email = "Please Provide an email";
-  //   }
-  //   if (username === "") {
-  //     tempObj.username = "Please Provide a username";
-  //   }
-  //   if (firstName === "") {
-  //     tempObj.firstName = "Please Provide a firstname";
-  //   }
-  //   if (lastName === "") {
-  //     tempObj.lastName = "Please Provide a lastname"
-  //   }
-  //   if (password === "") {
-  //     tempObj.password = "Please provide a password"
-  //   }
-  //   if (confirmPassword === "") {
-  //     tempObj.confirmPassword = "Please confirm password"
-  //   }
-  //   return setErrors(tempObj);
-  // }
+  const validateBody = () => {
+    const tempObj = {};
+    if (email === "") {
+      tempObj.email = "Please Provide an email";
+    }
+    if (username === "") {
+      tempObj.username = "Please Provide a username";
+    }
+    if (firstName === "") {
+      tempObj.firstName = "Please Provide a firstname";
+    }
+    if (lastName === "") {
+      tempObj.lastName = "Please Provide a lastname"
+    }
+    if (password === "") {
+      tempObj.password = "Please provide a password"
+    }
+    if (confirmPassword === "") {
+      tempObj.confirmPassword = "Please confirm password"
+    }
+    // return setErrors(tempObj);
+    console.log("TEMP OBJ ERRORS", tempObj)
+    return tempObj
+  }
 
   console.log("FIRST NAME", firstName)
   console.log("EMAIL", email)
   console.log("ERRORS", errors)
   console.log("ERRORS ARRAY", Object.keys(errors).length)
+  console.log("HANDLE DISABLE", handleDisable())
+
   // console.log("SUBMIT DISABLED", SubmitDisabled)
 
   return (
@@ -162,7 +174,7 @@ function SignupFormModal() {
           />
         </label>
         {errors.confirmPassword && <p>{errors.confirmPassword}</p>}
-        <button type="submit" disabled={handleDisable}>
+        <button type="submit" disabled={handleDisable()}>
           Sign Up
         </button>
       </form>

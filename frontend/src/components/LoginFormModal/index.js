@@ -24,7 +24,9 @@ function LoginFormModal() {
       });
   };
 
-  const disableButton = credential.length < 4 || password.length < 6;
+  const disableButton = credential === "" || password === "";
+
+  // const disableButton = credential.length < 4 || password.length < 6;
 
   const handleDemoLogin = () => {
 
@@ -38,6 +40,7 @@ function LoginFormModal() {
       });
   };
 
+  console.log("Disabled Button", disableButton)
 
   return (
     <div className="login-form-container">
