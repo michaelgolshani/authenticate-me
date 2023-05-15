@@ -33,14 +33,14 @@ function Navigation({ isLoaded }) {
             ) : (
               <>
 
-                <div className='nav-button'>
+                <div >
                   <OpenModalButton
                     buttonText="Log In"
                     modalComponent={<LoginFormModal />}
                     className='form-button-nav'
                   />
                 </div>
-                <div className='nav-button'>
+                <div>
                   <OpenModalButton
                     className='form-button-nav'
                     buttonText="Sign Up"

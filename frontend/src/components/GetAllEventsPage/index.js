@@ -96,7 +96,7 @@ export default function GetAllEvents() {
             onChange={(e) => setSearchTerm(e.target.value)}
             className='details-page-search-input'
           />
-          <button type="submit">Search</button>
+          <button type="submit" className='get-events-groups-search-button'>Search</button>
         </form>
 
 

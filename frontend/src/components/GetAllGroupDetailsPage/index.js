@@ -1,7 +1,7 @@
-import React, { useEffect , useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import { NavLink, useHistory, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { getAllGroupsThunk, getGroupDetailsThunk } from '../../store/groups';
+import { getAllGroupsThunk, getGroupDetailsThunk, addMemberToGroupThunk, getAllMembersThunk } from '../../store/groups';
 import { getGroupEventsThunk } from '../../store/events';
 import { SearchInput } from '../SearchInput';
 
@@ -18,13 +18,14 @@ const GetAllGroupDetails = React.memo(({ sessionUser }) => {
   groupId = parseInt(groupId)
   console.log(groupId)
 
- 
+
 
 
   useEffect(() => {
     // dispatch(getAllGroupsThunk())
     dispatch(getGroupDetailsThunk(groupId))
     dispatch(getGroupEventsThunk(groupId))
+    dispatch(getAllMembersThunk(groupId))
   }, [dispatch])
 
   const group = useSelector((state) => state.group.currentGroup)
@@ -41,7 +42,7 @@ const GetAllGroupDetails = React.memo(({ sessionUser }) => {
   }
 
 
-  const groupClassName = sessionUser ? "group-details-button" : "group-details-button-dissapear"
+  const groupClassName = sessionUser ? "group-details-button margin-top" : "group-details-button-dissapear"
 
 
 
@@ -95,7 +96,10 @@ const GetAllGroupDetails = React.memo(({ sessionUser }) => {
     return history.push(`/events/${eventId}`)
   }
 
-
+  const JoinGroupClick = () => {
+    dispatch(addMemberToGroupThunk(group.id, sessionUser?.id))
+    return history.push(`/groups/${group.id}`)
+  }
 
 
 
@@ -151,19 +155,22 @@ const GetAllGroupDetails = React.memo(({ sessionUser }) => {
                       Create event
                     </button>
 
-                    <button className="group-details-button" onClick={() => history.push(`/groups/${groupId}/edit`)}>
+                    <button className="group-details-button margin-top" onClick={() => history.push(`/groups/${groupId}/edit`)}>
                       Update
                     </button>
 
 
                     <OpenModalButton
-                      className="group-details-button"
+                      className="group-details-button margin-top"
                       buttonText="Delete"
                       modalComponent={<DeleteGroupModal groupId={groupId}></DeleteGroupModal>}
                     />
                   </> :
                   <>
-                  <button className="group-details-button-join">
+                    <button
+                      className="group-details-button-join"
+                      onClick={JoinGroupClick}
+                    >
                       Join This Group
                     </button>
                   </>

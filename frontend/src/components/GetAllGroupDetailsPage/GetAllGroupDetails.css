@@ -79,7 +79,7 @@
 }
 
 .group-details-button {
-  margin-top: 75px;
+  /* margin-top: 75px; */
   padding: .5em 1em;
   background: rgb(105, 101, 101);
   color: white;
@@ -90,6 +90,10 @@
   font-size: 1rem;
   transition: transform 300ms;
   box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.8);
+}
+
+.margin-top {
+  margin-top: 75px;
 }
 
 .group-details-button {
@@ -114,7 +118,7 @@
   background-image: linear-gradient(to top right, #df7bcd, #5959da);
 }
 
-.group-details-button-join{
+.group-details-button-join {
   margin-top: 60px;
   padding: 1em 1.5em;
   background-image: linear-gradient(to top right, #d21cb0, #4747d1);
@@ -152,7 +156,7 @@
 
 }
 
-.group-details-group-name{
+.group-details-group-name {
   font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", Segoe UI Symbol, "Noto Color Emoji";
   font-weight: 700;
   transition-delay: .5s;

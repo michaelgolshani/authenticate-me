@@ -336,7 +336,7 @@ export default function CreateGroup({ sessionUser, updateGroup }) {
 
           </div>
 
-          <button type='submit'>
+          <button type='submit' className="group-details-button">
             Create Group
           </button>
         </div>

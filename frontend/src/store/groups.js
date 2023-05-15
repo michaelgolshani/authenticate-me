@@ -9,6 +9,8 @@ const UPDATE_GROUP = '/groups/edit'
 const DELETE_GROUP = '/groups/delete'
 const ADD_GROUP_IMAGE = '/groups/image'
 const UPDATE_GROUP_IMAGE = '/groups/image/edit'
+const ADD_MEMBER = 'groups/:groupId/newMembership'
+const GET_ALL_MEMBERS = 'groups/:groupId/members'
 
 
 
@@ -58,9 +60,23 @@ const AddGroupImage = (image) => {
 }
 
 const UpdateGroupImage = (image) => {
-  return{
+  return {
     type: UPDATE_GROUP_IMAGE,
     image
+  }
+}
+
+const AddMember = (member) => {
+  return {
+    type: ADD_MEMBER,
+    member
+  }
+}
+
+const GetMembers = (members) => {
+  return {
+    type: GET_ALL_MEMBERS,
+    members
   }
 }
 
@@ -174,7 +190,7 @@ export const addGroupImageThunk = (groupId, image) => async (dispatch) => {
 
   if (response.ok) {
     const data = await response.json()
-    dispatch(AddGroupImage(image,groupId))
+    dispatch(AddGroupImage(image, groupId))
     return data
   }
 }
@@ -183,19 +199,48 @@ export const addGroupImageThunk = (groupId, image) => async (dispatch) => {
 export const updateGroupImageThunk = (imageId, image) => async (dispatch) => {
   const response = csrfFetch(`/api/group-images/${imageId}`, {
     method: "PUT",
-    headers:  {"Content-Type": "Application/json" },
+    headers: { "Content-Type": "Application/json" },
     body: JSON.stringify(image)
   })
 
   if (response.ok) {
-    const data = (await response).json()
+    const data = await response.json()
     dispatch(UpdateGroupImage(data))
     return data
   }
 }
 
 
+export const addMemberToGroupThunk = (groupId, user) => async (dispatch) => {
+  const response = csrfFetch(`/api/groups/${groupId}/membership`, {
+    method: "POST",
+    headers: { "Content-Type": "Application/json" },
+    body: null
+  })
 
+  if (response.ok) {
+    const newMember = await response.json()
+    console.log("ADD MEMBERSHIP GROUP THUNK DATA", newMember)
+
+    // const memberObj = {
+
+    // }
+    // console.log("MEMBER DATA IN  THUNK AFTER RESPONSE", newMember)
+
+    dispatch(AddMember(newMember))
+    return newMember
+  }
+}
+
+export const getAllMembersThunk = (groupId) => async (dispatch) => {
+  const response = await csrfFetch(`/api/groups/${groupId}/members`);
+
+  if (response.ok) {
+    const members = await response.json();
+    console.log("WE ARE IN GET MEMBERS THUNK. HERE IS MEMBERS", members)
+    dispatch(GetMembers(members));
+  }
+}
 
 
 // Group Reducer -------------------------------------------------------
@@ -209,13 +254,15 @@ const initialState = {
 
     },
     Venues: [],
+    Members: []  // added this last minute
   },
   singleGroup: {
     GroupImages: [],
     Organizer: {},
     Venues: [],
   },
-  allEvents: {}
+  allEvents: {},
+
 }
 
 const groupReducer = (state = initialState, action) => {
@@ -234,7 +281,7 @@ const groupReducer = (state = initialState, action) => {
     case GET_GROUP_DETAILS:
       newState = { ...state }
 
-      newState.currentGroup = { ...action.group }
+      newState.currentGroup = { ...action.group, Members: [] }
 
       console.log("CHECKING GROUP DETAILS FOR EVENT DETAILS", newState.currentGroup)
 
@@ -277,22 +324,31 @@ const groupReducer = (state = initialState, action) => {
 
     case ADD_GROUP_IMAGE:
       newState = { ...state }
-      console.log("GROUP IMAGE REDUCER" , state.singleGroup.GroupImages)
+      console.log("GROUP IMAGE REDUCER", state.singleGroup.GroupImages)
       newState.singleGroup.GroupImages = [action.image, ...state.singleGroup.GroupImages]
       return newState;
 
     case UPDATE_GROUP_IMAGE:
-      newState = {...state}
+      newState = { ...state }
       newState.singleGroup.GroupImages = [...state.singleGroup.GroupImages]
       console.log("NEW STATE GROUP IMAGES ARRAY", newState.singleGroup.GroupImages)
       newState.singleGroup.GroupImages.forEach(image => {
-          if (image.id === action.image.id) {
-            image.url = action.image.url
-          }
+        if (image.id === action.image.id) {
+          image.url = action.image.url
+        }
       })
       return newState
 
+    case ADD_MEMBER:
 
+      newState = { ...state }
+      newState.currentGroup.Members = [action.member, ...state.currentGroup.Members]
+      return newState;
+
+    case GET_ALL_MEMBERS:
+      newState = { ...state }
+      newState.currentGroup.Members = [...state.currentGroup.Members]
+      return newState
 
     default:
       return state

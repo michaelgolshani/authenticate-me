@@ -102,7 +102,7 @@ export default function GetAllEventDetails({ sessionUser }) {
           <h3>Hosted by {eventAssociatedGroup.Organizer.firstName} {eventAssociatedGroup.Organizer.lastName}</h3>
         </div>
 
-        
+
         <div className="event-details-container">
           <div className="event-details-section">
             <div className="event-details-image-container">
@@ -172,12 +172,12 @@ export default function GetAllEventDetails({ sessionUser }) {
 
 
 
+
+
+
+
       </div>
     </>
-
-
-
-
   )
 
 

@@ -17,7 +17,7 @@ body {
   color: inherit;
   font: inherit;
   cursor: pointer;
-
+  padding-right: 200px;
 }
 
 .nav-drop-down-item {
@@ -68,6 +68,7 @@ body {
 
 .nav-item-right {
   margin-left: auto;
+  margin-right: 20px;
 }
 
 .navigation-link {

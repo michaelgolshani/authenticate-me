@@ -53,3 +53,11 @@
   cursor: pointer;
   margin-top: 10px;
 }
+
+
+/* SignupForm.css */
+
+.signup-form-container button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

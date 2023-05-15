@@ -42,7 +42,7 @@ function ProfileButton({ user }) {
   };
 
   const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");
-  const profileClassName = "profile-icons" + (showMenu ? " fixed" : "");
+  const profileClassName = "profile-icons" + (showMenu ? "fixed" : "");
 
   return (
     <>
