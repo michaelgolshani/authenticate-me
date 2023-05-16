@@ -36,6 +36,9 @@ export default function CreateGroup({ sessionUser, updateGroup }) {
   const [errors, setErrors] = useState({});
 
 
+
+
+
   useEffect(() => {
     dispatch(getGroupDetailsThunk(groupId));
     if (updateGroup) {
@@ -71,9 +74,20 @@ export default function CreateGroup({ sessionUser, updateGroup }) {
 
   const validate = () => {
     const errors = {}
+
+    // have to check to see if state is there. Post project addition
     if (!location) {
       errors.location = "Location is required";
+    } else {
+
+      const separateLocationbyComma = location.split(",");
+
+      if (separateLocationbyComma.length !== 2) {
+        errors.location = "State is required";
+      }
     }
+
+
 
     if (!name) {
       errors.name = "Name is required";
@@ -119,13 +133,20 @@ export default function CreateGroup({ sessionUser, updateGroup }) {
     //-------------------------------------------------------------------------------------------
 
     const removeSpacesLoc = location.replaceAll(' ', '')
-    const seperateCommaLoc = removeSpacesLoc.split(',')
+    const seperateCommaLoc = location.split(',')
     console.log("SEPERATE LOCATION BY COMMA", seperateCommaLoc)
 
     const seperatedCity = seperateCommaLoc[0]
     const seperatedState = seperateCommaLoc[1]
     console.log("SEPERATE CITY FROM USER INPUT", seperatedCity)
     console.log("SEPERATE STATE FROM USER INPUT", seperatedState)
+
+
+
+    if (!seperatedState) {
+      errors.location = "state is required"
+      return null
+    }
 
 
     //We need to handle "Person" and "Online" choice. So we will convert the choice to a boolean of true or false

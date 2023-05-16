@@ -685,10 +685,10 @@ const validateEvent = [
   check('capacity')
     .isInt()
     .withMessage('Capacity must be an integer'),
-  check('price')
-    .exists({ checkFalsy: true })
-    .isDecimal()
-    .withMessage('Price is invalid'),
+  // check('price')
+  //   .exists({ checkFalsy: true })
+  //   .isDecimal()
+  //   .withMessage('Price is invalid'),
   check('description')
     .exists({ checkFalsy: true })
     .isString()
@@ -718,7 +718,7 @@ router.post("/:groupId/events", validateEvent, requireAuth, async (req, res, nex
       .forEach(error => errors[error.param] = error.msg);
 
     return res.status(400).json({
-      "message": "Validation Error",
+      "message": "Validation Error Test",
       "statusCode": 400,
       "errors": errors
     })

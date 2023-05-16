@@ -64,9 +64,18 @@ export default function CreateEvent({ sessionUser }) {
       errors.isPrivate = "Visibility is required";
     }
 
+
+
+    // if price is NAN, then throw an error on the web page
     if (!price) {
       errors.price = "Price is required";
+    } else if (isNaN(price)) {
+      errors.price = "Price is invalid";
     }
+
+
+
+
 
     if (!startDate) {
       errors.startDate = "Event start is required";
@@ -219,7 +228,7 @@ export default function CreateEvent({ sessionUser }) {
               <input
                 placeholder="$ 0"
                 id="price"
-                type="text"
+                type="number"
                 value={price}
                 onChange={(e) => setPrice(e.target.value)}></input>
             </label>
