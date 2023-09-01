@@ -20,10 +20,25 @@ body {
   padding-right: 200px;
 }
 
-.nav-drop-down-item {
+.nav-drop-down-item-container {
+  position: absolute;
   list-style-type: none;
-  width: 100%;
-  height: 100%;
+  width: 150px;
+  height: 170px;
+  border-radius: 5px;
+  right: 0px;
+  top: 20px;
+  border: 1px solid lightgrey;
+  box-shadow: 1px 5px 7px 0px rgb(227, 227, 227);
+}
+
+.nav-drop-down-log-out {
+  margin-top: 50px;
+}
+
+.nav-drop-down-contents {
+  margin-left: 10px;
+  margin-top: 10px;
 }
 
 .s1-joinvibe-logo {
@@ -35,14 +50,16 @@ body {
 }
 
 .nav-container {
-  border-bottom: grey 2px solid;
-  margin-top: 15px;
-  padding-bottom: 15px;
+  border-bottom: grey 1px solid;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  /* padding-bottom: 15px; */
   margin-left: 0;
   margin-right: 0;
-  margin-bottom: 50px;
+  /* margin-bottom: 50px; */
   font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", Segoe UI Symbol, "Noto Color Emoji";
   ;
+  min-height: 64px
 }
 
 .nav-start-a-group {
@@ -50,7 +67,7 @@ body {
   letter-spacing: -.025em;
   font-size: 1.2rem;
   font-weight: bold;
-  width: 200px;
+  width: 185px;
   justify-content: center;
   align-items: center;
 }
@@ -86,17 +103,17 @@ body {
 
 .nav-button {
   padding: 0px 12px;
-  width: 70px;
+  /* width: 70px; */
 }
 
-.nav-profile-button{
+.nav-profile-button {
   border: 1px solid black;
   border-radius: 50%;
   padding: 12px 15px;
 }
 
-.nav-profile-button:hover{
- cursor: pointer;
+.nav-profile-button:hover {
+  cursor: pointer;
 }
 
 .hidden {
