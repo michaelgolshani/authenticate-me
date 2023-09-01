@@ -59,9 +59,20 @@
 
 .demo-login-button {
   display: block;
-  margin: 20px auto;
+  margin: 20px 5px;
   text-align: center;
-  width: 150px;
+  width: 100%;
+  padding: 0.5rem;
+
+
+  /* background-color: #007bff; */
+  background: linear-gradient(to bottom right, #c7225c, #ff0048);
+  color: #fff;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  font-weight: bold;
+  text-transform: uppercase;
 }
 
 
