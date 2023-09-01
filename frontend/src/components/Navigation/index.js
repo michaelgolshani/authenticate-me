@@ -24,12 +24,12 @@ function Navigation({ isLoaded }) {
 
 
             {sessionUser ? (
-              <>
+              <div className='right-side-nav'>
                 <NavLink exact to="/groups/new" className="nav-start-a-group">Start a new group</NavLink>
                 <div className="nav-button">
                   <ProfileButton user={sessionUser} />
                 </div>
-              </>
+              </div>
             ) : (
               <>
 
