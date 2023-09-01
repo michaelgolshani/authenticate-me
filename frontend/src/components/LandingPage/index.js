@@ -68,13 +68,13 @@ function LandingPage({ sessionUser }) {
               </button>
             </div>
 
-            <div>
+            {/* <div>
               <OpenModalButton
                 // className='form-button-nav'
                 buttonText="Sign Up"
                 modalComponent={<SignupFormModal />}
               />
-            </div>
+            </div> */}
           </>
         )}
 
