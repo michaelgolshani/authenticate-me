@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { NavLink, useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import './LandingPage.css'
@@ -6,11 +6,27 @@ import partyimage from '../../content/images/party.jpg'
 import FindAnEvent from './FindAnEvent';
 import SeeAllGroups from './SeeAllGroups';
 import StartANewGroup from './StartANewGroup';
+import SignupFormModal from '../SignupFormModal';
+import OpenModalButton from '../OpenModalButton';
 
 
 
 function LandingPage({ sessionUser }) {
   const history = useHistory()
+
+  const [isSignUpModalOpen, setIsSignUpModalOpen] = useState(false)
+
+  const openModal = () => {
+    setIsSignUpModalOpen(true)
+  }
+
+  const openSignUpForm = () => {
+    return (
+      <div>
+        <SignupFormModal />
+      </div>
+    )
+  }
 
   return (
     <>
@@ -28,7 +44,6 @@ function LandingPage({ sessionUser }) {
           </div>
         </div>
 
-
         <div className='landing-page-s2'>
           <h2 className="landing-page-h2">
             How JoinVibe Works
@@ -38,24 +53,35 @@ function LandingPage({ sessionUser }) {
           </p>
         </div>
 
-
-
         <div className='landing-page-s3'>
           <SeeAllGroups />
           <FindAnEvent />
           <StartANewGroup sessionUser={sessionUser} />
         </div>
 
+        {!sessionUser && (
+          <>
+            <div className='landing-page-button-div'>
+              <button className="landing-page-join-button"
+                onClick={openModal}>
+                Join Meetup
+              </button>
+            </div>
 
-        <div className='landing-page-button-div'>
+            <div>
+              <OpenModalButton
+                // className='form-button-nav'
+                buttonText="Sign Up"
+                modalComponent={<SignupFormModal />}
+              />
+            </div>
+          </>
+        )}
 
 
-          <button className="landing-page-join-button"
 
-            onClick={() => history.push('/groups/:groupId/edit')}>
-            Join Meetup
-          </button>
-        </div>
+
+
       </div>
     </>
   )
